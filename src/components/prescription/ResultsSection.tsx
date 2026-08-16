@@ -5,6 +5,7 @@ import type { PrescriptionResult } from "@/lib/gemini";
 import MedicineCard from "./MedicineCard";
 import DetectedChips from "./DetectedChips";
 import AllergyWarning from "./AllergyWarning";
+import SymptomMatchCard from "./SymptomMatchCard";
 import { Printer, Copy, Check } from "lucide-react";
 
 interface ResultsSectionProps {
@@ -26,11 +27,15 @@ export default function ResultsSection({
     const text = result.medicines
       .map(
         (m, i) =>
-          `${i + 1}. ${m.brandName} (${m.genericName || "Generic"})\n   Schedule: ${m.frequency || "As prescribed"} | ${m.timing || "N/A"}\n   Duration: ${m.duration || "N/A"}\n   Why: ${m.whyPrescribed || m.description}\n`
+          `${i + 1}. ${m.brandName} (${m.genericName || "Generic"})\n   Schedule: ${m.dosageUnderstood ? (m.frequency || "As prescribed") : "Consult doctor"} | ${m.timing || "N/A"}\n   Duration: ${m.duration || "N/A"}\n   Why: ${m.whyPrescribed || m.description}\n`
       )
       .join("\n");
 
-    const fullSummary = `PRESCRIPTION SUMMARY\n--------------------\n${text}\nImportant: Always consult your physician or pharmacist for questions regarding your medication schedule.`;
+    const symptomText = result.symptomAnalysis?.explanation
+      ? `\nSymptom Analysis: ${result.symptomAnalysis.explanation}\n`
+      : "";
+
+    const fullSummary = `PRESCRIPTION SUMMARY\n--------------------\n${text}${symptomText}\nImportant: Always consult your physician or pharmacist for questions regarding your medication schedule.`;
 
     navigator.clipboard.writeText(fullSummary).then(() => {
       setCopied(true);
@@ -59,11 +64,11 @@ export default function ResultsSection({
           </h2>
           <p className="text-[14px] sm:text-[15px] text-slate-500 mt-1">
             {result.medicines.length}{" "}
-            {result.medicines.length === 1 ? "medication" : "medications"} identified with dosages and daily timings.
+            {result.medicines.length === 1 ? "medication" : "medications"} identified with clinical details.
           </p>
         </div>
 
-        {/* Action Buttons Row - mobile responsive */}
+        {/* Action Buttons Row */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
           <button
             type="button"
@@ -94,6 +99,11 @@ export default function ResultsSection({
         </div>
       </div>
 
+      {/* Symptom & Prescription Correlation / Mismatch Analysis Card */}
+      {result.symptomAnalysis && (
+        <SymptomMatchCard analysis={result.symptomAnalysis} />
+      )}
+
       {/* Detected Chips Bar */}
       <div className="mb-6">
         <DetectedChips medicines={result.medicines} />
@@ -121,7 +131,7 @@ export default function ResultsSection({
         </div>
       )}
 
-      {/* Medicine Cards Grid (1 column on mobile, 2 columns on tablet/desktop) */}
+      {/* Medicine Cards Grid (1 column on mobile, 2 columns on desktop) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
         {result.medicines.map((med, idx) => (
           <MedicineCard key={idx} medicine={med} isExample={false} />

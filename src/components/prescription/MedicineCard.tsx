@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { Medicine } from "@/lib/gemini";
-import { Clock, AlertTriangle, ShieldCheck, Sun, Moon, Sunrise, Calendar, ChevronDown, ChevronUp, Pill } from "lucide-react";
+import { Clock, AlertTriangle, ShieldCheck, Sun, Moon, Sunrise, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 
 interface MedicineCardProps {
   medicine: Medicine;
@@ -53,32 +53,46 @@ export default function MedicineCard({
   // Determine Daily Timing Schedule (Morning, Afternoon, Night)
   const freq = (medicine.frequency || "").toLowerCase();
   const tim = (medicine.timing || "").toLowerCase();
+  const dur = (medicine.duration || "").toLowerCase();
+
+  // Dosage understood rule: ONLY show if dosageUnderstood is true and there is actual dosage info
+  const hasValidDosage =
+    medicine.dosageUnderstood &&
+    (Boolean(freq && !freq.includes("unclear")) ||
+      Boolean(tim && !tim.includes("unclear")) ||
+      Boolean(dur && !dur.includes("unclear")));
 
   const isMorning =
-    freq.includes("1-1-1") ||
-    freq.includes("1-0-1") ||
-    freq.includes("1-0-0") ||
-    freq.includes("twice") ||
-    freq.includes("3 times") ||
-    tim.includes("morning") ||
-    tim.includes("breakfast");
+    hasValidDosage &&
+    (freq.includes("1-1-1") ||
+      freq.includes("1-0-1") ||
+      freq.includes("1-0-0") ||
+      freq.includes("twice") ||
+      freq.includes("3 times") ||
+      freq.includes("morning") ||
+      tim.includes("morning") ||
+      tim.includes("breakfast"));
 
   const isAfternoon =
-    freq.includes("1-1-1") ||
-    freq.includes("0-1-0") ||
-    freq.includes("3 times") ||
-    tim.includes("afternoon") ||
-    tim.includes("lunch");
+    hasValidDosage &&
+    (freq.includes("1-1-1") ||
+      freq.includes("0-1-0") ||
+      freq.includes("3 times") ||
+      freq.includes("afternoon") ||
+      tim.includes("afternoon") ||
+      tim.includes("lunch"));
 
   const isNight =
-    freq.includes("1-1-1") ||
-    freq.includes("1-0-1") ||
-    freq.includes("0-0-1") ||
-    freq.includes("twice") ||
-    freq.includes("3 times") ||
-    tim.includes("night") ||
-    tim.includes("bed") ||
-    tim.includes("dinner");
+    hasValidDosage &&
+    (freq.includes("1-1-1") ||
+      freq.includes("1-0-1") ||
+      freq.includes("0-0-1") ||
+      freq.includes("twice") ||
+      freq.includes("3 times") ||
+      freq.includes("night") ||
+      tim.includes("night") ||
+      tim.includes("bed") ||
+      tim.includes("dinner"));
 
   return (
     <article className="bg-white rounded-2xl sm:rounded-[24px] p-5 sm:p-6 border border-slate-200/90 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
@@ -118,67 +132,75 @@ export default function MedicineCard({
           )}
         </div>
 
-        {/* Daily Dosage Schedule Timeline Grid */}
-        <div className="my-3.5 p-3 sm:p-3.5 bg-slate-50/90 border border-slate-200/70 rounded-xl sm:rounded-2xl">
-          <div className="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2 flex items-center justify-between">
-            <span>DAILY DOSAGE SCHEDULE</span>
-            {medicine.frequency && (
-              <span className="text-slate-600 font-mono font-semibold">
-                {medicine.frequency}
-              </span>
-            )}
+        {/* Daily Dosage Schedule Timeline Grid - ONLY shown if dosage is understood */}
+        {hasValidDosage ? (
+          <div className="my-3.5 p-3 sm:p-3.5 bg-slate-50/90 border border-slate-200/70 rounded-xl sm:rounded-2xl">
+            <div className="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2 flex items-center justify-between">
+              <span>DAILY DOSAGE SCHEDULE</span>
+              {medicine.frequency && (
+                <span className="text-slate-600 font-mono font-semibold">
+                  {medicine.frequency}
+                </span>
+              )}
+            </div>
+
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2 text-center">
+              {/* Morning */}
+              <div
+                className={`p-2 rounded-lg sm:rounded-xl border flex flex-col items-center justify-center gap-0.5 transition-colors ${
+                  isMorning
+                    ? "bg-sky-50 border-sky-200 text-[#0284c7] font-bold shadow-2xs"
+                    : "bg-white/60 border-slate-200/50 text-slate-400 opacity-60"
+                }`}
+              >
+                <Sunrise size={15} />
+                <span className="text-[10.5px] sm:text-[11px] font-medium">Morning</span>
+                <span className="text-[11.5px] sm:text-[12px] font-mono font-bold">
+                  {isMorning ? "1 Dose" : "—"}
+                </span>
+              </div>
+
+              {/* Afternoon */}
+              <div
+                className={`p-2 rounded-lg sm:rounded-xl border flex flex-col items-center justify-center gap-0.5 transition-colors ${
+                  isAfternoon
+                    ? "bg-amber-50 border-amber-200 text-amber-700 font-bold shadow-2xs"
+                    : "bg-white/60 border-slate-200/50 text-slate-400 opacity-60"
+                }`}
+              >
+                <Sun size={15} />
+                <span className="text-[10.5px] sm:text-[11px] font-medium">Afternoon</span>
+                <span className="text-[11.5px] sm:text-[12px] font-mono font-bold">
+                  {isAfternoon ? "1 Dose" : "—"}
+                </span>
+              </div>
+
+              {/* Night */}
+              <div
+                className={`p-2 rounded-lg sm:rounded-xl border flex flex-col items-center justify-center gap-0.5 transition-colors ${
+                  isNight
+                    ? "bg-indigo-50 border-indigo-200 text-indigo-700 font-bold shadow-2xs"
+                    : "bg-white/60 border-slate-200/50 text-slate-400 opacity-60"
+                }`}
+              >
+                <Moon size={15} />
+                <span className="text-[10.5px] sm:text-[11px] font-medium">Night</span>
+                <span className="text-[11.5px] sm:text-[12px] font-mono font-bold">
+                  {isNight ? "1 Dose" : "—"}
+                </span>
+              </div>
+            </div>
           </div>
-
-          <div className="grid grid-cols-3 gap-1.5 sm:gap-2 text-center">
-            {/* Morning */}
-            <div
-              className={`p-2 rounded-lg sm:rounded-xl border flex flex-col items-center justify-center gap-0.5 transition-colors ${
-                isMorning
-                  ? "bg-sky-50 border-sky-200 text-[#0284c7] font-bold shadow-2xs"
-                  : "bg-white/60 border-slate-200/50 text-slate-400 opacity-60"
-              }`}
-            >
-              <Sunrise size={15} />
-              <span className="text-[10.5px] sm:text-[11px] font-medium">Morning</span>
-              <span className="text-[11.5px] sm:text-[12px] font-mono font-bold">
-                {isMorning ? "1 Dose" : "—"}
-              </span>
-            </div>
-
-            {/* Afternoon */}
-            <div
-              className={`p-2 rounded-lg sm:rounded-xl border flex flex-col items-center justify-center gap-0.5 transition-colors ${
-                isAfternoon
-                  ? "bg-amber-50 border-amber-200 text-amber-700 font-bold shadow-2xs"
-                  : "bg-white/60 border-slate-200/50 text-slate-400 opacity-60"
-              }`}
-            >
-              <Sun size={15} />
-              <span className="text-[10.5px] sm:text-[11px] font-medium">Afternoon</span>
-              <span className="text-[11.5px] sm:text-[12px] font-mono font-bold">
-                {isAfternoon ? "1 Dose" : "—"}
-              </span>
-            </div>
-
-            {/* Night */}
-            <div
-              className={`p-2 rounded-lg sm:rounded-xl border flex flex-col items-center justify-center gap-0.5 transition-colors ${
-                isNight
-                  ? "bg-indigo-50 border-indigo-200 text-indigo-700 font-bold shadow-2xs"
-                  : "bg-white/60 border-slate-200/50 text-slate-400 opacity-60"
-              }`}
-            >
-              <Moon size={15} />
-              <span className="text-[10.5px] sm:text-[11px] font-medium">Night</span>
-              <span className="text-[11.5px] sm:text-[12px] font-mono font-bold">
-                {isNight ? "1 Dose" : "—"}
-              </span>
-            </div>
+        ) : (
+          /* Discreet notice when dosage is not explicitly legible */
+          <div className="my-3 py-2 px-3 rounded-lg bg-slate-50 border border-slate-200/60 text-[12px] text-slate-500 font-medium flex items-center justify-between">
+            <span>Dosage / Timing:</span>
+            <span className="text-slate-700 font-semibold">Take as advised by doctor</span>
           </div>
-        </div>
+        )}
 
-        {/* Dosage detail tags (Timing & Duration) */}
-        {(medicine.timing || medicine.duration) && (
+        {/* Dosage detail tags (Timing & Duration) - ONLY if available */}
+        {hasValidDosage && (medicine.timing || medicine.duration) && (
           <div className="flex flex-wrap items-center gap-2 mb-3.5">
             {medicine.timing && (
               <div className="bg-slate-100/90 border border-slate-200/80 rounded-lg px-2.5 py-1 text-[12px] font-semibold text-slate-700 inline-flex items-center gap-1.5">

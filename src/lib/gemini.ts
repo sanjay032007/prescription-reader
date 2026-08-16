@@ -1,10 +1,6 @@
 // ============================================================
 // Prescription Reader — Gemini API helpers
 // ============================================================
-// Calls Gemini Vision directly via fetch().
-// No SDK, no backend route. Image -> base64 happens client-side
-// in page.tsx, base64 is sent to the Gemini endpoint here.
-// ============================================================
 
 export interface Medicine {
   brandName: string;
@@ -13,6 +9,7 @@ export interface Medicine {
   frequency: string;
   timing: string;
   duration: string;
+  dosageUnderstood: boolean;
   description: string;
   whyPrescribed: string;
   sideEffects: string[];
@@ -22,9 +19,18 @@ export interface Medicine {
   completionWarning: string | null;
 }
 
+export interface SymptomAnalysis {
+  symptomsProvided: string | null;
+  isMatch: boolean;
+  matchStatus: "matched" | "partial_match" | "mismatch" | "none_provided";
+  explanation: string;
+  possibleReasons: string[];
+}
+
 export interface PrescriptionResult {
   medicines: Medicine[];
   generalWarnings: string[];
+  symptomAnalysis?: SymptomAnalysis;
 }
 
 export class GeminiError extends Error {
@@ -47,54 +53,56 @@ export const toBase64 = (file: File): Promise<string> =>
 
 /**
  * Build the enhanced clinical prompt sent to Gemini Vision.
- * Rigorously engineered for pharmacopeial accuracy, handwriting resolution,
- * exact dosage matching, and strict hallucination prevention.
  */
 function buildPrompt(symptoms: string): string {
   const trimmed = symptoms.trim();
   return `You are a world-class Clinical Pharmacist and Medical Vision Intelligence system.
 Your mission is to examine the provided doctor's prescription image and extract the EXACT tablet, capsule, syrup, or injection names with 100% pharmacological accuracy.
 
-Patient Symptoms provided: ${trimmed || "None provided"}
+Patient Symptoms provided: ${trimmed ? `"${trimmed}"` : "None provided"}
 
-CRITICAL ACCURACY & RECOGNITION RULES:
+CRITICAL ACCURACY & CLINICAL RULES:
 1. EXACT MEDICINE / TABLET IDENTIFICATION:
    - Carefully decipher every line of handwritten cursive or printed doctor text.
    - Look for medical prefixes: "Tab." (Tablet), "Cap." (Capsule), "Syp." (Syrup), "Inj." (Injection), "Oint." (Ointment), "Drops".
    - Identify the exact Brand Name (e.g. "Augmentin 625", "Dolo 650", "Pan 40", "Azithral 500", "Allegra 120", "Zifi 200", "Monocef-O") and the corresponding Active Pharmaceutical Ingredient / Generic Salt name (e.g. "Amoxicillin + Clavulanic Acid 625mg", "Paracetamol 650mg", "Pantoprazole 40mg", "Azithromycin 500mg").
    - Validate extracted names against official pharmacopeias (FDA, WHO, BNF). Never invent or hallucinate drug names.
-   - If letters in a medicine name are ambiguous or difficult to read, cross-reference with typical clinical indication and dosage strengths (e.g., 650mg is typically Paracetamol; 40mg is typically Pantoprazole/Esomeprazole; 500mg is typically Amoxicillin/Ciprofloxacin/Azithromycin), and append "(unclear)" if there is lingering uncertainty.
 
-2. ACCURATE DOSAGE & TIMING INTERPRETATION:
-   - Decode medical frequency shorthand accurately:
-     * "1-0-0" or "OD" -> "Once a day (Morning)"
-     * "0-0-1" or "HS" -> "Once a day (Bedtime)"
-     * "1-0-1" or "BD / BID" -> "Twice a day (Morning & Night)"
-     * "1-1-1" or "TDS / TID" -> "3 times a day (Morning, Afternoon & Night)"
-     * "1-1-1-1" or "QID" -> "4 times a day"
-     * "SOS / PRN" -> "As needed / when required"
-     * "AC" -> "Before food / meals"
-     * "PC" -> "After food / meals"
+2. DOSAGE UNDERSTANDING & VERIFICATION RULE:
+   - ONLY extract dosage and schedule details ("frequency", "timing", "duration") if they are clearly legible or unambiguously identifiable on the prescription.
+   - Decode shorthand if legible: "1-0-0" / "OD", "1-0-1" / "BD", "1-1-1" / "TDS", "0-0-1" / "HS", "AC" (before food), "PC" (after food).
+   - If the dosage / schedule is illegible, absent, cut off, or unclear, set "dosageUnderstood": false and leave frequency/timing/duration as empty strings.
+   - Set "dosageUnderstood": true ONLY when you can confidently identify the administration schedule.
 
-3. CLINICAL CATEGORY & SAFETY INTEGRITY:
-   - Categorize accurately (e.g. "Antibiotic", "Analgesic / Antipyretic", "Antacid / Proton Pump Inhibitor", "Antihistamine / Allergy", "NSAID", "Bronchodilator", "Antidiabetic", "Cardiovascular").
-   - Antibiotics: If it is an antibiotic, set "isAntibiotic": true and provide the standard course completion rule.
-   - Penicillin Allergies: If the drug is penicillin-derived (e.g. Amoxicillin, Ampicillin, Augmentin, Piperacillin), set "isPenicillinBased": true and populate "allergyWarning" with "Penicillin-based antibiotic — inform your doctor if you are allergic to penicillin."
+3. SYMPTOM CORRELATION & MISMATCH ANALYSIS:
+   - When patient symptoms are provided (${trimmed ? `"${trimmed}"` : "None"}):
+     * Cross-reference the patient's reported symptoms against the clinical indications of all prescribed medicines.
+     * Evaluate matchStatus:
+       - "matched": The prescribed medications directly treat and correspond to the patient's reported symptoms.
+       - "partial_match": The medications address only a portion of the symptoms, but other significant reported symptoms are not addressed.
+       - "mismatch": The prescribed medications do NOT match or treat the reported symptoms (for example: chronic cardiovascular/hypertension pills prescribed when patient reported acute ear ache/cough, or antacids prescribed for a muscle fracture).
+     * If "mismatch" or "partial_match", provide a clear, empathetic "explanation" in plain English explaining WHY they do not match, what the medicines actually treat, and list 2-3 "possibleReasons" (e.g., "Prescription might be for an ongoing chronic health condition rather than acute symptoms", "The uploaded prescription slip may belong to another consultation", "Medication may only offer supportive/indirect comfort").
+   - If no symptoms were provided, set matchStatus: "none_provided", isMatch: true, explanation: "No symptoms provided for cross-referencing.", possibleReasons: [].
 
-4. OUTPUT FORMAT:
-Return ONLY a valid JSON object matching this exact schema with zero markdown fences or additional chatter:
+4. SAFETY & PENICILLIN WARNINGS:
+   - Antibiotics: If it is an antibiotic, set "isAntibiotic": true and provide the course completion warning.
+   - Penicillin Allergies: If the drug is penicillin-derived (e.g. Amoxicillin, Augmentin, Ampicillin), set "isPenicillinBased": true and populate "allergyWarning" with "Penicillin-based antibiotic — inform your doctor if you have a known penicillin allergy."
+
+5. OUTPUT FORMAT:
+Return ONLY a valid JSON object matching this exact schema with zero markdown fences or extra chatter:
 
 {
   "medicines": [
     {
-      "brandName": "Exact Brand Name and Strength (e.g. Dolo 650)",
-      "genericName": "Exact Active Generic / Salt Name (e.g. Paracetamol 650mg)",
-      "category": "Accurate Clinical Class (e.g. Painkiller / Antipyretic)",
-      "frequency": "Exact dosage schedule (e.g. Twice a day)",
-      "timing": "Exact timing (e.g. After meals)",
-      "duration": "Duration (e.g. 5 days)",
-      "description": "Clear plain-English explanation of how this medicine functions. 2 sentences maximum.",
-      "whyPrescribed": "Clinical rationale explaining why the doctor prescribed this for the condition/symptoms. 2 sentences maximum.",
+      "brandName": "Exact Brand Name and Strength",
+      "genericName": "Exact Active Generic / Salt Name",
+      "category": "Accurate Clinical Class",
+      "frequency": "Exact dosage schedule (e.g. Twice a day) or empty if unclear",
+      "timing": "Exact timing (e.g. After meals) or empty if unclear",
+      "duration": "Duration (e.g. 5 days) or empty if unclear",
+      "dosageUnderstood": true,
+      "description": "Clear plain-English explanation of how this medicine functions.",
+      "whyPrescribed": "Clinical rationale explaining why the doctor prescribed this.",
       "sideEffects": ["Top side effect 1", "Top side effect 2"],
       "isAntibiotic": false,
       "isPenicillinBased": false,
@@ -102,24 +110,28 @@ Return ONLY a valid JSON object matching this exact schema with zero markdown fe
       "completionWarning": null
     }
   ],
-  "generalWarnings": []
+  "generalWarnings": [],
+  "symptomAnalysis": {
+    "symptomsProvided": ${trimmed ? `"${trimmed}"` : "null"},
+    "isMatch": true,
+    "matchStatus": "matched",
+    "explanation": "Detailed explanation of symptom alignment or mismatch.",
+    "possibleReasons": []
+  }
 }`;
 }
 
 /**
- * Strip possible \`\`\`json fences and surrounding noise from a model response
- * before JSON.parse.
+ * Strip possible ```json fences and surrounding noise from a model response
  */
 function sanitizeResponseText(raw: string): string {
   let text = raw.trim();
 
-  // Strip leading \`\`\`json or \`\`\` fences
   if (text.startsWith("```")) {
     text = text.replace(/^```(?:json)?\s*/i, "");
     text = text.replace(/\s*```$/i, "");
   }
 
-  // If there's still surrounding text, try to slice to the outermost braces.
   const firstBrace = text.indexOf("{");
   const lastBrace = text.lastIndexOf("}");
   if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
@@ -131,7 +143,6 @@ function sanitizeResponseText(raw: string): string {
 
 /**
  * Validate / coerce a parsed JSON object into a PrescriptionResult.
- * Falls back to safe defaults for missing or malformed fields.
  */
 function coerceResult(parsed: unknown): PrescriptionResult {
   const safeString = (v: unknown, fallback = ""): string =>
@@ -154,13 +165,27 @@ function coerceResult(parsed: unknown): PrescriptionResult {
 
   const medicines: Medicine[] = medicinesList.map((m): Medicine => {
     const med = (m ?? {}) as Record<string, unknown>;
+    const freq = safeString(med.frequency);
+    const tim = safeString(med.timing);
+    const dur = safeString(med.duration);
+    const explicitUnderstood = typeof med.dosageUnderstood === "boolean" ? med.dosageUnderstood : null;
+
+    // Check if dosage is truly understood and not "unclear" / empty
+    const hasValidDosage =
+      Boolean(freq && !freq.toLowerCase().includes("unclear")) ||
+      Boolean(tim && !tim.toLowerCase().includes("unclear")) ||
+      Boolean(dur && !dur.toLowerCase().includes("unclear"));
+
+    const dosageUnderstood = explicitUnderstood !== null ? (explicitUnderstood && hasValidDosage) : hasValidDosage;
+
     return {
       brandName: safeString(med.brandName, "Unknown medicine"),
       genericName: safeString(med.genericName),
       category: safeString(med.category, "Medicine"),
-      frequency: safeString(med.frequency),
-      timing: safeString(med.timing),
-      duration: safeString(med.duration),
+      frequency: freq,
+      timing: tim,
+      duration: dur,
+      dosageUnderstood,
       description: safeString(med.description),
       whyPrescribed: safeString(med.whyPrescribed),
       sideEffects: safeStringArray(med.sideEffects).slice(0, 3),
@@ -176,7 +201,26 @@ function coerceResult(parsed: unknown): PrescriptionResult {
       ? safeStringArray((parsed as { generalWarnings: unknown }).generalWarnings)
       : [];
 
-  return { medicines, generalWarnings };
+  let symptomAnalysis: SymptomAnalysis | undefined = undefined;
+  if (parsed && typeof parsed === "object" && "symptomAnalysis" in parsed) {
+    const rawSym = (parsed as { symptomAnalysis: unknown }).symptomAnalysis as Record<string, unknown>;
+    if (rawSym && typeof rawSym === "object") {
+      const matchStatus = safeString(rawSym.matchStatus, "none_provided") as
+        | "matched"
+        | "partial_match"
+        | "mismatch"
+        | "none_provided";
+      symptomAnalysis = {
+        symptomsProvided: safeNullableString(rawSym.symptomsProvided),
+        isMatch: matchStatus === "matched",
+        matchStatus,
+        explanation: safeString(rawSym.explanation),
+        possibleReasons: safeStringArray(rawSym.possibleReasons),
+      };
+    }
+  }
+
+  return { medicines, generalWarnings, symptomAnalysis };
 }
 
 // Ordered list of candidate models for maximum accuracy and zero downtime
@@ -189,9 +233,6 @@ const CANDIDATE_MODELS = [
 
 /**
  * Analyse a prescription image with Gemini Vision.
- * @param imageBase64 base64 string (no data: prefix)
- * @param mimeType e.g. "image/jpeg" | "image/png"
- * @param symptoms optional patient symptoms text
  */
 export async function analysePrescription(
   imageBase64: string,
@@ -215,7 +256,7 @@ export async function analysePrescription(
       },
     ],
     generationConfig: {
-      temperature: 0.1, // Lower temperature to minimize hallucination and maximize clinical precision
+      temperature: 0.1,
       topP: 0.95,
       maxOutputTokens: 2048,
     },
