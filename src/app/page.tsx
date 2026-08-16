@@ -3,7 +3,6 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import BrandHeader from "@/components/prescription/BrandHeader";
-import Footer from "@/components/prescription/Footer";
 import Hero3DFallback from "@/components/prescription/Hero3DFallback";
 import { ArrowRight, ShieldCheck, Zap, Lock, ScanLine } from "lucide-react";
 
@@ -17,9 +16,9 @@ export default function Home() {
     <div className="min-h-screen flex flex-col justify-between selection:bg-[#0284c7]/20 bg-[#f8fafc]">
       <BrandHeader />
 
-      <main className="flex-1 w-full">
+      <main className="flex-1 w-full flex items-center">
         {/* Hero Section */}
-        <section className="relative w-full pt-10 sm:pt-20 pb-16 sm:pb-28 overflow-hidden">
+        <section className="relative w-full py-12 sm:py-20 lg:py-24 overflow-hidden">
           <div className="max-w-[1360px] mx-auto px-4 sm:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
               {/* Left Column */}
@@ -105,8 +104,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useMemo } from "react";
 import BrandHeader from "@/components/prescription/BrandHeader";
-import Footer from "@/components/prescription/Footer";
 import UploadZone from "@/components/prescription/UploadZone";
 import SymptomsInput from "@/components/prescription/SymptomsInput";
 import AnalyseButton from "@/components/prescription/AnalyseButton";
@@ -14,7 +13,7 @@ import {
   type PrescriptionResult,
   GeminiError,
 } from "@/lib/gemini";
-import { ShieldCheck, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function UploadPage() {
@@ -80,7 +79,7 @@ export default function UploadPage() {
     <div className="min-h-screen flex flex-col justify-between bg-[#f8fafc]">
       <BrandHeader />
 
-      <main className="flex-1 w-full py-10 sm:py-16">
+      <main className="flex-1 w-full pt-8 pb-16 sm:pb-24">
         <div className="max-w-[960px] mx-auto px-4 sm:px-8">
           {/* Back to Home Breadcrumb */}
           <div className="mb-6">
@@ -135,10 +134,13 @@ export default function UploadPage() {
             result={result}
             allergyWarningMessage={allergyWarningMessage}
           />
+
+          {/* Clean Medical Disclaimer */}
+          <div className="text-center mt-12 text-[12.5px] text-slate-400 font-medium">
+            Prescription Reader · For general informational purposes only — always consult your physician or pharmacist.
+          </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }
