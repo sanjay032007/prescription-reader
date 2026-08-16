@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { ContactShadows, Float } from '@react-three/drei';
 import * as THREE from 'three';
 import PrescriptionPaper from './PrescriptionPaper';
@@ -12,23 +12,28 @@ import Lighting from './Lighting';
 export default function PrescriptionScene() {
   const rigRef = useRef<THREE.Group>(null);
   const targetRotation = useRef({ x: 0, y: 0 });
+  const { viewport } = useThree();
+
+  // Responsive scale based on 3D viewport aspect
+  const isMobile = viewport.width < 4.2;
+  const paperScale = isMobile ? 0.88 : 1.0;
 
   useFrame((state, delta) => {
     if (!rigRef.current) return;
     const t = state.clock.getElapsedTime();
 
     // 1. Natural floating levitation bobbing
-    const bobY = Math.sin(t * 1.0) * 0.06 + Math.cos(t * 0.5) * 0.025;
+    const bobY = Math.sin(t * 1.0) * 0.05 + Math.cos(t * 0.5) * 0.02;
     rigRef.current.position.y = bobY;
 
     // 2. Subtle breathing tilt
     const breathX = Math.sin(t * 0.65) * 0.015;
     const breathZ = Math.cos(t * 0.55) * 0.015;
 
-    // 3. Fluid cursor parallax tracking with gentle damping
+    // 3. Fluid cursor / touch parallax tracking
     const { x, y } = state.pointer;
-    const targetY = THREE.MathUtils.clamp(x * 0.22, -0.25, 0.25);
-    const targetX = THREE.MathUtils.clamp(-y * 0.14, -0.18, 0.18);
+    const targetY = THREE.MathUtils.clamp(x * 0.2, -0.22, 0.22);
+    const targetX = THREE.MathUtils.clamp(-y * 0.12, -0.16, 0.16);
 
     targetRotation.current.x = THREE.MathUtils.damp(
       targetRotation.current.x,
@@ -51,16 +56,16 @@ export default function PrescriptionScene() {
   return (
     <>
       <Lighting />
-      <Sparkles count={22} />
+      <Sparkles count={18} />
 
-      <group ref={rigRef} position={[0, 0, 0]}>
+      <group ref={rigRef} position={[0, 0, 0]} scale={paperScale}>
         {/* Floating Physical Prescription Sheet */}
-        <Float speed={1.1} rotationIntensity={0.15} floatIntensity={0.25}>
+        <Float speed={1.1} rotationIntensity={0.12} floatIntensity={0.2}>
           <PrescriptionPaper
             width={2.6}
             height={3.68}
             position={[0, 0, 0]}
-            rotation={[0, -0.05, 0.03]}
+            rotation={[0, -0.04, 0.025]}
           />
         </Float>
 
@@ -70,9 +75,9 @@ export default function PrescriptionScene() {
 
       {/* Grounding Contact Shadow */}
       <ContactShadows
-        position={[0, -2.2, 0]}
-        opacity={0.38}
-        scale={9.0}
+        position={[0, -2.1, 0]}
+        opacity={0.35}
+        scale={8.5}
         blur={2.5}
         far={5.0}
         color="#0c1a2e"
