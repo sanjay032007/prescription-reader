@@ -116,7 +116,7 @@ function buildVerificationPrompt(symptoms: string): string {
 Look at this Indian doctor prescription image.
 
 Your task:
-1. Read the prescription and cross-check all Indian brand names (common examples: Dolo 650, Crocin, Augmentin 625, Pan-D, Pantocid 40, Calpol 650, Meftal-Spas, Allegra 120, Montair-LC, Azithral 500, Azee 500, Shelcal 500, Telma 40, Glycomet 500, Zerodol-P, Voveran, etc.).
+1. Read the prescription and cross-check all Indian brand names (common examples: Dolo 650, Crocin, Augmentin 625, Pan-D, Pantocid 40, Calpol 650, Meftal-Spas, Allegra 120, Montair-LC, Azithral 500, Azee 500, Shelcal 500, Telma 40, Glycomet 500, Zerodol-P, Voveran, Polycrol, etc.).
 2. Identify dosage schedules in standard Indian format (1-0-0 = Morning, 1-0-1 = Morning & Night, 1-1-1 = Thrice daily, 0-0-1 = Bedtime).
 3. For each medicine, provide generic salt composition, therapeutic category, clinical rationale (why prescribed), side effects, and safety warnings (penicillin / antibiotic completion).
 4. Patient symptoms reported: ${trimmed ? `"${trimmed}"` : "None provided"}. Assess if medicines match symptoms.
@@ -154,15 +154,21 @@ OUTPUT ONLY JSON:
 }`;
 }
 
+const CANDIDATE_MODELS = [
+  "gemini-3.5-flash",
+  "gemini-3.7-flash",
+  "gemini-3.6-flash",
+  "gemini-flash-latest",
+  "gemini-3-flash-preview",
+  "gemini-pro-latest",
+];
+
 async function callGemini(
   apiKey: string,
   imageBase64: string,
   mimeType: string,
   promptText: string
 ): Promise<any> {
-  const modelName = "gemini-3.7-flash";
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
-
   const body = {
     contents: [
       {
@@ -173,46 +179,67 @@ async function callGemini(
       },
     ],
     generationConfig: {
-      temperature: 0.2, // Clinical balance between exact OCR and Indian pharmacist domain knowledge
+      temperature: 0.2,
       topP: 0.9,
       maxOutputTokens: 2500,
     },
   };
 
-  const res = await fetch(endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
+  let lastError = "";
 
-  if (!res.ok) {
-    let detail = "";
+  // Cascade through available high-performance models if one is under high demand (503/429)
+  for (const modelName of CANDIDATE_MODELS) {
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+
     try {
-      const errJson = await res.json();
-      detail = errJson?.error?.message ?? errJson?.message ?? JSON.stringify(errJson);
-    } catch {
-      detail = await res.text().catch(() => "");
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      if (!res.ok) {
+        let detail = "";
+        try {
+          const errJson = await res.json();
+          detail = errJson?.error?.message ?? errJson?.message ?? JSON.stringify(errJson);
+        } catch {
+          detail = await res.text().catch(() => "");
+        }
+        lastError = `(${res.status}) ${detail}`;
+        
+        // If 503 (high demand) or 429 (rate limit), seamlessly try the next candidate model
+        if (res.status === 503 || res.status === 429 || res.status >= 500) {
+          continue;
+        }
+        continue;
+      }
+
+      const data = await res.json();
+      const text =
+        data?.candidates?.[0]?.content?.parts?.[0]?.text ??
+        data?.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text).join("") ??
+        "";
+
+      if (!text) {
+        lastError = "Model returned an empty response.";
+        continue;
+      }
+
+      const cleaned = sanitizeResponseText(text);
+      return JSON.parse(cleaned);
+    } catch (err: any) {
+      lastError = err?.message || String(err);
+      continue;
     }
-    throw new GeminiError(`(${res.status}) ${detail}`);
   }
 
-  const data = await res.json();
-  const text =
-    data?.candidates?.[0]?.content?.parts?.[0]?.text ??
-    data?.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text).join("") ??
-    "";
-
-  if (!text) {
-    throw new GeminiError("Model returned an empty response.");
-  }
-
-  const cleaned = sanitizeResponseText(text);
-  return JSON.parse(cleaned);
+  throw new GeminiError(lastError || "Could not analyze the prescription image. Please try again.");
 }
 
 /**
  * Multi-layer 4-step Verification Pipeline:
- * Layer 1: Parallel Gemini Dual-Pass Extraction
+ * Layer 1: Parallel Gemini Dual-Pass Extraction (with resilient multi-model cascade)
  * Layer 2: Fuse.js Fuzzy Matching against Indian Medicine Database
  * Layer 3: Pure JS Dosage Pattern & Strength Rule Engine
  * Layer 4: Confidence Assignment & User Verification Payload
