@@ -8,10 +8,13 @@ import SymptomsInput from "@/components/prescription/SymptomsInput";
 import AnalyseButton from "@/components/prescription/AnalyseButton";
 import ResultsSection from "@/components/prescription/ResultsSection";
 import ErrorCard from "@/components/prescription/ErrorCard";
+import ManualMedicineSearchModal from "@/components/prescription/ManualMedicineSearchModal";
+import { enhancePrescriptionImage } from "@/lib/imageEnhancer";
 import {
   analysePrescription,
   toBase64,
   type PrescriptionResult,
+  type Medicine,
   GeminiError,
 } from "@/lib/gemini";
 import {
@@ -20,8 +23,10 @@ import {
   Shield,
   Zap,
   RefreshCw,
-  ArrowRight,
-  ShieldCheck,
+  Sparkles,
+  Search,
+  Wand2,
+  FileCheck2,
 } from "lucide-react";
 
 export default function Home() {
@@ -31,6 +36,8 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<PrescriptionResult | null>(null);
+  const [isEnhanced, setIsEnhanced] = useState<boolean>(false);
+  const [isManualSearchOpen, setIsManualSearchOpen] = useState<boolean>(false);
 
   const studioRef = useRef<HTMLDivElement>(null);
 
@@ -40,6 +47,7 @@ export default function Home() {
 
   const handleFileSelected = useCallback((selected: File) => {
     setFile(selected);
+    setIsEnhanced(false);
     setError(null);
     setResult(null);
     const url = URL.createObjectURL(selected);
@@ -52,40 +60,80 @@ export default function Home() {
     setSymptoms("");
     setError(null);
     setResult(null);
+    setIsEnhanced(false);
   }, []);
 
-  const handleAnalyse = useCallback(async () => {
-    if (!file) {
-      setError("Please select or capture a prescription image first.");
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    setResult(null);
-
+  // 1-Click Document Auto-Enhance filter
+  const handleToggleEnhance = useCallback(async () => {
+    if (!file) return;
     try {
-      const base64 = await toBase64(file);
-      const mimeType = file.type || "image/jpeg";
-      const data = await analysePrescription(base64, mimeType, symptoms);
-      setResult(data);
-
-      setTimeout(() => {
-        const el = document.getElementById("results-breakdown");
-        el?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 200);
-    } catch (err) {
-      if (err instanceof GeminiError) {
-        setError(err.message);
-      } else if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Unable to read prescription. Please upload a clear photo.");
-      }
-    } finally {
-      setLoading(false);
+      const enhancedFile = await enhancePrescriptionImage(file);
+      setFile(enhancedFile);
+      setIsEnhanced(true);
+      const url = URL.createObjectURL(enhancedFile);
+      setPreviewUrl(url);
+    } catch {
+      // Keep existing file if enhancement fails
     }
-  }, [file, symptoms]);
+  }, [file]);
+
+  const handleAnalyse = useCallback(
+    async (forceDeepDecipher = false) => {
+      if (!file) {
+        setError("Please select or capture a prescription image first.");
+        return;
+      }
+
+      setLoading(true);
+      setError(null);
+      setResult(null);
+
+      try {
+        const base64 = await toBase64(file);
+        const mimeType = file.type || "image/jpeg";
+        const data = await analysePrescription(
+          base64,
+          mimeType,
+          symptoms,
+          forceDeepDecipher || isEnhanced
+        );
+        setResult(data);
+
+        setTimeout(() => {
+          const el = document.getElementById("results-breakdown");
+          el?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 200);
+      } catch (err) {
+        if (err instanceof GeminiError) {
+          setError(err.message);
+        } else if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Unable to read prescription. Please try Auto-Enhance or Quick Medicine Lookup.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    },
+    [file, symptoms, isEnhanced]
+  );
+
+  const handleAddManualMedicine = useCallback((newMed: Medicine) => {
+    setResult((prev) => {
+      const existing = prev?.medicines || [];
+      return {
+        imageReadable: true,
+        medicines: [...existing, newMed],
+        generalWarnings: prev?.generalWarnings || [],
+        symptomAnalysis: prev?.symptomAnalysis,
+      };
+    });
+    setError(null);
+    setTimeout(() => {
+      const el = document.getElementById("results-breakdown");
+      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150);
+  }, []);
 
   const allergyWarningMessage = useMemo(() => {
     if (!result) return null;
@@ -102,6 +150,12 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fcfdfd]">
       <BrandHeader />
+
+      <ManualMedicineSearchModal
+        isOpen={isManualSearchOpen}
+        onClose={() => setIsManualSearchOpen(false)}
+        onSelectMedicine={handleAddManualMedicine}
+      />
 
       {/* ============================================================ */}
       {/* 1. TOP HERO BANNER (Warm Wooden Desk Surface Background)     */}
@@ -170,19 +224,31 @@ export default function Home() {
             
             {/* Left Column: Upload Studio Box */}
             <div className="lg:col-span-8 flex flex-col">
-              <div className="mb-4">
-                <span className="text-[11.5px] font-extrabold uppercase tracking-widest text-[#0284c7] block mb-1">
-                  Prescription Studio
-                </span>
-                <h2 className="font-serif-heading text-[26px] sm:text-[30px] font-extrabold text-slate-950 tracking-tight">
-                  Upload Prescription
-                </h2>
-                <p className="text-[14.5px] text-slate-500 mt-1">
-                  Upload a clear photo of your prescription.
-                </p>
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <span className="text-[11.5px] font-extrabold uppercase tracking-widest text-[#0284c7] block mb-1">
+                    Prescription Studio
+                  </span>
+                  <h2 className="font-serif-heading text-[26px] sm:text-[30px] font-extrabold text-slate-950 tracking-tight">
+                    Upload Prescription
+                  </h2>
+                  <p className="text-[14.5px] text-slate-500 mt-0.5">
+                    Upload a clear photo of your prescription.
+                  </p>
+                </div>
+
+                {/* Quick Lookup Button */}
+                <button
+                  type="button"
+                  onClick={() => setIsManualSearchOpen(true)}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-[13px] font-semibold text-slate-700 transition-colors shadow-2xs cursor-pointer"
+                >
+                  <Search size={14} className="text-[#0284c7]" />
+                  <span>Quick Lookup</span>
+                </button>
               </div>
 
-              {/* Dashed Dropzone */}
+              {/* Dashed Dropzone Box */}
               <div className="bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-6 shadow-2xs">
                 <UploadZone
                   onFileSelected={handleFileSelected}
@@ -191,9 +257,37 @@ export default function Home() {
                   disabled={loading}
                 />
 
+                {/* Image Enhancement Action Tools (When Photo is Selected) */}
+                {file && (
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/60 text-[12.5px]">
+                    <div className="flex items-center gap-2">
+                      <Wand2 size={14} className="text-[#0284c7]" />
+                      <span className="font-medium text-slate-700">
+                        {isEnhanced ? "✨ High-Contrast Document Filter Active" : "Faint or blurry handwriting?"}
+                      </span>
+                    </div>
+
+                    {!isEnhanced ? (
+                      <button
+                        type="button"
+                        onClick={handleToggleEnhance}
+                        className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-slate-300 text-[#0284c7] font-bold text-[12px] transition-colors cursor-pointer shadow-2xs flex items-center gap-1"
+                      >
+                        <Sparkles size={12} />
+                        <span>Apply Auto-Enhance Filter</span>
+                      </button>
+                    ) : (
+                      <span className="text-emerald-700 font-semibold text-[12px] flex items-center gap-1">
+                        <FileCheck2 size={13} />
+                        <span>Enhanced for OCR</span>
+                      </span>
+                    )}
+                  </div>
+                )}
+
                 {/* Optional Symptoms Bar */}
                 {file && (
-                  <div className="mt-5 pt-4 border-t border-slate-100">
+                  <div className="mt-4 pt-4 border-t border-slate-100">
                     <SymptomsInput
                       value={symptoms}
                       onChange={setSymptoms}
@@ -202,18 +296,49 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* Error Banner */}
+                {/* Error Banner with Smart Recovery Actions */}
                 {error && (
                   <div className="mt-4">
                     <ErrorCard message={error} />
-                    <button
-                      type="button"
-                      onClick={handleReset}
-                      className="mt-2 text-[12.5px] font-semibold text-[#0284c7] hover:underline flex items-center gap-1 cursor-pointer"
-                    >
-                      <RefreshCw size={12} />
-                      <span>Try another photo</span>
-                    </button>
+                    
+                    {/* 3 Smart Alternative Action Buttons */}
+                    <div className="mt-3 flex flex-wrap items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={handleToggleEnhance}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-50 border border-sky-200 text-[#0284c7] hover:bg-sky-100 font-semibold text-[12px] transition-colors cursor-pointer"
+                      >
+                        <Sparkles size={13} />
+                        <span>1. Enhance Contrast</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleAnalyse(true)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 font-semibold text-[12px] transition-colors cursor-pointer"
+                      >
+                        <Wand2 size={13} />
+                        <span>2. Deep Decipher Mode</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setIsManualSearchOpen(true)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200 font-semibold text-[12px] transition-colors cursor-pointer"
+                      >
+                        <Search size={13} />
+                        <span>3. Lookup Medicine Name</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleReset}
+                        className="inline-flex items-center gap-1 text-[12px] font-medium text-slate-500 hover:text-slate-800 ml-auto cursor-pointer"
+                      >
+                        <RefreshCw size={12} />
+                        <span>Try different photo</span>
+                      </button>
+                    </div>
                   </div>
                 )}
 
@@ -221,7 +346,7 @@ export default function Home() {
                 {file && (
                   <div className="mt-5">
                     <AnalyseButton
-                      onClick={handleAnalyse}
+                      onClick={() => handleAnalyse(false)}
                       isLoading={loading}
                       disabled={!file}
                     />
@@ -257,7 +382,7 @@ export default function Home() {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <ShieldCheck size={16} className="text-[#0284c7] shrink-0" />
+                    <Shield size={16} className="text-[#0284c7] shrink-0" />
                     <span>No Data Stored</span>
                   </div>
 

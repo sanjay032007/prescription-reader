@@ -42,6 +42,7 @@ export interface PrescriptionResult {
   symptomAnalysis?: SymptomAnalysis;
   imageReadable: boolean;
   unreadableReason?: string;
+  isEnhancedDecipherUsed?: boolean;
 }
 
 export class GeminiError extends Error {
@@ -80,16 +81,17 @@ function sanitizeResponseText(raw: string): string {
 }
 
 /**
- * Prompt 1 — Extraction Pass (OCR focus, strict literal read)
+ * Prompt 1 — Extraction Pass with Indian Clinical Cursive Deciphering
  */
-function buildExtractionPrompt(): string {
-  return `You are a medical OCR specialist. Look at this doctor prescription image very carefully.
-List ONLY the medicine names, strengths, forms, frequencies (e.g. 1-0-1, 1-1-1, 1-0-0, 0-0-1), timings (AC/PC/HS), and durations you can literally see written on the paper.
+function buildExtractionPrompt(deepDecipher = false): string {
+  return `You are a medical OCR and handwriting decipher expert specializing in Indian doctor prescriptions.
+Look at this doctor prescription image very carefully.
 
-CRITICAL RULES:
-1. Do NOT guess or fabricate. If a word is unclear, write it exactly as it appears with '(unclear)' tag.
-2. If image is blurry or not a prescription, set imageReadable: false with unreadableReason.
-3. Extract each medicine as a structured item.
+CRITICAL DECIPHER GUIDANCE FOR INDIAN PRESCRIPTIONS:
+1. Indian doctor handwriting is often rapid, angled, or cursive on clinic letterheads (e.g. Dr. letterhead, clinic stamps).
+2. Look for diagnosis notes (e.g. Pneumonitis, Fever, RTI, Acidity, Cough), numbered lines (① ② ③ or 1. 2. 3.), abbreviations (Tab, Cap, Syp, Inj), and Indian brand names (Dolo 650, Augmentin 625, Pan 40, Pantocid, Calpol, Cheston, Cetirizine, Meftal, Shelcal, Montair-LC, etc.).
+3. Extract each medicine item with its dosage schedule (1-0-1, 1-1-1, 1-0-0, 0-0-1) and duration (e.g. 3d, 5d, 7d).
+4. If a word is cursive or partially faint, extract the most plausible letters seen (e.g. "Dolo 650", "Pan 40", "Cheston") without guessing completely fabricated words.
 
 OUTPUT ONLY JSON:
 {
@@ -97,8 +99,8 @@ OUTPUT ONLY JSON:
   "unreadableReason": "",
   "items": [
     {
-      "detectedName": "Exact text on paper (e.g. Tab. Dolo 650)",
-      "frequency": "e.g. 1-0-1",
+      "detectedName": "Detected medicine name & strength",
+      "frequency": "e.g. 1-0-1 or 1-1-1",
       "timing": "e.g. after food / PC",
       "duration": "e.g. 5 days",
       "isUnclear": false
@@ -108,18 +110,19 @@ OUTPUT ONLY JSON:
 }
 
 /**
- * Prompt 2 — Verification Pass (Indian clinical pharmacist with 20+ years experience)
+ * Prompt 2 — Verification Pass (Senior Indian Pharmacist Persona)
  */
-function buildVerificationPrompt(symptoms: string): string {
+function buildVerificationPrompt(symptoms: string, deepDecipher = false): string {
   const trimmed = symptoms.trim();
-  return `You are a licensed Indian clinical pharmacist with 20+ years of dispensing experience in India.
-Look at this Indian doctor prescription image.
+  return `You are a licensed senior Indian clinical pharmacist with 20+ years of dispensing experience in Indian pharmacies and hospitals.
+Look at this handwritten Indian doctor prescription image.
 
 Your task:
-1. Read the prescription and cross-check all Indian brand names (common examples: Dolo 650, Crocin, Augmentin 625, Pan-D, Pantocid 40, Calpol 650, Meftal-Spas, Allegra 120, Montair-LC, Azithral 500, Azee 500, Shelcal 500, Telma 40, Glycomet 500, Zerodol-P, Voveran, Polycrol, etc.).
-2. Identify dosage schedules in standard Indian format (1-0-0 = Morning, 1-0-1 = Morning & Night, 1-1-1 = Thrice daily, 0-0-1 = Bedtime).
-3. For each medicine, provide generic salt composition, therapeutic category, clinical rationale (why prescribed), side effects, and safety warnings (penicillin / antibiotic completion).
-4. Patient symptoms reported: ${trimmed ? `"${trimmed}"` : "None provided"}. Assess if medicines match symptoms.
+1. Decipher the medications written by the doctor (e.g. Dolo 650, Crocin, Augmentin 625, Pan 40, Pan-D, Pantocid, Calpol 650, Meftal-Spas, Allegra 120, Cheston Cold, Montair-LC, Azithral 500, Azee 500, Shelcal 500, Telma 40, Glycomet 500, Zerodol-P, Voveran, Polycrol, etc.).
+2. Cross-reference clinical diagnosis or symptoms written on the sheet (e.g. fever, pneumonitis, cough, throat infection) with the prescribed medicines.
+3. Identify standard Indian dosage schedules (1-0-0 = Morning, 1-0-1 = Morning & Night, 1-1-1 = Thrice daily, 0-0-1 = Bedtime).
+4. For each medicine, provide generic composition, therapeutic category, clinical rationale (why prescribed), side effects, and safety warnings (penicillin / antibiotic completion).
+5. Patient reported symptoms: ${trimmed ? `"${trimmed}"` : "None provided"}.
 
 OUTPUT ONLY JSON:
 {
@@ -127,15 +130,15 @@ OUTPUT ONLY JSON:
   "unreadableReason": "",
   "medicines": [
     {
-      "brandName": "Correct Indian Brand Name (e.g. Dolo 650, Augmentin 625)",
+      "brandName": "Indian Brand Name (e.g. Tab. Dolo 650, Cap. Augmentin 625)",
       "genericName": "Generic Salt Name (e.g. Paracetamol 650mg)",
       "category": "Therapeutic Class (e.g. Antipyretic, Antibiotic, PPI Antacid)",
       "frequency": "e.g. 1-1-1",
       "timing": "e.g. after food",
       "duration": "e.g. 5 days",
       "dosageUnderstood": true,
-      "description": "Short explanation of the medication.",
-      "whyPrescribed": "Clinical reason for this medication.",
+      "description": "Short description of medication.",
+      "whyPrescribed": "Clinical reason for this prescription.",
       "sideEffects": ["nausea", "headache"],
       "isAntibiotic": false,
       "isPenicillinBased": false,
@@ -187,7 +190,6 @@ async function callGemini(
 
   let lastError = "";
 
-  // Cascade through available high-performance models if one is under high demand (503/429)
   for (const modelName of CANDIDATE_MODELS) {
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
 
@@ -207,8 +209,6 @@ async function callGemini(
           detail = await res.text().catch(() => "");
         }
         lastError = `(${res.status}) ${detail}`;
-        
-        // If 503 (high demand) or 429 (rate limit), seamlessly try the next candidate model
         if (res.status === 503 || res.status === 429 || res.status >= 500) {
           continue;
         }
@@ -238,16 +238,17 @@ async function callGemini(
 }
 
 /**
- * Multi-layer 4-step Verification Pipeline:
+ * Multi-layer Verification Pipeline with Deep Cursive Deciphering:
  * Layer 1: Parallel Gemini Dual-Pass Extraction (with resilient multi-model cascade)
  * Layer 2: Fuse.js Fuzzy Matching against Indian Medicine Database
  * Layer 3: Pure JS Dosage Pattern & Strength Rule Engine
- * Layer 4: Confidence Assignment & User Verification Payload
+ * Layer 4: Confidence Assignment & Interactive User Confirmation
  */
 export async function analysePrescription(
   imageBase64: string,
   mimeType: string,
-  symptoms: string
+  symptoms: string,
+  deepDecipher = false
 ): Promise<PrescriptionResult> {
   const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
   if (!apiKey) {
@@ -255,15 +256,15 @@ export async function analysePrescription(
   }
 
   // ============================================================
-  // LAYER 1: Parallel Dual-Pass Execution via Promise.all()
+  // LAYER 1: Parallel Dual-Pass Execution
   // ============================================================
   let pass1Data: any = null;
   let pass2Data: any = null;
 
   try {
     const [res1, res2] = await Promise.all([
-      callGemini(apiKey, imageBase64, mimeType, buildExtractionPrompt()),
-      callGemini(apiKey, imageBase64, mimeType, buildVerificationPrompt(symptoms)),
+      callGemini(apiKey, imageBase64, mimeType, buildExtractionPrompt(deepDecipher)),
+      callGemini(apiKey, imageBase64, mimeType, buildVerificationPrompt(symptoms, deepDecipher)),
     ]);
     pass1Data = res1;
     pass2Data = res2;
@@ -271,22 +272,17 @@ export async function analysePrescription(
     throw new GeminiError(err?.message || "Failed to analyze prescription image with dual vision passes.");
   }
 
-  // Check image readability from both passes
-  const isReadable = (pass1Data?.imageReadable !== false) && (pass2Data?.imageReadable !== false);
-  if (!isReadable) {
-    throw new GeminiError(
-      pass2Data?.unreadableReason ||
-      pass1Data?.unreadableReason ||
-      "The prescription image is too unclear or is not a medical prescription. Please upload a clearer photo."
-    );
-  }
-
   const rawExtractedItems = Array.isArray(pass1Data?.items) ? pass1Data.items : [];
   const rawVerifiedMedicines = Array.isArray(pass2Data?.medicines) ? pass2Data.medicines : [];
 
-  if (rawExtractedItems.length === 0 && rawVerifiedMedicines.length === 0) {
+  // If at least one pass detected medicine candidates, proceed to verification!
+  const hasCandidates = rawExtractedItems.length > 0 || rawVerifiedMedicines.length > 0;
+
+  if (!hasCandidates) {
     throw new GeminiError(
-      "No legible medicine names were found. The handwriting may be too faded or unclear. Please upload a well-lit photo."
+      pass2Data?.unreadableReason ||
+      pass1Data?.unreadableReason ||
+      "Could not detect clear medicine names. The handwriting may be too faint or angled. Try clicking 'Auto-Enhance' or use Quick Medicine Search."
     );
   }
 
@@ -294,8 +290,6 @@ export async function analysePrescription(
   // LAYERS 2 & 3: Fuzzy Matching + Dosage Rule Engine
   // ============================================================
   const finalMedicines: Medicine[] = [];
-
-  // Match each medicine from the verified list
   const primaryList = rawVerifiedMedicines.length > 0 ? rawVerifiedMedicines : rawExtractedItems;
 
   for (let i = 0; i < primaryList.length; i++) {
@@ -371,12 +365,10 @@ export async function analysePrescription(
     });
   }
 
-  // General warnings
   const generalWarnings: string[] = Array.isArray(pass2Data?.generalWarnings)
     ? pass2Data.generalWarnings
     : [];
 
-  // Symptom cross check
   let symptomAnalysis: SymptomAnalysis | undefined = undefined;
   if (pass2Data?.symptomAnalysis && typeof pass2Data.symptomAnalysis === "object") {
     const sym = pass2Data.symptomAnalysis;
@@ -394,5 +386,6 @@ export async function analysePrescription(
     generalWarnings,
     symptomAnalysis,
     imageReadable: true,
+    isEnhancedDecipherUsed: deepDecipher,
   };
 }
