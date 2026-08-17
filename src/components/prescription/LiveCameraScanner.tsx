@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Camera, X, RefreshCw, Check, Sparkles, AlertCircle } from "lucide-react";
+import { Camera, X, RefreshCw, Check, AlertCircle, ScanLine } from "lucide-react";
 
 interface LiveCameraScannerProps {
   isOpen: boolean;
@@ -27,14 +27,12 @@ export default function LiveCameraScanner({
   const startCamera = useCallback(async () => {
     setCameraError(null);
 
-    // Stop any existing tracks
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     }
 
     try {
-      // Check available video devices
       if (navigator.mediaDevices?.enumerateDevices) {
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter((d) => d.kind === "videoinput");
@@ -58,11 +56,11 @@ export default function LiveCameraScanner({
     } catch (err: any) {
       console.error("Camera access error:", err);
       if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
-        setCameraError("Camera access was denied. Please allow camera permissions in your browser.");
+        setCameraError("Camera permission was denied. Please allow camera access in your browser settings.");
       } else if (err.name === "NotFoundError" || err.name === "DevicesNotFoundError") {
-        setCameraError("No camera device was found on this device.");
+        setCameraError("No camera device found on this system.");
       } else {
-        setCameraError("Unable to access camera. Please use standard photo upload.");
+        setCameraError("Unable to open camera. Please use standard photo upload.");
       }
     }
   }, [facingMode]);
@@ -90,7 +88,6 @@ export default function LiveCameraScanner({
     };
   }, [isOpen, startCamera, stopCamera, capturedBlobUrl]);
 
-  // Take High-Res Photo from Video Stream
   const handleCapture = () => {
     if (!videoRef.current) return;
     const video = videoRef.current;
@@ -120,7 +117,6 @@ export default function LiveCameraScanner({
     }
   };
 
-  // Confirm and Pass File to Parent
   const handleConfirm = () => {
     if (!capturedBlob) return;
     const file = new File([capturedBlob], `scan_rx_${Date.now()}.jpg`, {
@@ -130,7 +126,6 @@ export default function LiveCameraScanner({
     handleClose();
   };
 
-  // Retake Photo
   const handleRetake = () => {
     if (capturedBlobUrl) {
       URL.revokeObjectURL(capturedBlobUrl);
@@ -158,53 +153,50 @@ export default function LiveCameraScanner({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex flex-col items-center justify-between p-4 sm:p-6 select-none animate-in fade-in duration-200">
-      {/* Top Controls Header */}
-      <div className="w-full max-w-2xl flex items-center justify-between z-20">
+    <div className="fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-between p-4 sm:p-6 select-none animate-in fade-in duration-200">
+      {/* Top Header */}
+      <div className="w-full max-w-xl flex items-center justify-between z-20">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-[#0284c7]/20 border border-[#0284c7]/50 flex items-center justify-center text-[#38bdf8]">
+          <div className="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center">
             <Camera size={18} />
           </div>
-          <span className="text-white font-bold text-[16px] tracking-tight">
-            Document Scanner
+          <span className="text-white font-bold text-[15px] tracking-tight">
+            Prescription Scanner
           </span>
         </div>
 
         <button
           type="button"
           onClick={handleClose}
-          className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+          className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
           aria-label="Close scanner"
         >
-          <X size={20} />
+          <X size={18} />
         </button>
       </div>
 
-      {/* Main Viewfinder / Preview Area */}
-      <div className="relative w-full max-w-md my-auto aspect-[3/4] max-h-[65vh] rounded-[28px] overflow-hidden bg-slate-950 border-2 border-slate-700 shadow-2xl flex items-center justify-center">
+      {/* Main Viewfinder Frame */}
+      <div className="relative w-full max-w-md my-auto aspect-[3/4] max-h-[65vh] rounded-3xl overflow-hidden bg-black border border-slate-700 shadow-2xl flex items-center justify-center">
         {capturedBlobUrl ? (
-          /* Captured Preview Image */
           <img
             src={capturedBlobUrl}
-            alt="Captured prescription scan"
+            alt="Captured scan"
             className="w-full h-full object-cover"
           />
         ) : cameraError ? (
-          /* Error State */
           <div className="p-6 text-center flex flex-col items-center justify-center text-slate-300">
-            <AlertCircle className="w-12 h-12 text-amber-400 mb-3" />
-            <h4 className="text-white font-bold text-[16px] mb-2">Camera Unavailable</h4>
-            <p className="text-[13.5px] text-slate-400 max-w-xs mb-5">{cameraError}</p>
+            <AlertCircle className="w-10 h-10 text-amber-400 mb-3" />
+            <h4 className="text-white font-bold text-[15px] mb-1.5">Camera Notice</h4>
+            <p className="text-[13px] text-slate-400 max-w-xs mb-4 leading-relaxed">{cameraError}</p>
             <button
               type="button"
               onClick={handleClose}
-              className="px-5 py-2.5 rounded-xl bg-white text-slate-900 font-bold text-[14px]"
+              className="px-4 py-2 rounded-xl bg-white text-slate-900 font-bold text-[13px]"
             >
               Upload Photo Instead
             </button>
           </div>
         ) : (
-          /* Live Camera Stream */
           <>
             <video
               ref={videoRef}
@@ -214,86 +206,72 @@ export default function LiveCameraScanner({
               className="w-full h-full object-cover"
             />
 
-            {/* Document Frame Overlay Brackets */}
-            <div className="absolute inset-4 sm:inset-6 pointer-events-none flex flex-col justify-between">
+            {/* Viewfinder Target Framing */}
+            <div className="absolute inset-5 pointer-events-none flex flex-col justify-between">
               <div className="flex justify-between">
-                <div className="w-8 h-8 border-t-[3px] border-l-[3px] border-[#38bdf8] rounded-tl-lg shadow-[0_0_10px_#38bdf8]" />
-                <div className="w-8 h-8 border-t-[3px] border-r-[3px] border-[#38bdf8] rounded-tr-lg shadow-[0_0_10px_#38bdf8]" />
+                <div className="w-6 h-6 border-t-2 border-l-2 border-sky-400 rounded-tl-md" />
+                <div className="w-6 h-6 border-t-2 border-r-2 border-sky-400 rounded-tr-md" />
               </div>
-
-              {/* Laser Scan Animation Line */}
-              <div
-                className="w-full h-[2px] bg-gradient-to-r from-transparent via-[#38bdf8] to-transparent shadow-[0_0_12px_#38bdf8] absolute top-0 left-0"
-                style={{
-                  animation: "scan 2.5s ease-in-out infinite",
-                }}
-              />
-
               <div className="flex justify-between">
-                <div className="w-8 h-8 border-b-[3px] border-l-[3px] border-[#38bdf8] rounded-bl-lg shadow-[0_0_10px_#38bdf8]" />
-                <div className="w-8 h-8 border-b-[3px] border-r-[3px] border-[#38bdf8] rounded-br-lg shadow-[0_0_10px_#38bdf8]" />
+                <div className="w-6 h-6 border-b-2 border-l-2 border-sky-400 rounded-bl-md" />
+                <div className="w-6 h-6 border-b-2 border-r-2 border-sky-400 rounded-br-md" />
               </div>
             </div>
 
-            {/* Alignment Guideline Tag */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-[11.5px] font-medium pointer-events-none text-center whitespace-nowrap">
-              Align prescription inside frame
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-sm border border-slate-700 text-slate-200 text-[11.5px] font-medium pointer-events-none">
+              Align prescription inside the corners
             </div>
           </>
         )}
       </div>
 
-      {/* Bottom Actions Bar */}
-      <div className="w-full max-w-md flex items-center justify-between px-6 z-20">
+      {/* Bottom Controls */}
+      <div className="w-full max-w-md flex items-center justify-between px-4 z-20">
         {capturedBlobUrl ? (
-          /* Confirm / Retake Actions */
-          <div className="w-full flex items-center justify-between gap-4">
+          <div className="w-full flex items-center justify-between gap-3">
             <button
               type="button"
               onClick={handleRetake}
-              className="flex-1 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-[14.5px] transition-all cursor-pointer"
+              className="flex-1 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-[14px] transition-colors cursor-pointer"
             >
               Retake
             </button>
             <button
               type="button"
               onClick={handleConfirm}
-              className="flex-1 py-3.5 rounded-2xl bg-gradient-to-r from-[#0284c7] via-[#4a90d9] to-[#6366f1] text-white font-extrabold text-[15px] shadow-lg shadow-sky-500/30 hover:brightness-105 flex items-center justify-center gap-2 transition-all cursor-pointer"
+              className="flex-1 py-3 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white font-bold text-[14px] flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-sm"
             >
-              <Check size={18} />
-              <span>Use Scan</span>
+              <Check size={16} />
+              <span>Use This Photo</span>
             </button>
           </div>
         ) : (
-          /* Live Shutter Controls */
           <div className="w-full flex items-center justify-between">
-            {/* Camera Flip (if multiple cameras available) */}
-            <div className="w-12 flex justify-start">
+            <div className="w-10 flex justify-start">
               {hasMultipleCameras && (
                 <button
                   type="button"
                   onClick={toggleCamera}
-                  className="w-11 h-11 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+                  className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
                   aria-label="Flip camera"
                 >
-                  <RefreshCw size={18} />
+                  <RefreshCw size={16} />
                 </button>
               )}
             </div>
 
-            {/* Big Circular Capture Shutter Button */}
+            {/* Circular Shutter Button */}
             <button
               type="button"
               onClick={handleCapture}
               disabled={!!cameraError}
-              className="relative w-18 h-18 rounded-full border-4 border-white flex items-center justify-center p-1 group hover:scale-105 active:scale-95 transition-transform cursor-pointer"
-              aria-label="Capture photo"
+              className="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center p-1 hover:scale-105 active:scale-95 transition-transform cursor-pointer"
+              aria-label="Capture prescription photo"
             >
-              <div className="w-full h-full rounded-full bg-white group-hover:bg-[#38bdf8] transition-colors" />
+              <div className="w-full h-full rounded-full bg-white transition-colors" />
             </button>
 
-            {/* Spacer for symmetrical alignment */}
-            <div className="w-12" />
+            <div className="w-10" />
           </div>
         )}
       </div>
