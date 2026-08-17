@@ -4,7 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import BrandHeader from "@/components/prescription/BrandHeader";
 import Hero3DFallback from "@/components/prescription/Hero3DFallback";
-import { ArrowRight, ShieldCheck, Zap, Lock, ScanLine } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const Hero3D = dynamic(() => import("@/components/prescription/Hero3D"), {
   ssr: false,
@@ -13,92 +13,52 @@ const Hero3D = dynamic(() => import("@/components/prescription/Hero3D"), {
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col justify-between selection:bg-[#0284c7]/20 bg-[#f8fafc]">
+    <div className="min-h-screen flex flex-col bg-white">
       <BrandHeader />
 
       <main className="flex-1 w-full flex items-center">
-        {/* Hero Section */}
-        <section className="relative w-full py-12 sm:py-20 lg:py-24 overflow-hidden">
-          <div className="max-w-[1360px] mx-auto px-4 sm:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+        <section className="w-full py-16 sm:py-24">
+          <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
               {/* Left Column */}
-              <div className="lg:col-span-7 flex flex-col items-start text-left z-10">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#0284c7]/30 bg-[#0284c7]/5 mb-6">
-                  <span className="w-2 h-2 rounded-full bg-[#0284c7] animate-ping" />
-                  <span className="text-[11px] font-bold tracking-[0.12em] uppercase text-[#0284c7]">
-                    CLINICAL AI VISION &amp; PHARMACOPEIA ENGINE
-                  </span>
-                </div>
-
-                <h1 className="text-[40px] xs:text-[50px] sm:text-[64px] lg:text-[78px] font-extrabold leading-[1.04] tracking-[-0.04em] text-[#0a1628] mb-6">
+              <div className="flex flex-col items-start">
+                <h1 className="text-[36px] sm:text-[48px] lg:text-[56px] font-bold leading-[1.1] tracking-tight text-[#0a1628] mb-5">
                   Understand your
                   <br />
-                  prescription
+                  prescription,
                   <br />
-                  <span className="bg-gradient-to-r from-[#0284c7] via-[#6366f1] to-[#a855f7] bg-clip-text text-transparent">
-                    instantly
-                  </span>
+                  <span className="text-[#0284c7]">instantly.</span>
                 </h1>
 
-                <p className="text-[17px] sm:text-[20px] font-normal leading-relaxed text-slate-600 max-w-[540px] mb-8">
-                  Upload or scan a photo of your doctor&apos;s handwritten prescription
-                  for a clear, plain-English breakdown of every tablet, timing schedule,
-                  and safety alert in seconds.
+                <p className="text-[16px] sm:text-[18px] text-slate-500 leading-relaxed max-w-[480px] mb-8">
+                  Upload a photo of your doctor&apos;s handwritten prescription
+                  and get a clear breakdown of every medicine, dosage, and
+                  safety warning.
                 </p>
 
-                {/* Primary Action Button Row */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-10">
-                  <Link
-                    href="/upload"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#0284c7] via-[#4a90d9] to-[#6366f1] text-white text-[16px] font-bold shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 hover:-translate-y-0.5 active:translate-y-0 transition-all"
-                  >
-                    <ScanLine size={18} />
-                    <span>Upload &amp; Scan Prescription</span>
-                    <ArrowRight size={18} />
-                  </Link>
-                </div>
+                <Link
+                  href="/upload"
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-[#0a1628] text-white text-[15px] font-semibold hover:bg-[#1a2d4a] transition-colors"
+                >
+                  <span>Upload prescription</span>
+                  <ArrowRight size={16} />
+                </Link>
 
-                {/* Compact Trust Badges */}
-                <div className="grid grid-cols-3 sm:flex sm:flex-wrap items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
-                  <div className="inline-flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 shadow-2xs">
-                    <ShieldCheck size={16} className="text-[#0284c7] shrink-0" />
-                    <span className="text-[12px] sm:text-[13px] font-semibold text-slate-700">
-                      100% Private
-                    </span>
-                  </div>
-
-                  <div className="inline-flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 shadow-2xs">
-                    <Zap size={16} className="text-[#6366f1] shrink-0" />
-                    <span className="text-[12px] sm:text-[13px] font-semibold text-slate-700">
-                      Instant OCR
-                    </span>
-                  </div>
-
-                  <div className="inline-flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 shadow-2xs">
-                    <Lock size={16} className="text-[#a855f7] shrink-0" />
-                    <span className="text-[12px] sm:text-[13px] font-semibold text-slate-700">
-                      Zero Storage
-                    </span>
-                  </div>
+                <div className="mt-8 flex items-center gap-6 text-[13px] text-slate-400">
+                  <span>Private &amp; encrypted</span>
+                  <span className="w-1 h-1 rounded-full bg-slate-300" />
+                  <span>No data stored</span>
+                  <span className="w-1 h-1 rounded-full bg-slate-300" />
+                  <span>Instant results</span>
                 </div>
               </div>
 
-              {/* Right Column: 3D Interactive Medical Prescription Canvas */}
-              <div className="lg:col-span-5 relative flex flex-col justify-center items-center">
-                <div
-                  className="absolute w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] rounded-full pointer-events-none opacity-85"
-                  style={{
-                    background:
-                      "radial-gradient(circle, rgba(2, 132, 199, 0.18) 0%, rgba(99, 102, 241, 0.12) 45%, rgba(243, 232, 255, 0) 70%)",
-                    filter: "blur(50px)",
-                  }}
-                />
-
+              {/* Right Column: 3D */}
+              <div className="flex flex-col items-center justify-center">
                 <Hero3D />
-
-                <div className="mt-2 inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/90 border border-slate-200 text-[11.5px] font-semibold text-slate-500 shadow-2xs">
-                  <span>✦ Move cursor / swipe to inspect in 3D</span>
-                </div>
+                <p className="mt-3 text-[12px] text-slate-400">
+                  Move cursor to interact
+                </p>
               </div>
             </div>
           </div>

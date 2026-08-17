@@ -13,7 +13,7 @@ import {
   type PrescriptionResult,
   GeminiError,
 } from "@/lib/gemini";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, RefreshCw } from "lucide-react";
 import Link from "next/link";
 
 export default function UploadPage() {
@@ -27,18 +27,28 @@ export default function UploadPage() {
   const handleFileSelected = useCallback((selected: File) => {
     setFile(selected);
     setError(null);
+    setResult(null);
     const url = URL.createObjectURL(selected);
     setPreviewUrl(url);
   }, []);
 
+  const handleReset = useCallback(() => {
+    setFile(null);
+    setPreviewUrl(null);
+    setSymptoms("");
+    setError(null);
+    setResult(null);
+  }, []);
+
   const handleAnalyse = useCallback(async () => {
     if (!file) {
-      setError("Please upload, scan, or select a prescription image first.");
+      setError("Please upload a prescription image first.");
       return;
     }
 
     setLoading(true);
     setError(null);
+    setResult(null);
 
     try {
       const base64 = await toBase64(file);
@@ -56,7 +66,7 @@ export default function UploadPage() {
       } else if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("An unexpected error occurred while analyzing the prescription.");
+        setError("Something went wrong. Please try again with a clearer photo.");
       }
     } finally {
       setLoading(false);
@@ -76,37 +86,33 @@ export default function UploadPage() {
   }, [result]);
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[#f8fafc]">
+    <div className="min-h-screen flex flex-col bg-white">
       <BrandHeader />
 
-      <main className="flex-1 w-full pt-8 pb-16 sm:pb-24">
-        <div className="max-w-[960px] mx-auto px-4 sm:px-8">
-          {/* Back to Home Breadcrumb */}
-          <div className="mb-6">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-[13px] font-semibold text-slate-500 hover:text-[#0284c7] transition-colors"
-            >
-              <ArrowLeft size={14} />
-              <span>Back to Home</span>
-            </Link>
-          </div>
+      <main className="flex-1 w-full">
+        <div className="max-w-[720px] mx-auto px-5 sm:px-8 pt-6 pb-20">
+          {/* Breadcrumb */}
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-[13px] text-slate-400 hover:text-slate-700 transition-colors mb-8"
+          >
+            <ArrowLeft size={13} />
+            <span>Home</span>
+          </Link>
 
-          {/* Page Header */}
-          <div className="text-center max-w-xl mx-auto mb-10">
-            <span className="text-[11px] font-bold tracking-[0.12em] uppercase text-[#0284c7] block mb-2">
-              PRESCRIPTION STUDIO
-            </span>
-            <h1 className="text-[32px] sm:text-[42px] font-extrabold tracking-tight text-[#0a1628]">
-              Scan &amp; Upload Studio
+          {/* Page Title — left aligned, no subtitle label */}
+          <div className="mb-8">
+            <h1 className="text-[28px] sm:text-[34px] font-bold tracking-tight text-[#0a1628] leading-tight">
+              Upload prescription
             </h1>
-            <p className="mt-3 text-[16px] text-slate-500">
-              Scan with your camera, upload a photo, or test with a sample prescription.
+            <p className="mt-2 text-[15px] text-slate-500 leading-relaxed max-w-md">
+              Take a clear photo of your prescription in good lighting.
+              We&apos;ll identify the medicines and explain each one.
             </p>
           </div>
 
-          {/* Upload Card Container */}
-          <div className="bg-white/95 border border-slate-200/80 rounded-[32px] p-6 sm:p-12 shadow-[0_20px_60px_rgba(10,22,40,0.05)] backdrop-blur-md mb-12">
+          {/* Upload Card */}
+          <div className="border border-slate-200 rounded-2xl bg-white p-5 sm:p-8 mb-6">
             <UploadZone
               onFileSelected={handleFileSelected}
               fileName={file?.name}
@@ -114,31 +120,62 @@ export default function UploadPage() {
               disabled={loading}
             />
 
-            <SymptomsInput
-              value={symptoms}
-              onChange={setSymptoms}
-              disabled={loading}
-            />
+            <div className="mt-5">
+              <SymptomsInput
+                value={symptoms}
+                onChange={setSymptoms}
+                disabled={loading}
+              />
+            </div>
 
-            {error && <ErrorCard message={error} />}
+            {/* Error with retry guidance */}
+            {error && (
+              <div className="mt-5">
+                <ErrorCard message={error} />
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="mt-3 inline-flex items-center gap-2 text-[13px] font-semibold text-[#0284c7] hover:text-[#0369a1] cursor-pointer transition-colors"
+                >
+                  <RefreshCw size={13} />
+                  <span>Upload a different image</span>
+                </button>
+              </div>
+            )}
 
-            <AnalyseButton
-              onClick={handleAnalyse}
-              isLoading={loading}
-              disabled={!file}
-            />
+            <div className="mt-5">
+              <AnalyseButton
+                onClick={handleAnalyse}
+                isLoading={loading}
+                disabled={!file}
+              />
+            </div>
+
+            {/* Tips for better results */}
+            {!result && !loading && (
+              <div className="mt-5 pt-4 border-t border-slate-100">
+                <p className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                  Tips for accurate results
+                </p>
+                <ul className="text-[13px] text-slate-500 space-y-1 list-none">
+                  <li>📸 Use good, even lighting — avoid shadows on the paper</li>
+                  <li>🔍 Make sure the entire prescription is visible and in focus</li>
+                  <li>📋 Printed prescriptions work best; clear handwriting also works</li>
+                </ul>
+              </div>
+            )}
           </div>
 
-          {/* Dynamic Analysis Breakdown Section */}
+          {/* Results */}
           <ResultsSection
             result={result}
             allergyWarningMessage={allergyWarningMessage}
           />
 
-          {/* Clean Medical Disclaimer */}
-          <div className="text-center mt-12 text-[12.5px] text-slate-400 font-medium">
-            Prescription Reader · For general informational purposes only — always consult your physician or pharmacist.
-          </div>
+          {/* Minimal disclaimer */}
+          <p className="text-center mt-16 text-[12px] text-slate-400">
+            For general information only — always consult your doctor.
+          </p>
         </div>
       </main>
     </div>
