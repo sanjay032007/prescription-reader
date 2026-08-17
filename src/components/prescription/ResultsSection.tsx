@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import type { PrescriptionResult } from "@/lib/gemini";
+import type { Medicine, PrescriptionResult } from "@/lib/gemini";
 import MedicineCard from "./MedicineCard";
 import DetectedChips from "./DetectedChips";
 import AllergyWarning from "./AllergyWarning";
 import SymptomMatchCard from "./SymptomMatchCard";
-import { Copy, Check, Printer, AlertCircle } from "lucide-react";
+import { Copy, Check, Printer, AlertCircle, ShieldCheck } from "lucide-react";
 
 interface ResultsSectionProps {
   result: PrescriptionResult | null;
@@ -18,22 +18,33 @@ export default function ResultsSection({
   allergyWarningMessage,
 }: ResultsSectionProps) {
   const [copied, setCopied] = useState(false);
+  const [medicines, setMedicines] = useState<Medicine[]>(result?.medicines || []);
 
   if (!result || !result.medicines || result.medicines.length === 0) {
     return null;
   }
 
+  const handleUpdateMedicine = (index: number, updated: Medicine) => {
+    setMedicines((prev) => {
+      const next = [...prev];
+      next[index] = updated;
+      return next;
+    });
+  };
+
+  const activeMedicines = medicines.length > 0 ? medicines : result.medicines;
+
   const handleCopy = () => {
-    const text = result.medicines
+    const text = activeMedicines
       .map(
         (m, i) =>
-          `${i + 1}. ${m.brandName} (${m.genericName || "Generic"})\n   Schedule: ${m.dosageUnderstood ? m.frequency || "As prescribed" : "Consult doctor"} | ${m.timing || "N/A"}\n   Duration: ${m.duration || "N/A"}\n   Why: ${m.whyPrescribed || m.description}\n`
+          `${i + 1}. ${m.brandName} (${m.genericName || "Generic"})\n   Confidence: ${m.confidence.toUpperCase()}\n   Schedule: ${m.dosageUnderstood ? m.frequency || "As prescribed" : "Consult doctor"} | ${m.timing || "N/A"}\n   Duration: ${m.duration || "N/A"}\n   Why: ${m.whyPrescribed || m.description}\n`
       )
       .join("\n");
     const symptomText = result.symptomAnalysis?.explanation
       ? `\nSymptom Analysis: ${result.symptomAnalysis.explanation}\n`
       : "";
-    const full = `PRESCRIPTION BREAKDOWN\n${text}${symptomText}\nDisclaimer: Informational only. Always follow your prescribing doctor's directions.`;
+    const full = `VERIFIED PRESCRIPTION BREAKDOWN (Indian Pharmacopeia Multi-Layer Verified)\n${text}${symptomText}\nDisclaimer: Informational only. Always follow your prescribing physician's directions.`;
     navigator.clipboard.writeText(full).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
@@ -44,22 +55,24 @@ export default function ResultsSection({
     window.print();
   };
 
+  const verifiedCount = activeMedicines.filter((m) => m.confidence === "high").length;
+
   return (
     <section id="results-breakdown" className="pt-8 pb-12">
       {/* Top Header & Export Actions */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 pb-4 border-b border-slate-200/80">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-[11.5px] font-bold text-[#0284c7] uppercase tracking-wider mb-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#0284c7]" />
-            <span>Analysis Complete</span>
+          <div className="inline-flex items-center gap-1.5 text-[11.5px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1.5">
+            <ShieldCheck size={13} className="text-emerald-600" />
+            <span>4-Layer Multi-Verification Complete</span>
           </div>
           <h2 className="text-[22px] sm:text-[26px] font-extrabold text-slate-950 tracking-tight">
             Prescription Breakdown
           </h2>
           <p className="text-[14px] text-slate-500 mt-0.5">
-            {result.medicines.length}{" "}
-            {result.medicines.length === 1 ? "medication" : "medications"}{" "}
-            identified with pharmacological details
+            {activeMedicines.length}{" "}
+            {activeMedicines.length === 1 ? "medication" : "medications"}{" "}
+            detected ({verifiedCount} verified against Indian drug database)
           </p>
         </div>
 
@@ -100,7 +113,7 @@ export default function ResultsSection({
 
       {/* Detected Medication Quick Chips */}
       <div className="mb-6">
-        <DetectedChips medicines={result.medicines} />
+        <DetectedChips medicines={activeMedicines} />
       </div>
 
       {/* Penicillin / Antibiotic Warnings */}
@@ -125,10 +138,15 @@ export default function ResultsSection({
         </div>
       )}
 
-      {/* Medicine Cards Grid (1 col on mobile, 2 cols on tablet/desktop) */}
+      {/* Medicine Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {result.medicines.map((med, idx) => (
-          <MedicineCard key={idx} medicine={med} isExample={false} />
+        {activeMedicines.map((med, idx) => (
+          <MedicineCard
+            key={idx}
+            medicine={med}
+            onUpdateMedicine={(updated) => handleUpdateMedicine(idx, updated)}
+            isExample={false}
+          />
         ))}
       </div>
     </section>

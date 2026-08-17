@@ -1,0 +1,3544 @@
+[
+  {
+    "name": "Dolo 650 Tablet",
+    "brandName": "Dolo 650",
+    "genericName": "Paracetamol 650mg",
+    "short_composition1": "Paracetamol (650mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Micro Labs Ltd",
+    "standardStrengths": [
+      "650mg"
+    ]
+  },
+  {
+    "name": "Dolo 500 Tablet",
+    "brandName": "Dolo 500",
+    "genericName": "Paracetamol 500mg",
+    "short_composition1": "Paracetamol (500mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Micro Labs Ltd",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Crocin 650 Advance Tablet",
+    "brandName": "Crocin 650",
+    "genericName": "Paracetamol 650mg",
+    "short_composition1": "Paracetamol (650mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "GlaxoSmithKline Consumer Healthcare",
+    "standardStrengths": [
+      "650mg"
+    ]
+  },
+  {
+    "name": "Crocin 500 Tablet",
+    "brandName": "Crocin 500",
+    "genericName": "Paracetamol 500mg",
+    "short_composition1": "Paracetamol (500mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "GlaxoSmithKline Consumer Healthcare",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Crocin Pain Relief Tablet",
+    "brandName": "Crocin Pain Relief",
+    "genericName": "Paracetamol (650mg) + Caffeine (50mg)",
+    "short_composition1": "Paracetamol + Caffeine",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "GlaxoSmithKline",
+    "standardStrengths": [
+      "650mg/50mg"
+    ]
+  },
+  {
+    "name": "Calpol 650 Tablet",
+    "brandName": "Calpol 650",
+    "genericName": "Paracetamol 650mg",
+    "short_composition1": "Paracetamol (650mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "GlaxoSmithKline Pharmaceuticals",
+    "standardStrengths": [
+      "650mg"
+    ]
+  },
+  {
+    "name": "Calpol 500 Tablet",
+    "brandName": "Calpol 500",
+    "genericName": "Paracetamol 500mg",
+    "short_composition1": "Paracetamol (500mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "GlaxoSmithKline Pharmaceuticals",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Calpol 250 Peadiatric Suspension",
+    "brandName": "Calpol 250 Syp",
+    "genericName": "Paracetamol (250mg/5ml)",
+    "short_composition1": "Paracetamol (250mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "GlaxoSmithKline",
+    "standardStrengths": [
+      "250mg/5ml"
+    ]
+  },
+  {
+    "name": "Calpol 120 Suspension",
+    "brandName": "Calpol 120",
+    "genericName": "Paracetamol (120mg/5ml)",
+    "short_composition1": "Paracetamol (120mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "GlaxoSmithKline",
+    "standardStrengths": [
+      "120mg/5ml"
+    ]
+  },
+  {
+    "name": "Combiflam Tablet",
+    "brandName": "Combiflam",
+    "genericName": "Ibuprofen (400mg) + Paracetamol (325mg)",
+    "short_composition1": "Ibuprofen + Paracetamol",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Sanofi India Ltd",
+    "standardStrengths": [
+      "400mg/325mg"
+    ]
+  },
+  {
+    "name": "Combiflam Plus Tablet",
+    "brandName": "Combiflam Plus",
+    "genericName": "Paracetamol (650mg) + Caffeine (50mg)",
+    "short_composition1": "Paracetamol + Caffeine",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Sanofi India Ltd",
+    "standardStrengths": [
+      "650mg/50mg"
+    ]
+  },
+  {
+    "name": "Combiflam Suspension",
+    "brandName": "Combiflam Syp",
+    "genericName": "Ibuprofen (100mg) + Paracetamol (162.5mg) / 5ml",
+    "short_composition1": "Ibuprofen + Paracetamol",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Sanofi India Ltd",
+    "standardStrengths": [
+      "100mg/162.5mg"
+    ]
+  },
+  {
+    "name": "Meftal-Spas Tablet",
+    "brandName": "Meftal-Spas",
+    "genericName": "Mefenamic Acid (250mg) + Dicyclomine (10mg)",
+    "short_composition1": "Mefenamic Acid + Dicyclomine",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Blue Cross Laboratories",
+    "standardStrengths": [
+      "250mg/10mg"
+    ]
+  },
+  {
+    "name": "Meftal-Spas DS Tablet",
+    "brandName": "Meftal-Spas DS",
+    "genericName": "Mefenamic Acid (500mg) + Dicyclomine (20mg)",
+    "short_composition1": "Mefenamic Acid + Dicyclomine",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Blue Cross Laboratories",
+    "standardStrengths": [
+      "500mg/20mg"
+    ]
+  },
+  {
+    "name": "Meftal 500 Tablet",
+    "brandName": "Meftal 500",
+    "genericName": "Mefenamic Acid 500mg",
+    "short_composition1": "Mefenamic Acid (500mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Blue Cross Laboratories",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Meftal 250 Tablet",
+    "brandName": "Meftal 250",
+    "genericName": "Mefenamic Acid 250mg",
+    "short_composition1": "Mefenamic Acid (250mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Blue Cross Laboratories",
+    "standardStrengths": [
+      "250mg"
+    ]
+  },
+  {
+    "name": "Meftal-P Suspension",
+    "brandName": "Meftal-P",
+    "genericName": "Mefenamic Acid (100mg/5ml)",
+    "short_composition1": "Mefenamic Acid (100mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Blue Cross Laboratories",
+    "standardStrengths": [
+      "100mg/5ml"
+    ]
+  },
+  {
+    "name": "Zerodol-P Tablet",
+    "brandName": "Zerodol-P",
+    "genericName": "Aceclofenac (100mg) + Paracetamol (325mg)",
+    "short_composition1": "Aceclofenac + Paracetamol",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Ipca Laboratories Ltd",
+    "standardStrengths": [
+      "100mg/325mg"
+    ]
+  },
+  {
+    "name": "Zerodol-SP Tablet",
+    "brandName": "Zerodol-SP",
+    "genericName": "Aceclofenac (100mg) + Paracetamol (325mg) + Serratiopeptidase (15mg)",
+    "short_composition1": "Aceclofenac + Paracetamol + Serratiopeptidase",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Ipca Laboratories Ltd",
+    "standardStrengths": [
+      "100mg/325mg/15mg"
+    ]
+  },
+  {
+    "name": "Zerodol-TH 4 Tablet",
+    "brandName": "Zerodol-TH 4",
+    "genericName": "Aceclofenac (100mg) + Thiocolchicoside (4mg)",
+    "short_composition1": "Aceclofenac + Thiocolchicoside",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Ipca Laboratories Ltd",
+    "standardStrengths": [
+      "100mg/4mg"
+    ]
+  },
+  {
+    "name": "Zerodol-TH 8 Tablet",
+    "brandName": "Zerodol-TH 8",
+    "genericName": "Aceclofenac (100mg) + Thiocolchicoside (8mg)",
+    "short_composition1": "Aceclofenac + Thiocolchicoside",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Ipca Laboratories Ltd",
+    "standardStrengths": [
+      "100mg/8mg"
+    ]
+  },
+  {
+    "name": "Zerodol 100mg Tablet",
+    "brandName": "Zerodol",
+    "genericName": "Aceclofenac 100mg",
+    "short_composition1": "Aceclofenac (100mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Ipca Laboratories Ltd",
+    "standardStrengths": [
+      "100mg"
+    ]
+  },
+  {
+    "name": "Voveran 50 GE Tablet",
+    "brandName": "Voveran 50",
+    "genericName": "Diclofenac Sodium 50mg",
+    "short_composition1": "Diclofenac (50mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Novartis India Ltd",
+    "standardStrengths": [
+      "50mg"
+    ]
+  },
+  {
+    "name": "Voveran SR 100 Tablet",
+    "brandName": "Voveran SR 100",
+    "genericName": "Diclofenac Sodium 100mg Sustained Release",
+    "short_composition1": "Diclofenac (100mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Novartis India Ltd",
+    "standardStrengths": [
+      "100mg"
+    ]
+  },
+  {
+    "name": "Voveran SR 75 Tablet",
+    "brandName": "Voveran SR 75",
+    "genericName": "Diclofenac Sodium 75mg Sustained Release",
+    "short_composition1": "Diclofenac (75mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Novartis India Ltd",
+    "standardStrengths": [
+      "75mg"
+    ]
+  },
+  {
+    "name": "Voveran Emulgel",
+    "brandName": "Voveran Gel",
+    "genericName": "Diclofenac Diethylamine (1.16% w/w)",
+    "short_composition1": "Diclofenac Gel",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Novartis India Ltd",
+    "standardStrengths": [
+      "1%"
+    ]
+  },
+  {
+    "name": "Dynapar AQ Injection",
+    "brandName": "Dynapar AQ",
+    "genericName": "Diclofenac Sodium 75mg/ml",
+    "short_composition1": "Diclofenac Inj",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Troikaa Pharmaceuticals",
+    "standardStrengths": [
+      "75mg/ml"
+    ]
+  },
+  {
+    "name": "Dynapar Tablet",
+    "brandName": "Dynapar",
+    "genericName": "Diclofenac (50mg) + Paracetamol (325mg)",
+    "short_composition1": "Diclofenac + Paracetamol",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Troikaa Pharmaceuticals",
+    "standardStrengths": [
+      "50mg/325mg"
+    ]
+  },
+  {
+    "name": "Ultracet Tablet",
+    "brandName": "Ultracet",
+    "genericName": "Tramadol (37.5mg) + Paracetamol (325mg)",
+    "short_composition1": "Tramadol + Paracetamol",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Janssen Pharmaceuticals",
+    "standardStrengths": [
+      "37.5mg/325mg"
+    ]
+  },
+  {
+    "name": "Ultracet Semi Tablet",
+    "brandName": "Ultracet Semi",
+    "genericName": "Tramadol (18.75mg) + Paracetamol (162.5mg)",
+    "short_composition1": "Tramadol + Paracetamol",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Janssen Pharmaceuticals",
+    "standardStrengths": [
+      "18.75mg/162.5mg"
+    ]
+  },
+  {
+    "name": "Tramazac 50mg Capsule",
+    "brandName": "Tramazac 50",
+    "genericName": "Tramadol 50mg",
+    "short_composition1": "Tramadol (50mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Zydus Cadila",
+    "standardStrengths": [
+      "50mg"
+    ]
+  },
+  {
+    "name": "Sumo Tablet",
+    "brandName": "Sumo",
+    "genericName": "Nimesulide (100mg) + Paracetamol (325mg)",
+    "short_composition1": "Nimesulide + Paracetamol",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Alkem Laboratories Ltd",
+    "standardStrengths": [
+      "100mg/325mg"
+    ]
+  },
+  {
+    "name": "Nise 100mg Tablet",
+    "brandName": "Nise",
+    "genericName": "Nimesulide 100mg",
+    "short_composition1": "Nimesulide (100mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Dr Reddy's Laboratories",
+    "standardStrengths": [
+      "100mg"
+    ]
+  },
+  {
+    "name": "Nise Gel",
+    "brandName": "Nise Gel",
+    "genericName": "Nimesulide (1% w/w)",
+    "short_composition1": "Nimesulide Topical",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Dr Reddy's Laboratories",
+    "standardStrengths": [
+      "1%"
+    ]
+  },
+  {
+    "name": "Brufen 400 Tablet",
+    "brandName": "Brufen 400",
+    "genericName": "Ibuprofen 400mg",
+    "short_composition1": "Ibuprofen (400mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Abbott Healthcare",
+    "standardStrengths": [
+      "400mg"
+    ]
+  },
+  {
+    "name": "Brufen 200 Tablet",
+    "brandName": "Brufen 200",
+    "genericName": "Ibuprofen 200mg",
+    "short_composition1": "Ibuprofen (200mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Abbott Healthcare",
+    "standardStrengths": [
+      "200mg"
+    ]
+  },
+  {
+    "name": "Brufen 600 Tablet",
+    "brandName": "Brufen 600",
+    "genericName": "Ibuprofen 600mg",
+    "short_composition1": "Ibuprofen (600mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Abbott Healthcare",
+    "standardStrengths": [
+      "600mg"
+    ]
+  },
+  {
+    "name": "Ketorol-DT Tablet",
+    "brandName": "Ketorol-DT",
+    "genericName": "Ketorolac Tromethamine 10mg",
+    "short_composition1": "Ketorolac (10mg)",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Dr Reddy's Laboratories",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Ibugesic Plus Tablet",
+    "brandName": "Ibugesic Plus",
+    "genericName": "Ibuprofen (400mg) + Paracetamol (325mg)",
+    "short_composition1": "Ibuprofen + Paracetamol",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "400mg/325mg"
+    ]
+  },
+  {
+    "name": "Ibugesic Plus Syrup",
+    "brandName": "Ibugesic Plus Syp",
+    "genericName": "Ibuprofen (100mg) + Paracetamol (162.5mg) / 5ml",
+    "short_composition1": "Ibuprofen + Paracetamol",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "100mg/162.5mg"
+    ]
+  },
+  {
+    "name": "Flexon Tablet",
+    "brandName": "Flexon",
+    "genericName": "Ibuprofen (400mg) + Paracetamol (325mg)",
+    "short_composition1": "Ibuprofen + Paracetamol",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Aristo Pharmaceuticals",
+    "standardStrengths": [
+      "400mg/325mg"
+    ]
+  },
+  {
+    "name": "Flexon MR Tablet",
+    "brandName": "Flexon MR",
+    "genericName": "Ibuprofen (400mg) + Paracetamol (325mg) + Chlorzoxazone (250mg)",
+    "short_composition1": "Ibuprofen + Paracetamol + Chlorzoxazone",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Aristo Pharmaceuticals",
+    "standardStrengths": [
+      "400mg/325mg/250mg"
+    ]
+  },
+  {
+    "name": "Volini Gel",
+    "brandName": "Volini",
+    "genericName": "Diclofenac + Methyl Salicylate + Menthol + Linseed Oil",
+    "short_composition1": "Diclofenac Gel",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Sun Pharmaceutical Industries",
+    "standardStrengths": [
+      "Topical"
+    ]
+  },
+  {
+    "name": "Volini Spray",
+    "brandName": "Volini Spray",
+    "genericName": "Diclofenac Spray",
+    "short_composition1": "Diclofenac Pain Spray",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "Topical"
+    ]
+  },
+  {
+    "name": "Omnigel",
+    "brandName": "Omnigel",
+    "genericName": "Diclofenac + Virgin Linseed Oil + Methyl Salicylate + Menthol",
+    "short_composition1": "Diclofenac Gel",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "Topical"
+    ]
+  },
+  {
+    "name": "Moov Pain Relief Cream",
+    "brandName": "Moov",
+    "genericName": "Wintergreen Oil + Mint Extract + Turpentine Oil + Eucalyptus Oil",
+    "short_composition1": "Ayurvedic Pain Ointment",
+    "category": "Antipyretic / Analgesic",
+    "manufacturer": "Reckitt Benckiser",
+    "standardStrengths": [
+      "Topical"
+    ]
+  },
+  {
+    "name": "Augmentin 625 Duo Tablet",
+    "brandName": "Augmentin 625",
+    "genericName": "Amoxicillin (500mg) + Clavulanic Acid (125mg)",
+    "short_composition1": "Amoxicillin + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "GlaxoSmithKline Pharmaceuticals",
+    "standardStrengths": [
+      "625mg"
+    ]
+  },
+  {
+    "name": "Augmentin 1000 Duo Tablet",
+    "brandName": "Augmentin 1g",
+    "genericName": "Amoxicillin (875mg) + Clavulanic Acid (125mg)",
+    "short_composition1": "Amoxicillin + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "GlaxoSmithKline Pharmaceuticals",
+    "standardStrengths": [
+      "1000mg"
+    ]
+  },
+  {
+    "name": "Augmentin 375 Tablet",
+    "brandName": "Augmentin 375",
+    "genericName": "Amoxicillin (250mg) + Clavulanic Acid (125mg)",
+    "short_composition1": "Amoxicillin + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "GlaxoSmithKline Pharmaceuticals",
+    "standardStrengths": [
+      "375mg"
+    ]
+  },
+  {
+    "name": "Augmentin DDS Syrup",
+    "brandName": "Augmentin DDS Syp",
+    "genericName": "Amoxicillin (400mg) + Clavulanic Acid (57mg) / 5ml",
+    "short_composition1": "Amoxicillin + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "GlaxoSmithKline",
+    "standardStrengths": [
+      "457mg/5ml"
+    ]
+  },
+  {
+    "name": "Augmentin Duo Oral Suspension",
+    "brandName": "Augmentin Duo Syp",
+    "genericName": "Amoxicillin (200mg) + Clavulanic Acid (28.5mg) / 5ml",
+    "short_composition1": "Amoxicillin + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "GlaxoSmithKline",
+    "standardStrengths": [
+      "228.5mg/5ml"
+    ]
+  },
+  {
+    "name": "Moxclav 625 Tablet",
+    "brandName": "Moxclav 625",
+    "genericName": "Amoxicillin (500mg) + Clavulanic Acid (125mg)",
+    "short_composition1": "Amoxicillin + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Sun Pharmaceutical Industries",
+    "standardStrengths": [
+      "625mg"
+    ]
+  },
+  {
+    "name": "Moxclav 375 Tablet",
+    "brandName": "Moxclav 375",
+    "genericName": "Amoxicillin (250mg) + Clavulanic Acid (125mg)",
+    "short_composition1": "Amoxicillin + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Sun Pharmaceutical Industries",
+    "standardStrengths": [
+      "375mg"
+    ]
+  },
+  {
+    "name": "Clavam 625 Tablet",
+    "brandName": "Clavam 625",
+    "genericName": "Amoxicillin (500mg) + Clavulanic Acid (125mg)",
+    "short_composition1": "Amoxicillin + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Alkem Laboratories Ltd",
+    "standardStrengths": [
+      "625mg"
+    ]
+  },
+  {
+    "name": "Clavam 375 Tablet",
+    "brandName": "Clavam 375",
+    "genericName": "Amoxicillin (250mg) + Clavulanic Acid (125mg)",
+    "short_composition1": "Amoxicillin + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Alkem Laboratories Ltd",
+    "standardStrengths": [
+      "375mg"
+    ]
+  },
+  {
+    "name": "Clavam Forte Dry Syrup",
+    "brandName": "Clavam Forte Syp",
+    "genericName": "Amoxicillin (400mg) + Clavulanic Acid (57mg)",
+    "short_composition1": "Amoxicillin + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Alkem Laboratories",
+    "standardStrengths": [
+      "457mg/5ml"
+    ]
+  },
+  {
+    "name": "Amoxyclav 625 Tablet",
+    "brandName": "Amoxyclav 625",
+    "genericName": "Amoxicillin (500mg) + Clavulanic Acid (125mg)",
+    "short_composition1": "Amoxicillin + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Abbott Healthcare",
+    "standardStrengths": [
+      "625mg"
+    ]
+  },
+  {
+    "name": "Novamox 500 Capsule",
+    "brandName": "Novamox 500",
+    "genericName": "Amoxicillin 500mg",
+    "short_composition1": "Amoxicillin (500mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Novamox 250 Capsule",
+    "brandName": "Novamox 250",
+    "genericName": "Amoxicillin 250mg",
+    "short_composition1": "Amoxicillin (250mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "250mg"
+    ]
+  },
+  {
+    "name": "Novamox Rediuse 125 Syrup",
+    "brandName": "Novamox 125 Syp",
+    "genericName": "Amoxicillin (125mg/5ml)",
+    "short_composition1": "Amoxicillin (125mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "125mg/5ml"
+    ]
+  },
+  {
+    "name": "Amoxil 500 Capsule",
+    "brandName": "Amoxil 500",
+    "genericName": "Amoxicillin 500mg",
+    "short_composition1": "Amoxicillin (500mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "GlaxoSmithKline",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Azithral 500 Tablet",
+    "brandName": "Azithral 500",
+    "genericName": "Azithromycin 500mg",
+    "short_composition1": "Azithromycin (500mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Alembic Pharmaceuticals Ltd",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Azithral 250 Tablet",
+    "brandName": "Azithral 250",
+    "genericName": "Azithromycin 250mg",
+    "short_composition1": "Azithromycin (250mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Alembic Pharmaceuticals Ltd",
+    "standardStrengths": [
+      "250mg"
+    ]
+  },
+  {
+    "name": "Azithral 100 Liquid",
+    "brandName": "Azithral 100 Syp",
+    "genericName": "Azithromycin (100mg/5ml)",
+    "short_composition1": "Azithromycin (100mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Alembic Pharmaceuticals",
+    "standardStrengths": [
+      "100mg/5ml"
+    ]
+  },
+  {
+    "name": "Azithral 200 Liquid",
+    "brandName": "Azithral 200 Syp",
+    "genericName": "Azithromycin (200mg/5ml)",
+    "short_composition1": "Azithromycin (200mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Alembic Pharmaceuticals",
+    "standardStrengths": [
+      "200mg/5ml"
+    ]
+  },
+  {
+    "name": "Azee 500 Tablet",
+    "brandName": "Azee 500",
+    "genericName": "Azithromycin 500mg",
+    "short_composition1": "Azithromycin (500mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Azee 250 Tablet",
+    "brandName": "Azee 250",
+    "genericName": "Azithromycin 250mg",
+    "short_composition1": "Azithromycin (250mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "250mg"
+    ]
+  },
+  {
+    "name": "Azee 200 Dry Syrup",
+    "brandName": "Azee 200 Syp",
+    "genericName": "Azithromycin (200mg/5ml)",
+    "short_composition1": "Azithromycin (200mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "200mg/5ml"
+    ]
+  },
+  {
+    "name": "Zithrox 500 Tablet",
+    "brandName": "Zithrox 500",
+    "genericName": "Azithromycin 500mg",
+    "short_composition1": "Azithromycin (500mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Macleods Pharmaceuticals",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Zifi 200 Tablet",
+    "brandName": "Zifi 200",
+    "genericName": "Cefixime 200mg",
+    "short_composition1": "Cefixime (200mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "FDC Ltd",
+    "standardStrengths": [
+      "200mg"
+    ]
+  },
+  {
+    "name": "Zifi 100 DT Tablet",
+    "brandName": "Zifi 100 DT",
+    "genericName": "Cefixime 100mg Dispersible",
+    "short_composition1": "Cefixime (100mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "FDC Ltd",
+    "standardStrengths": [
+      "100mg"
+    ]
+  },
+  {
+    "name": "Zifi-CV 200 Tablet",
+    "brandName": "Zifi-CV 200",
+    "genericName": "Cefixime (200mg) + Clavulanic Acid (125mg)",
+    "short_composition1": "Cefixime + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "FDC Ltd",
+    "standardStrengths": [
+      "200mg/125mg"
+    ]
+  },
+  {
+    "name": "Taxim-O 200 Tablet",
+    "brandName": "Taxim-O 200",
+    "genericName": "Cefixime 200mg",
+    "short_composition1": "Cefixime (200mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Alkem Laboratories Ltd",
+    "standardStrengths": [
+      "200mg"
+    ]
+  },
+  {
+    "name": "Taxim-O 100 DT Tablet",
+    "brandName": "Taxim-O 100 DT",
+    "genericName": "Cefixime 100mg Dispersible",
+    "short_composition1": "Cefixime (100mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Alkem Laboratories Ltd",
+    "standardStrengths": [
+      "100mg"
+    ]
+  },
+  {
+    "name": "Taxim-O CV Tablet",
+    "brandName": "Taxim-O CV",
+    "genericName": "Cefixime (200mg) + Clavulanic Acid (125mg)",
+    "short_composition1": "Cefixime + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Alkem Laboratories",
+    "standardStrengths": [
+      "200mg/125mg"
+    ]
+  },
+  {
+    "name": "Mahacef 200 Tablet",
+    "brandName": "Mahacef 200",
+    "genericName": "Cefixime 200mg",
+    "short_composition1": "Cefixime (200mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Mankind Pharma Ltd",
+    "standardStrengths": [
+      "200mg"
+    ]
+  },
+  {
+    "name": "Mahacef-Plus Tablet",
+    "brandName": "Mahacef-Plus",
+    "genericName": "Cefixime (200mg) + Ofloxacin (200mg)",
+    "short_composition1": "Cefixime + Ofloxacin",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Mankind Pharma Ltd",
+    "standardStrengths": [
+      "200mg/200mg"
+    ]
+  },
+  {
+    "name": "Cefix 200 Tablet",
+    "brandName": "Cefix 200",
+    "genericName": "Cefixime 200mg",
+    "short_composition1": "Cefixime (200mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "200mg"
+    ]
+  },
+  {
+    "name": "Monocef-O 200 Tablet",
+    "brandName": "Monocef-O 200",
+    "genericName": "Cefpodoxime Proxetil 200mg",
+    "short_composition1": "Cefpodoxime (200mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Aristo Pharmaceuticals",
+    "standardStrengths": [
+      "200mg"
+    ]
+  },
+  {
+    "name": "Monocef-O 100 DT Tablet",
+    "brandName": "Monocef-O 100 DT",
+    "genericName": "Cefpodoxime Proxetil 100mg",
+    "short_composition1": "Cefpodoxime (100mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Aristo Pharmaceuticals",
+    "standardStrengths": [
+      "100mg"
+    ]
+  },
+  {
+    "name": "Monocef-O CV 200 Tablet",
+    "brandName": "Monocef-O CV",
+    "genericName": "Cefpodoxime (200mg) + Clavulanic Acid (125mg)",
+    "short_composition1": "Cefpodoxime + Clavulanic Acid",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Aristo Pharmaceuticals",
+    "standardStrengths": [
+      "200mg/125mg"
+    ]
+  },
+  {
+    "name": "Monocef 1g Injection",
+    "brandName": "Monocef 1g Inj",
+    "genericName": "Ceftriaxone 1000mg",
+    "short_composition1": "Ceftriaxone (1000mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Aristo Pharmaceuticals",
+    "standardStrengths": [
+      "1000mg"
+    ]
+  },
+  {
+    "name": "Monocef 500mg Injection",
+    "brandName": "Monocef 500mg Inj",
+    "genericName": "Ceftriaxone 500mg",
+    "short_composition1": "Ceftriaxone (500mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Aristo Pharmaceuticals",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Cifran 500 Tablet",
+    "brandName": "Cifran 500",
+    "genericName": "Ciprofloxacin 500mg",
+    "short_composition1": "Ciprofloxacin (500mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Sun Pharmaceutical Industries",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Cifran 250 Tablet",
+    "brandName": "Cifran 250",
+    "genericName": "Ciprofloxacin 250mg",
+    "short_composition1": "Ciprofloxacin (250mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Sun Pharmaceutical Industries",
+    "standardStrengths": [
+      "250mg"
+    ]
+  },
+  {
+    "name": "Ciplox 500 Tablet",
+    "brandName": "Ciplox 500",
+    "genericName": "Ciprofloxacin 500mg",
+    "short_composition1": "Ciprofloxacin (500mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Ciplox Eye/Ear Drops",
+    "brandName": "Ciplox Drops",
+    "genericName": "Ciprofloxacin (0.3% w/v)",
+    "short_composition1": "Ciprofloxacin Drops",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "0.3%"
+    ]
+  },
+  {
+    "name": "Ciplox-TZ Tablet",
+    "brandName": "Ciplox-TZ",
+    "genericName": "Ciprofloxacin (500mg) + Tinidazole (600mg)",
+    "short_composition1": "Ciprofloxacin + Tinidazole",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "500mg/600mg"
+    ]
+  },
+  {
+    "name": "Norflox 400 Tablet",
+    "brandName": "Norflox 400",
+    "genericName": "Norfloxacin 400mg",
+    "short_composition1": "Norfloxacin (400mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "400mg"
+    ]
+  },
+  {
+    "name": "Norflox-TZ Tablet",
+    "brandName": "Norflox-TZ",
+    "genericName": "Norfloxacin (400mg) + Tinidazole (600mg)",
+    "short_composition1": "Norfloxacin + Tinidazole",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "400mg/600mg"
+    ]
+  },
+  {
+    "name": "Oflox 200 Tablet",
+    "brandName": "Oflox 200",
+    "genericName": "Ofloxacin 200mg",
+    "short_composition1": "Ofloxacin (200mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "200mg"
+    ]
+  },
+  {
+    "name": "Oflox 400 Tablet",
+    "brandName": "Oflox 400",
+    "genericName": "Ofloxacin 400mg",
+    "short_composition1": "Ofloxacin (400mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "400mg"
+    ]
+  },
+  {
+    "name": "Oflox-OZ Tablet",
+    "brandName": "Oflox-OZ",
+    "genericName": "Ofloxacin (200mg) + Ornidazole (500mg)",
+    "short_composition1": "Ofloxacin + Ornidazole",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "200mg/500mg"
+    ]
+  },
+  {
+    "name": "Zanocin 200 Tablet",
+    "brandName": "Zanocin 200",
+    "genericName": "Ofloxacin 200mg",
+    "short_composition1": "Ofloxacin (200mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "200mg"
+    ]
+  },
+  {
+    "name": "O2 Tablet",
+    "brandName": "O2",
+    "genericName": "Ofloxacin (200mg) + Ornidazole (500mg)",
+    "short_composition1": "Ofloxacin + Ornidazole",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Medley Pharmaceuticals",
+    "standardStrengths": [
+      "200mg/500mg"
+    ]
+  },
+  {
+    "name": "Zenflox-OZ Tablet",
+    "brandName": "Zenflox-OZ",
+    "genericName": "Ofloxacin (200mg) + Ornidazole (500mg)",
+    "short_composition1": "Ofloxacin + Ornidazole",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Mankind Pharma",
+    "standardStrengths": [
+      "200mg/500mg"
+    ]
+  },
+  {
+    "name": "Metrogyl 400 Tablet",
+    "brandName": "Metrogyl 400",
+    "genericName": "Metronidazole 400mg",
+    "short_composition1": "Metronidazole (400mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "J.B. Chemicals & Pharmaceuticals",
+    "standardStrengths": [
+      "400mg"
+    ]
+  },
+  {
+    "name": "Metrogyl 200 Tablet",
+    "brandName": "Metrogyl 200",
+    "genericName": "Metronidazole 200mg",
+    "short_composition1": "Metronidazole (200mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "J.B. Chemicals & Pharmaceuticals",
+    "standardStrengths": [
+      "200mg"
+    ]
+  },
+  {
+    "name": "Flagyl 400 Tablet",
+    "brandName": "Flagyl 400",
+    "genericName": "Metronidazole 400mg",
+    "short_composition1": "Metronidazole (400mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Abbott Healthcare",
+    "standardStrengths": [
+      "400mg"
+    ]
+  },
+  {
+    "name": "Doxy-1 L-DR Forte Capsule",
+    "brandName": "Doxy-1 L-DR",
+    "genericName": "Doxycycline (100mg) + Lactobacillus (5 Billion Spores)",
+    "short_composition1": "Doxycycline + Lactic Acid Bacillus",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "100mg"
+    ]
+  },
+  {
+    "name": "Doxycycline 100mg Capsule",
+    "brandName": "Doxycycline 100",
+    "genericName": "Doxycycline 100mg",
+    "short_composition1": "Doxycycline (100mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "100mg"
+    ]
+  },
+  {
+    "name": "Cefadrox 500 Tablet",
+    "brandName": "Cefadrox 500",
+    "genericName": "Cefadroxil 500mg",
+    "short_composition1": "Cefadroxil (500mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Aristo Pharmaceuticals",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Claribid 500 Tablet",
+    "brandName": "Claribid 500",
+    "genericName": "Clarithromycin 500mg",
+    "short_composition1": "Clarithromycin (500mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Pfizer Ltd",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Levomac 500 Tablet",
+    "brandName": "Levomac 500",
+    "genericName": "Levofloxacin 500mg",
+    "short_composition1": "Levofloxacin (500mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Macleods Pharmaceuticals",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Glevo 500 Tablet",
+    "brandName": "Glevo 500",
+    "genericName": "Levofloxacin 500mg",
+    "short_composition1": "Levofloxacin (500mg)",
+    "category": "Antibiotic / Anti-infective",
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Pan 40 Tablet",
+    "brandName": "Pan 40",
+    "genericName": "Pantoprazole 40mg",
+    "short_composition1": "Pantoprazole (40mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Alkem Laboratories Ltd",
+    "standardStrengths": [
+      "40mg"
+    ]
+  },
+  {
+    "name": "Pan 20 Tablet",
+    "brandName": "Pan 20",
+    "genericName": "Pantoprazole 20mg",
+    "short_composition1": "Pantoprazole (20mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Alkem Laboratories Ltd",
+    "standardStrengths": [
+      "20mg"
+    ]
+  },
+  {
+    "name": "Pan-D Capsule",
+    "brandName": "Pan-D",
+    "genericName": "Pantoprazole (40mg) + Domperidone (30mg SR)",
+    "short_composition1": "Pantoprazole + Domperidone",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Alkem Laboratories Ltd",
+    "standardStrengths": [
+      "40mg/30mg"
+    ]
+  },
+  {
+    "name": "Pan-L Capsule",
+    "brandName": "Pan-L",
+    "genericName": "Pantoprazole (40mg) + Levosulpiride (75mg SR)",
+    "short_composition1": "Pantoprazole + Levosulpiride",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Alkem Laboratories Ltd",
+    "standardStrengths": [
+      "40mg/75mg"
+    ]
+  },
+  {
+    "name": "Pantocid 40 Tablet",
+    "brandName": "Pantocid 40",
+    "genericName": "Pantoprazole 40mg",
+    "short_composition1": "Pantoprazole (40mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Sun Pharmaceutical Industries",
+    "standardStrengths": [
+      "40mg"
+    ]
+  },
+  {
+    "name": "Pantocid 20 Tablet",
+    "brandName": "Pantocid 20",
+    "genericName": "Pantoprazole 20mg",
+    "short_composition1": "Pantoprazole (20mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Sun Pharmaceutical Industries",
+    "standardStrengths": [
+      "20mg"
+    ]
+  },
+  {
+    "name": "Pantocid-DSR Capsule",
+    "brandName": "Pantocid-DSR",
+    "genericName": "Pantoprazole (40mg) + Domperidone (30mg SR)",
+    "short_composition1": "Pantoprazole + Domperidone",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Sun Pharmaceutical Industries",
+    "standardStrengths": [
+      "40mg/30mg"
+    ]
+  },
+  {
+    "name": "Pantocid-D Tablet",
+    "brandName": "Pantocid-D",
+    "genericName": "Pantoprazole (40mg) + Domperidone (10mg)",
+    "short_composition1": "Pantoprazole + Domperidone",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Sun Pharmaceutical Industries",
+    "standardStrengths": [
+      "40mg/10mg"
+    ]
+  },
+  {
+    "name": "Pantocid-L Capsule",
+    "brandName": "Pantocid-L",
+    "genericName": "Pantoprazole (40mg) + Levosulpiride (75mg SR)",
+    "short_composition1": "Pantoprazole + Levosulpiride",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Sun Pharmaceutical Industries",
+    "standardStrengths": [
+      "40mg/75mg"
+    ]
+  },
+  {
+    "name": "Pantosec 40 Tablet",
+    "brandName": "Pantosec 40",
+    "genericName": "Pantoprazole 40mg",
+    "short_composition1": "Pantoprazole (40mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "40mg"
+    ]
+  },
+  {
+    "name": "Pantosec-DSR Capsule",
+    "brandName": "Pantosec-DSR",
+    "genericName": "Pantoprazole (40mg) + Domperidone (30mg SR)",
+    "short_composition1": "Pantoprazole + Domperidone",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "40mg/30mg"
+    ]
+  },
+  {
+    "name": "Omez 20 Capsule",
+    "brandName": "Omez 20",
+    "genericName": "Omeprazole 20mg",
+    "short_composition1": "Omeprazole (20mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Dr Reddy's Laboratories",
+    "standardStrengths": [
+      "20mg"
+    ]
+  },
+  {
+    "name": "Omez 40 Capsule",
+    "brandName": "Omez 40",
+    "genericName": "Omeprazole 40mg",
+    "short_composition1": "Omeprazole (40mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Dr Reddy's Laboratories",
+    "standardStrengths": [
+      "40mg"
+    ]
+  },
+  {
+    "name": "Omez-D Capsule",
+    "brandName": "Omez-D",
+    "genericName": "Omeprazole (20mg) + Domperidone (10mg)",
+    "short_composition1": "Omeprazole + Domperidone",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Dr Reddy's Laboratories",
+    "standardStrengths": [
+      "20mg/10mg"
+    ]
+  },
+  {
+    "name": "Omez-DSR Capsule",
+    "brandName": "Omez-DSR",
+    "genericName": "Omeprazole (20mg) + Domperidone (30mg SR)",
+    "short_composition1": "Omeprazole + Domperidone",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Dr Reddy's Laboratories",
+    "standardStrengths": [
+      "20mg/30mg"
+    ]
+  },
+  {
+    "name": "Rabekind 20 Tablet",
+    "brandName": "Rabekind 20",
+    "genericName": "Rabeprazole 20mg",
+    "short_composition1": "Rabeprazole (20mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Mankind Pharma Ltd",
+    "standardStrengths": [
+      "20mg"
+    ]
+  },
+  {
+    "name": "Rabekind-DSR Capsule",
+    "brandName": "Rabekind-DSR",
+    "genericName": "Rabeprazole (20mg) + Domperidone (30mg SR)",
+    "short_composition1": "Rabeprazole + Domperidone",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Mankind Pharma Ltd",
+    "standardStrengths": [
+      "20mg/30mg"
+    ]
+  },
+  {
+    "name": "Rabicip 20 Tablet",
+    "brandName": "Rabicip 20",
+    "genericName": "Rabeprazole 20mg",
+    "short_composition1": "Rabeprazole (20mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "20mg"
+    ]
+  },
+  {
+    "name": "Rabicip-D Capsule",
+    "brandName": "Rabicip-D",
+    "genericName": "Rabeprazole (20mg) + Domperidone (30mg SR)",
+    "short_composition1": "Rabeprazole + Domperidone",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "20mg/30mg"
+    ]
+  },
+  {
+    "name": "Razo 20 Tablet",
+    "brandName": "Razo 20",
+    "genericName": "Rabeprazole 20mg",
+    "short_composition1": "Rabeprazole (20mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Dr Reddy's Laboratories",
+    "standardStrengths": [
+      "20mg"
+    ]
+  },
+  {
+    "name": "Razo-D Capsule",
+    "brandName": "Razo-D",
+    "genericName": "Rabeprazole (20mg) + Domperidone (30mg SR)",
+    "short_composition1": "Rabeprazole + Domperidone",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Dr Reddy's Laboratories",
+    "standardStrengths": [
+      "20mg/30mg"
+    ]
+  },
+  {
+    "name": "Rablet 20 Tablet",
+    "brandName": "Rablet 20",
+    "genericName": "Rabeprazole 20mg",
+    "short_composition1": "Rabeprazole (20mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Lupin Ltd",
+    "standardStrengths": [
+      "20mg"
+    ]
+  },
+  {
+    "name": "Aciloc 150 Tablet",
+    "brandName": "Aciloc 150",
+    "genericName": "Ranitidine 150mg",
+    "short_composition1": "Ranitidine (150mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Cadila Pharmaceuticals",
+    "standardStrengths": [
+      "150mg"
+    ]
+  },
+  {
+    "name": "Aciloc 300 Tablet",
+    "brandName": "Aciloc 300",
+    "genericName": "Ranitidine 300mg",
+    "short_composition1": "Ranitidine (300mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Cadila Pharmaceuticals",
+    "standardStrengths": [
+      "300mg"
+    ]
+  },
+  {
+    "name": "Rantac 150 Tablet",
+    "brandName": "Rantac 150",
+    "genericName": "Ranitidine 150mg",
+    "short_composition1": "Ranitidine (150mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "J.B. Chemicals",
+    "standardStrengths": [
+      "150mg"
+    ]
+  },
+  {
+    "name": "Digene Gel Antacid",
+    "brandName": "Digene Gel",
+    "genericName": "Aluminium Hydroxide + Magnesium Hydroxide + Simethicone",
+    "short_composition1": "Antacid Antigas Syrup",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Abbott India Ltd",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Digene Chewable Tablet",
+    "brandName": "Digene Tablet",
+    "genericName": "Dried Aluminium Hydroxide + Magnesium Hydroxide + Simethicone",
+    "short_composition1": "Chewable Antacid",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Abbott India Ltd",
+    "standardStrengths": [
+      "Chewable"
+    ]
+  },
+  {
+    "name": "Gelusil MPS Liquid",
+    "brandName": "Gelusil Liquid",
+    "genericName": "Aluminium Hydroxide + Magnesium Hydroxide + Dimethicone",
+    "short_composition1": "Antacid Liquid",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Pfizer Ltd",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Mucaine Gel",
+    "brandName": "Mucaine Gel",
+    "genericName": "Oxetacaine (10mg) + Aluminium Hydroxide (291mg) + Magnesium Hydroxide (98mg) / 5ml",
+    "short_composition1": "Oxetacaine Antacid Gel",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Pfizer Ltd",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Sucrafil O Gel",
+    "brandName": "Sucrafil O",
+    "genericName": "Sucralfate (1000mg) + Oxetacaine (20mg) / 10ml",
+    "short_composition1": "Sucralfate + Oxetacaine",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Fourrts Laboratories",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Ondem 4 Tablet",
+    "brandName": "Ondem 4",
+    "genericName": "Ondansetron 4mg",
+    "short_composition1": "Ondansetron (4mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Alkem Laboratories Ltd",
+    "standardStrengths": [
+      "4mg"
+    ]
+  },
+  {
+    "name": "Ondem 8 Tablet",
+    "brandName": "Ondem 8",
+    "genericName": "Ondansetron 8mg",
+    "short_composition1": "Ondansetron (8mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Alkem Laboratories Ltd",
+    "standardStrengths": [
+      "8mg"
+    ]
+  },
+  {
+    "name": "Ondem MD 4 Tablet",
+    "brandName": "Ondem MD 4",
+    "genericName": "Ondansetron 4mg Mouth Dissolving",
+    "short_composition1": "Ondansetron (4mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Alkem Laboratories",
+    "standardStrengths": [
+      "4mg"
+    ]
+  },
+  {
+    "name": "Ondem Syrup",
+    "brandName": "Ondem Syp",
+    "genericName": "Ondansetron (2mg/5ml)",
+    "short_composition1": "Ondansetron (2mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Alkem Laboratories",
+    "standardStrengths": [
+      "2mg/5ml"
+    ]
+  },
+  {
+    "name": "Emeset 4 Tablet",
+    "brandName": "Emeset 4",
+    "genericName": "Ondansetron 4mg",
+    "short_composition1": "Ondansetron (4mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "4mg"
+    ]
+  },
+  {
+    "name": "Emeset 8 Tablet",
+    "brandName": "Emeset 8",
+    "genericName": "Ondansetron 8mg",
+    "short_composition1": "Ondansetron (8mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "8mg"
+    ]
+  },
+  {
+    "name": "Vomikind 4 Tablet",
+    "brandName": "Vomikind 4",
+    "genericName": "Ondansetron 4mg",
+    "short_composition1": "Ondansetron (4mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Mankind Pharma",
+    "standardStrengths": [
+      "4mg"
+    ]
+  },
+  {
+    "name": "Domstal 10 Tablet",
+    "brandName": "Domstal 10",
+    "genericName": "Domperidone 10mg",
+    "short_composition1": "Domperidone (10mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Torrent Pharmaceuticals",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Domstal Baby Drops",
+    "brandName": "Domstal Drops",
+    "genericName": "Domperidone (10mg/ml)",
+    "short_composition1": "Domperidone Drops",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Torrent Pharmaceuticals",
+    "standardStrengths": [
+      "10mg/ml"
+    ]
+  },
+  {
+    "name": "Cyclopam Tablet",
+    "brandName": "Cyclopam",
+    "genericName": "Dicyclomine (20mg) + Paracetamol (500mg)",
+    "short_composition1": "Dicyclomine + Paracetamol",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Indoco Remedies",
+    "standardStrengths": [
+      "20mg/500mg"
+    ]
+  },
+  {
+    "name": "Buscopan 10mg Tablet",
+    "brandName": "Buscopan",
+    "genericName": "Hyoscine Butylbromide 10mg",
+    "short_composition1": "Hyoscine (10mg)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Sanofi India Ltd",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Cremaffin Syrup",
+    "brandName": "Cremaffin",
+    "genericName": "Liquid Paraffin + Magnesium Hydroxide",
+    "short_composition1": "Laxative Syrup",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Abbott India Ltd",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Duphalac Syrup",
+    "brandName": "Duphalac",
+    "genericName": "Lactulose 10g/15ml",
+    "short_composition1": "Lactulose (10g)",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Abbott Healthcare",
+    "standardStrengths": [
+      "10g/15ml"
+    ]
+  },
+  {
+    "name": "Econorm 250mg Sachet",
+    "brandName": "Econorm Sachet",
+    "genericName": "Saccharomyces boulardii (250mg)",
+    "short_composition1": "Probiotic Sachet",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Dr Reddy's Laboratories",
+    "standardStrengths": [
+      "250mg"
+    ]
+  },
+  {
+    "name": "Sporlac-DS Tablet",
+    "brandName": "Sporlac-DS",
+    "genericName": "Lactic Acid Bacillus (120 Million Spores)",
+    "short_composition1": "Probiotic Tablet",
+    "category": "Antacid / Gastrointestinal",
+    "manufacturer": "Sanzyme Ltd",
+    "standardStrengths": [
+      "120M"
+    ]
+  },
+  {
+    "name": "Allegra 120mg Tablet",
+    "brandName": "Allegra 120",
+    "genericName": "Fexofenadine Hydrochloride 120mg",
+    "short_composition1": "Fexofenadine (120mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Sanofi India Ltd",
+    "standardStrengths": [
+      "120mg"
+    ]
+  },
+  {
+    "name": "Allegra 180mg Tablet",
+    "brandName": "Allegra 180",
+    "genericName": "Fexofenadine Hydrochloride 180mg",
+    "short_composition1": "Fexofenadine (180mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Sanofi India Ltd",
+    "standardStrengths": [
+      "180mg"
+    ]
+  },
+  {
+    "name": "Allegra-M Tablet",
+    "brandName": "Allegra-M",
+    "genericName": "Fexofenadine (120mg) + Montelukast (10mg)",
+    "short_composition1": "Fexofenadine + Montelukast",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Sanofi India Ltd",
+    "standardStrengths": [
+      "120mg/10mg"
+    ]
+  },
+  {
+    "name": "Allegra Suspension",
+    "brandName": "Allegra Syp",
+    "genericName": "Fexofenadine (30mg/5ml)",
+    "short_composition1": "Fexofenadine (30mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Sanofi India Ltd",
+    "standardStrengths": [
+      "30mg/5ml"
+    ]
+  },
+  {
+    "name": "Cetzine 10 Tablet",
+    "brandName": "Cetzine",
+    "genericName": "Cetirizine Hydrochloride 10mg",
+    "short_composition1": "Cetirizine (10mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "GlaxoSmithKline",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Cetcip 10 Tablet",
+    "brandName": "Cetcip 10",
+    "genericName": "Cetirizine Hydrochloride 10mg",
+    "short_composition1": "Cetirizine (10mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Okacet 10 Tablet",
+    "brandName": "Okacet",
+    "genericName": "Cetirizine Hydrochloride 10mg",
+    "short_composition1": "Cetirizine (10mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Zyrtec 10mg Tablet",
+    "brandName": "Zyrtec",
+    "genericName": "Cetirizine Hydrochloride 10mg",
+    "short_composition1": "Cetirizine (10mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Dr Reddy's Laboratories",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Levocet 5 Tablet",
+    "brandName": "Levocet 5",
+    "genericName": "Levocetirizine Dihydrochloride 5mg",
+    "short_composition1": "Levocetirizine (5mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Hetero Healthcare",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Vozet 5 Tablet",
+    "brandName": "Vozet 5",
+    "genericName": "Levocetirizine 5mg",
+    "short_composition1": "Levocetirizine (5mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Xyzal 5mg Tablet",
+    "brandName": "Xyzal 5",
+    "genericName": "Levocetirizine 5mg",
+    "short_composition1": "Levocetirizine (5mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Dr Reddy's Laboratories",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Levocetirizine 5ml Syrup",
+    "brandName": "Levocetirizine Syp",
+    "genericName": "Levocetirizine (2.5mg/5ml)",
+    "short_composition1": "Levocetirizine (2.5mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Various",
+    "standardStrengths": [
+      "2.5mg/5ml"
+    ]
+  },
+  {
+    "name": "Montair-LC Tablet",
+    "brandName": "Montair-LC",
+    "genericName": "Montelukast (10mg) + Levocetirizine (5mg)",
+    "short_composition1": "Montelukast + Levocetirizine",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "10mg/5mg"
+    ]
+  },
+  {
+    "name": "Montair-LC Kid Syrup",
+    "brandName": "Montair-LC Kid Syp",
+    "genericName": "Montelukast (4mg) + Levocetirizine (2.5mg) / 5ml",
+    "short_composition1": "Montelukast + Levocetirizine",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "4mg/2.5mg"
+    ]
+  },
+  {
+    "name": "Montair 10 Tablet",
+    "brandName": "Montair 10",
+    "genericName": "Montelukast Sodium 10mg",
+    "short_composition1": "Montelukast (10mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Montair 4mg Chewable Tablet",
+    "brandName": "Montair 4",
+    "genericName": "Montelukast Sodium 4mg",
+    "short_composition1": "Montelukast (4mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "4mg"
+    ]
+  },
+  {
+    "name": "Montek-LC Tablet",
+    "brandName": "Montek-LC",
+    "genericName": "Montelukast (10mg) + Levocetirizine (5mg)",
+    "short_composition1": "Montelukast + Levocetirizine",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Sun Pharmaceutical Industries",
+    "standardStrengths": [
+      "10mg/5mg"
+    ]
+  },
+  {
+    "name": "Telekast-L Tablet",
+    "brandName": "Telekast-L",
+    "genericName": "Montelukast (10mg) + Levocetirizine (5mg)",
+    "short_composition1": "Montelukast + Levocetirizine",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Lupin Ltd",
+    "standardStrengths": [
+      "10mg/5mg"
+    ]
+  },
+  {
+    "name": "Romilast-L 10 Tablet",
+    "brandName": "Romilast-L",
+    "genericName": "Montelukast (10mg) + Levocetirizine (5mg)",
+    "short_composition1": "Montelukast + Levocetirizine",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Ranbaxy / Sun Pharma",
+    "standardStrengths": [
+      "10mg/5mg"
+    ]
+  },
+  {
+    "name": "Ascoril-LS Syrup",
+    "brandName": "Ascoril-LS",
+    "genericName": "Levosalbutamol (1mg) + Ambroxol (30mg) + Guaifenesin (50mg) / 5ml",
+    "short_composition1": "Mucolytic Bronchodilator Syrup",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Ascoril-D Plus Syrup",
+    "brandName": "Ascoril-D",
+    "genericName": "Dextromethorphan (10mg) + Phenylephrine (5mg) + Chlorpheniramine (2mg) / 5ml",
+    "short_composition1": "Dry Cough Syrup",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Alex Cough Syrup",
+    "brandName": "Alex Cough Syp",
+    "genericName": "Dextromethorphan (10mg) + Chlorpheniramine (2mg) + Phenylephrine (5mg)",
+    "short_composition1": "Dry Cough Syrup",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Benadryl Cough Formula Syrup",
+    "brandName": "Benadryl",
+    "genericName": "Diphenhydramine (14.08mg) + Ammonium Chloride (138mg) / 5ml",
+    "short_composition1": "Cough Syrup",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Johnson & Johnson",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Chericof Syrup",
+    "brandName": "Chericof",
+    "genericName": "Dextromethorphan (10mg) + Phenylephrine (5mg) + Chlorpheniramine (2mg)",
+    "short_composition1": "Dry Cough Syrup",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Sun Pharmaceutical Industries",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Grilinctus Syrup",
+    "brandName": "Grilinctus",
+    "genericName": "Dextromethorphan (10mg) + Chlorpheniramine (2.5mg) + Guaifenesin (50mg) + Ammonium Chloride (60mg)",
+    "short_composition1": "Cough Syrup",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Franco-Indian Pharmaceuticals",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Grilinctus-LS Syrup",
+    "brandName": "Grilinctus-LS",
+    "genericName": "Levosalbutamol (1mg) + Ambroxol (30mg) + Guaiphenesin (50mg)",
+    "short_composition1": "Expectorant Syrup",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Franco-Indian Pharmaceuticals",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Asthalin 4mg Tablet",
+    "brandName": "Asthalin 4",
+    "genericName": "Salbutamol 4mg",
+    "short_composition1": "Salbutamol (4mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "4mg"
+    ]
+  },
+  {
+    "name": "Asthalin 2mg Tablet",
+    "brandName": "Asthalin 2",
+    "genericName": "Salbutamol 2mg",
+    "short_composition1": "Salbutamol (2mg)",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "2mg"
+    ]
+  },
+  {
+    "name": "Asthalin Inhaler (100mcg)",
+    "brandName": "Asthalin Inhaler",
+    "genericName": "Salbutamol (100mcg per puff)",
+    "short_composition1": "Salbutamol Inhaler",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "100mcg"
+    ]
+  },
+  {
+    "name": "Budecort 200 Inhaler",
+    "brandName": "Budecort 200",
+    "genericName": "Budesonide (200mcg per puff)",
+    "short_composition1": "Budesonide Inhaler",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "200mcg"
+    ]
+  },
+  {
+    "name": "Foracort 200 Inhaler",
+    "brandName": "Foracort 200",
+    "genericName": "Formoterol (6mcg) + Budesonide (200mcg)",
+    "short_composition1": "Formoterol + Budesonide",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "200mcg/6mcg"
+    ]
+  },
+  {
+    "name": "Seroflo 250 Inhaler",
+    "brandName": "Seroflo 250",
+    "genericName": "Salmeterol (25mcg) + Fluticasone (250mcg)",
+    "short_composition1": "Salmeterol + Fluticasone",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "250mcg/25mcg"
+    ]
+  },
+  {
+    "name": "Deriphyllin Retard 150 Tablet",
+    "brandName": "Deriphyllin 150",
+    "genericName": "Theophylline (115mg) + Etofylline (35mg)",
+    "short_composition1": "Theophylline + Etofylline",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Zydus Cadila",
+    "standardStrengths": [
+      "150mg"
+    ]
+  },
+  {
+    "name": "Deriphyllin Retard 300 Tablet",
+    "brandName": "Deriphyllin 300",
+    "genericName": "Theophylline (231mg) + Etofylline (69mg)",
+    "short_composition1": "Theophylline + Etofylline",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Zydus Cadila",
+    "standardStrengths": [
+      "300mg"
+    ]
+  },
+  {
+    "name": "Otrivin Adult Nasal Drops",
+    "brandName": "Otrivin Drops",
+    "genericName": "Xylometazoline Hydrochloride (0.1% w/v)",
+    "short_composition1": "Nasal Decongestant Drops",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "GlaxoSmithKline",
+    "standardStrengths": [
+      "0.1%"
+    ]
+  },
+  {
+    "name": "Sinarest Tablet",
+    "brandName": "Sinarest",
+    "genericName": "Paracetamol (500mg) + Phenylephrine (10mg) + Chlorpheniramine (2mg)",
+    "short_composition1": "Cold & Congestion Relief",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Centaur Pharmaceuticals",
+    "standardStrengths": [
+      "500mg/10mg/2mg"
+    ]
+  },
+  {
+    "name": "Cheston Cold Tablet",
+    "brandName": "Cheston Cold",
+    "genericName": "Paracetamol (325mg) + Cetirizine (5mg) + Phenylephrine (10mg)",
+    "short_composition1": "Cold & Congestion Relief",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "325mg/5mg/10mg"
+    ]
+  },
+  {
+    "name": "Wikoryl Tablet",
+    "brandName": "Wikoryl",
+    "genericName": "Paracetamol (500mg) + Phenylephrine (10mg) + Chlorpheniramine (2mg)",
+    "short_composition1": "Cold Relief Tablet",
+    "category": "Antiallergic / Respiratory",
+    "manufacturer": "Alembic Pharmaceuticals",
+    "standardStrengths": [
+      "500mg/10mg/2mg"
+    ]
+  },
+  {
+    "name": "Shelcal 500 Tablet",
+    "brandName": "Shelcal 500",
+    "genericName": "Calcium (500mg) + Vitamin D3 (250 IU)",
+    "short_composition1": "Calcium + Vitamin D3",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Torrent Pharmaceuticals",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Shelcal-HD Tablet",
+    "brandName": "Shelcal-HD",
+    "genericName": "Calcium (500mg) + Vitamin D3 (500 IU)",
+    "short_composition1": "Calcium + High Dose D3",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Torrent Pharmaceuticals",
+    "standardStrengths": [
+      "500mg/500IU"
+    ]
+  },
+  {
+    "name": "Shelcal XT Tablet",
+    "brandName": "Shelcal XT",
+    "genericName": "Calcium (1250mg) + Vitamin D3 (2000 IU) + Methylcobalamin + L-Methylfolate",
+    "short_composition1": "Calcium + D3 + B12 Complex",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Torrent Pharmaceuticals",
+    "standardStrengths": [
+      "500mg elemental"
+    ]
+  },
+  {
+    "name": "Gemcal Capsule",
+    "brandName": "Gemcal",
+    "genericName": "Calcitriol (0.25mcg) + Calcium Carbonate (500mg) + Zinc (7.5mg)",
+    "short_composition1": "Calcium + Calcitriol + Zinc",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Alkem Laboratories Ltd",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Cipcal 500 Tablet",
+    "brandName": "Cipcal 500",
+    "genericName": "Calcium (500mg) + Vitamin D3 (250 IU)",
+    "short_composition1": "Calcium + Vitamin D3",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Cipcal-D3 Tablet",
+    "brandName": "Cipcal-D3",
+    "genericName": "Calcium (500mg) + Vitamin D3 (400 IU)",
+    "short_composition1": "Calcium + Vitamin D3",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Becosules Z Capsule",
+    "brandName": "Becosules Z",
+    "genericName": "Vitamin B-Complex + Vitamin C + Zinc Sulphate",
+    "short_composition1": "B-Complex + Vit C + Zinc",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Pfizer Ltd",
+    "standardStrengths": [
+      "Capsule"
+    ]
+  },
+  {
+    "name": "Becosules Performance Capsule",
+    "brandName": "Becosules",
+    "genericName": "Vitamin B-Complex + Minerals",
+    "short_composition1": "B-Complex Multivitamin",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Pfizer Ltd",
+    "standardStrengths": [
+      "Capsule"
+    ]
+  },
+  {
+    "name": "Neurobion Forte Tablet",
+    "brandName": "Neurobion Forte",
+    "genericName": "Vitamin B1 (10mg) + B2 (10mg) + B3 (45mg) + B5 (50mg) + B6 (3mg) + B12 (15mcg)",
+    "short_composition1": "Vitamin B Complex Forte",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Procter & Gamble Health Ltd",
+    "standardStrengths": [
+      "Tablet"
+    ]
+  },
+  {
+    "name": "Neurobion Plus Tablet",
+    "brandName": "Neurobion Plus",
+    "genericName": "Mecobalamin (750mcg) + Nicotinamide (45mg) + Pyridoxine (1.5mg)",
+    "short_composition1": "Methylcobalamin + B-Complex",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Procter & Gamble",
+    "standardStrengths": [
+      "Tablet"
+    ]
+  },
+  {
+    "name": "Neurokind-LC Tablet",
+    "brandName": "Nurokind-LC",
+    "genericName": "L-Carnitine (500mg) + Mecobalamin (1500mcg) + Folic Acid (1.5mg)",
+    "short_composition1": "L-Carnitine + Mecobalamin",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Mankind Pharma",
+    "standardStrengths": [
+      "Tablet"
+    ]
+  },
+  {
+    "name": "Nurokind-Gold Capsule",
+    "brandName": "Nurokind-Gold",
+    "genericName": "Mecobalamin + Alpha Lipoic Acid + Multivitamins + Minerals",
+    "short_composition1": "Mecobalamin Complex",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Mankind Pharma",
+    "standardStrengths": [
+      "Capsule"
+    ]
+  },
+  {
+    "name": "Evion 400 Capsule",
+    "brandName": "Evion 400",
+    "genericName": "Vitamin E (Tocopherol) 400mg",
+    "short_composition1": "Vitamin E (400mg)",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Procter & Gamble Health Ltd",
+    "standardStrengths": [
+      "400mg"
+    ]
+  },
+  {
+    "name": "Evion 600 Capsule",
+    "brandName": "Evion 600",
+    "genericName": "Vitamin E 600mg",
+    "short_composition1": "Vitamin E (600mg)",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Procter & Gamble Health Ltd",
+    "standardStrengths": [
+      "600mg"
+    ]
+  },
+  {
+    "name": "Zincovit Tablet",
+    "brandName": "Zincovit",
+    "genericName": "Multivitamins + Multiminerals with Grape Seed Extract & Zinc",
+    "short_composition1": "Multivitamin with Zinc",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Apex Laboratories Ltd",
+    "standardStrengths": [
+      "Tablet"
+    ]
+  },
+  {
+    "name": "Zincovit Syrup",
+    "brandName": "Zincovit Syp",
+    "genericName": "Multivitamin Multimineral Liquid with Zinc",
+    "short_composition1": "Multivitamin Syrup",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Apex Laboratories",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Limcee 500mg Chewable Tablet",
+    "brandName": "Limcee 500",
+    "genericName": "Vitamin C (Ascorbic Acid) 500mg",
+    "short_composition1": "Vitamin C (500mg)",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Abbott India Ltd",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Celin 500 Tablet",
+    "brandName": "Celin 500",
+    "genericName": "Vitamin C 500mg",
+    "short_composition1": "Vitamin C (500mg)",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Koye Pharmaceuticals",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Supradyn Daily Tablet",
+    "brandName": "Supradyn",
+    "genericName": "Multivitamins + Minerals + Trace Elements + Amino Acids",
+    "short_composition1": "Daily Multivitamin",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Bayer Pharmaceuticals",
+    "standardStrengths": [
+      "Tablet"
+    ]
+  },
+  {
+    "name": "Orofer-XT Tablet",
+    "brandName": "Orofer-XT",
+    "genericName": "Ferrous Ascorbate (100mg Elemental Iron) + Folic Acid (1.5mg)",
+    "short_composition1": "Iron + Folic Acid",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Emcure Pharmaceuticals",
+    "standardStrengths": [
+      "100mg/1.5mg"
+    ]
+  },
+  {
+    "name": "Orofer-XT Syrup",
+    "brandName": "Orofer-XT Syp",
+    "genericName": "Ferrous Ascorbate (30mg) + Folic Acid (550mcg) / 5ml",
+    "short_composition1": "Iron + Folic Acid",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Emcure Pharmaceuticals",
+    "standardStrengths": [
+      "Syrup"
+    ]
+  },
+  {
+    "name": "Folvite 5mg Tablet",
+    "brandName": "Folvite 5",
+    "genericName": "Folic Acid 5mg",
+    "short_composition1": "Folic Acid (5mg)",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Pfizer Ltd",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Uprise-D3 60k Capsule",
+    "brandName": "Uprise-D3 60k",
+    "genericName": "Cholecalciferol (Vitamin D3) 60,000 IU",
+    "short_composition1": "Vitamin D3 (60000 IU)",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Alkem Laboratories Ltd",
+    "standardStrengths": [
+      "60000 IU"
+    ]
+  },
+  {
+    "name": "Calcirol 60k Sachet",
+    "brandName": "Calcirol 60k",
+    "genericName": "Cholecalciferol (Vitamin D3) 60,000 IU Granules",
+    "short_composition1": "Vitamin D3 Granules",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Cadila Pharmaceuticals",
+    "standardStrengths": [
+      "60000 IU"
+    ]
+  },
+  {
+    "name": "Tayo 60k Tablet",
+    "brandName": "Tayo 60k",
+    "genericName": "Cholecalciferol (Vitamin D3) 60,000 IU",
+    "short_composition1": "Vitamin D3 (60000 IU)",
+    "category": "Vitamin / Supplement",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "60000 IU"
+    ]
+  },
+  {
+    "name": "Telma 40 Tablet",
+    "brandName": "Telma 40",
+    "genericName": "Telmisartan 40mg",
+    "short_composition1": "Telmisartan (40mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "standardStrengths": [
+      "40mg"
+    ]
+  },
+  {
+    "name": "Telma 80 Tablet",
+    "brandName": "Telma 80",
+    "genericName": "Telmisartan 80mg",
+    "short_composition1": "Telmisartan (80mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "standardStrengths": [
+      "80mg"
+    ]
+  },
+  {
+    "name": "Telma 20 Tablet",
+    "brandName": "Telma 20",
+    "genericName": "Telmisartan 20mg",
+    "short_composition1": "Telmisartan (20mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "standardStrengths": [
+      "20mg"
+    ]
+  },
+  {
+    "name": "Telma-H Tablet",
+    "brandName": "Telma-H",
+    "genericName": "Telmisartan (40mg) + Hydrochlorothiazide (12.5mg)",
+    "short_composition1": "Telmisartan + Hydrochlorothiazide",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "standardStrengths": [
+      "40mg/12.5mg"
+    ]
+  },
+  {
+    "name": "Telma-AM Tablet",
+    "brandName": "Telma-AM",
+    "genericName": "Telmisartan (40mg) + Amlodipine (5mg)",
+    "short_composition1": "Telmisartan + Amlodipine",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "standardStrengths": [
+      "40mg/5mg"
+    ]
+  },
+  {
+    "name": "Telmikind 40 Tablet",
+    "brandName": "Telmikind 40",
+    "genericName": "Telmisartan 40mg",
+    "short_composition1": "Telmisartan (40mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Mankind Pharma Ltd",
+    "standardStrengths": [
+      "40mg"
+    ]
+  },
+  {
+    "name": "Telmikind-H Tablet",
+    "brandName": "Telmikind-H",
+    "genericName": "Telmisartan (40mg) + Hydrochlorothiazide (12.5mg)",
+    "short_composition1": "Telmisartan + HCTZ",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Mankind Pharma Ltd",
+    "standardStrengths": [
+      "40mg/12.5mg"
+    ]
+  },
+  {
+    "name": "Telvas 40 Tablet",
+    "brandName": "Telvas 40",
+    "genericName": "Telmisartan 40mg",
+    "short_composition1": "Telmisartan (40mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Aristo Pharmaceuticals",
+    "standardStrengths": [
+      "40mg"
+    ]
+  },
+  {
+    "name": "Amlong 5 Tablet",
+    "brandName": "Amlong 5",
+    "genericName": "Amlodipine Besylate 5mg",
+    "short_composition1": "Amlodipine (5mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Micro Labs Ltd",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Amlong 2.5 Tablet",
+    "brandName": "Amlong 2.5",
+    "genericName": "Amlodipine Besylate 2.5mg",
+    "short_composition1": "Amlodipine (2.5mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Micro Labs Ltd",
+    "standardStrengths": [
+      "2.5mg"
+    ]
+  },
+  {
+    "name": "Amlong 10 Tablet",
+    "brandName": "Amlong 10",
+    "genericName": "Amlodipine Besylate 10mg",
+    "short_composition1": "Amlodipine (10mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Micro Labs Ltd",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Amlopres 5 Tablet",
+    "brandName": "Amlopres 5",
+    "genericName": "Amlodipine 5mg",
+    "short_composition1": "Amlodipine (5mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Stamlo 5 Tablet",
+    "brandName": "Stamlo 5",
+    "genericName": "S-Amlodipine 5mg",
+    "short_composition1": "S-Amlodipine (5mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Dr Reddy's Laboratories",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Cilacar 10 Tablet",
+    "brandName": "Cilacar 10",
+    "genericName": "Cilnidipine 10mg",
+    "short_composition1": "Cilnidipine (10mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "J.B. Chemicals & Pharmaceuticals",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Cilacar 20 Tablet",
+    "brandName": "Cilacar 20",
+    "genericName": "Cilnidipine 20mg",
+    "short_composition1": "Cilnidipine (20mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "J.B. Chemicals & Pharmaceuticals",
+    "standardStrengths": [
+      "20mg"
+    ]
+  },
+  {
+    "name": "Cilacar 5 Tablet",
+    "brandName": "Cilacar 5",
+    "genericName": "Cilnidipine 5mg",
+    "short_composition1": "Cilnidipine (5mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "J.B. Chemicals & Pharmaceuticals",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Cilacar-T Tablet",
+    "brandName": "Cilacar-T",
+    "genericName": "Cilnidipine (10mg) + Telmisartan (40mg)",
+    "short_composition1": "Cilnidipine + Telmisartan",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "J.B. Chemicals",
+    "standardStrengths": [
+      "10mg/40mg"
+    ]
+  },
+  {
+    "name": "Concor 5 Tablet",
+    "brandName": "Concor 5",
+    "genericName": "Bisoprolol Fumarate 5mg",
+    "short_composition1": "Bisoprolol (5mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Merck Ltd",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Concor 2.5 Tablet",
+    "brandName": "Concor 2.5",
+    "genericName": "Bisoprolol Fumarate 2.5mg",
+    "short_composition1": "Bisoprolol (2.5mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Merck Ltd",
+    "standardStrengths": [
+      "2.5mg"
+    ]
+  },
+  {
+    "name": "Metolar 50 Tablet",
+    "brandName": "Metolar 50",
+    "genericName": "Metoprolol Tartrate 50mg",
+    "short_composition1": "Metoprolol (50mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "50mg"
+    ]
+  },
+  {
+    "name": "Metolar 25 Tablet",
+    "brandName": "Metolar 25",
+    "genericName": "Metoprolol Tartrate 25mg",
+    "short_composition1": "Metoprolol (25mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "25mg"
+    ]
+  },
+  {
+    "name": "Metolar XR 50 Tablet",
+    "brandName": "Metolar XR 50",
+    "genericName": "Metoprolol Succinate 50mg Extended Release",
+    "short_composition1": "Metoprolol Succinate (50mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "50mg"
+    ]
+  },
+  {
+    "name": "Betaloc 25mg Tablet",
+    "brandName": "Betaloc 25",
+    "genericName": "Metoprolol Succinate 25mg",
+    "short_composition1": "Metoprolol (25mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "AstraZeneca India",
+    "standardStrengths": [
+      "25mg"
+    ]
+  },
+  {
+    "name": "Betaloc 50mg Tablet",
+    "brandName": "Betaloc 50",
+    "genericName": "Metoprolol Succinate 50mg",
+    "short_composition1": "Metoprolol (50mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "AstraZeneca India",
+    "standardStrengths": [
+      "50mg"
+    ]
+  },
+  {
+    "name": "Cardivas 3.125 Tablet",
+    "brandName": "Cardivas 3.125",
+    "genericName": "Carvedilol 3.125mg",
+    "short_composition1": "Carvedilol (3.125mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "3.125mg"
+    ]
+  },
+  {
+    "name": "Cardivas 6.25 Tablet",
+    "brandName": "Cardivas 6.25",
+    "genericName": "Carvedilol 6.25mg",
+    "short_composition1": "Carvedilol (6.25mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "6.25mg"
+    ]
+  },
+  {
+    "name": "Losar 50 Tablet",
+    "brandName": "Losar 50",
+    "genericName": "Losartan Potassium 50mg",
+    "short_composition1": "Losartan (50mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Unichem Laboratories",
+    "standardStrengths": [
+      "50mg"
+    ]
+  },
+  {
+    "name": "Losar 25 Tablet",
+    "brandName": "Losar 25",
+    "genericName": "Losartan Potassium 25mg",
+    "short_composition1": "Losartan (25mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Unichem Laboratories",
+    "standardStrengths": [
+      "25mg"
+    ]
+  },
+  {
+    "name": "Losar-H Tablet",
+    "brandName": "Losar-H",
+    "genericName": "Losartan (50mg) + Hydrochlorothiazide (12.5mg)",
+    "short_composition1": "Losartan + HCTZ",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Unichem Laboratories",
+    "standardStrengths": [
+      "50mg/12.5mg"
+    ]
+  },
+  {
+    "name": "Ramipres 5 Tablet",
+    "brandName": "Ramipres 5",
+    "genericName": "Ramipril 5mg",
+    "short_composition1": "Ramipril (5mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Ramipres 2.5 Tablet",
+    "brandName": "Ramipres 2.5",
+    "genericName": "Ramipril 2.5mg",
+    "short_composition1": "Ramipril (2.5mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "2.5mg"
+    ]
+  },
+  {
+    "name": "Envas 5 Tablet",
+    "brandName": "Envas 5",
+    "genericName": "Enalapril Maleate 5mg",
+    "short_composition1": "Enalapril (5mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Cadila Pharmaceuticals",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Ecosprin 75 Tablet",
+    "brandName": "Ecosprin 75",
+    "genericName": "Aspirin (Acetylsalicylic Acid) 75mg Enteric Coated",
+    "short_composition1": "Aspirin (75mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "75mg"
+    ]
+  },
+  {
+    "name": "Ecosprin 150 Tablet",
+    "brandName": "Ecosprin 150",
+    "genericName": "Aspirin 150mg Enteric Coated",
+    "short_composition1": "Aspirin (150mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "150mg"
+    ]
+  },
+  {
+    "name": "Ecosprin-AV 75/20 Capsule",
+    "brandName": "Ecosprin-AV 75/20",
+    "genericName": "Aspirin (75mg) + Atorvastatin (20mg)",
+    "short_composition1": "Aspirin + Atorvastatin",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "75mg/20mg"
+    ]
+  },
+  {
+    "name": "Ecosprin-AV 75/10 Capsule",
+    "brandName": "Ecosprin-AV 75/10",
+    "genericName": "Aspirin (75mg) + Atorvastatin (10mg)",
+    "short_composition1": "Aspirin + Atorvastatin",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "75mg/10mg"
+    ]
+  },
+  {
+    "name": "Clopilet 75 Tablet",
+    "brandName": "Clopilet 75",
+    "genericName": "Clopidogrel 75mg",
+    "short_composition1": "Clopidogrel (75mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "75mg"
+    ]
+  },
+  {
+    "name": "Clopilet-A 75 Capsule",
+    "brandName": "Clopilet-A",
+    "genericName": "Clopidogrel (75mg) + Aspirin (75mg)",
+    "short_composition1": "Clopidogrel + Aspirin",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "75mg/75mg"
+    ]
+  },
+  {
+    "name": "Atorva 10 Tablet",
+    "brandName": "Atorva 10",
+    "genericName": "Atorvastatin 10mg",
+    "short_composition1": "Atorvastatin (10mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Zydus Cadila",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Atorva 20 Tablet",
+    "brandName": "Atorva 20",
+    "genericName": "Atorvastatin 20mg",
+    "short_composition1": "Atorvastatin (20mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Zydus Cadila",
+    "standardStrengths": [
+      "20mg"
+    ]
+  },
+  {
+    "name": "Atorva 40 Tablet",
+    "brandName": "Atorva 40",
+    "genericName": "Atorvastatin 40mg",
+    "short_composition1": "Atorvastatin (40mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Zydus Cadila",
+    "standardStrengths": [
+      "40mg"
+    ]
+  },
+  {
+    "name": "Storvas 10 Tablet",
+    "brandName": "Storvas 10",
+    "genericName": "Atorvastatin 10mg",
+    "short_composition1": "Atorvastatin (10mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Storvas 20 Tablet",
+    "brandName": "Storvas 20",
+    "genericName": "Atorvastatin 20mg",
+    "short_composition1": "Atorvastatin (20mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "20mg"
+    ]
+  },
+  {
+    "name": "Rosuvas 10 Tablet",
+    "brandName": "Rosuvas 10",
+    "genericName": "Rosuvastatin 10mg",
+    "short_composition1": "Rosuvastatin (10mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Rosuvas 20 Tablet",
+    "brandName": "Rosuvas 20",
+    "genericName": "Rosuvastatin 20mg",
+    "short_composition1": "Rosuvastatin (20mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "20mg"
+    ]
+  },
+  {
+    "name": "Rozucor 10 Tablet",
+    "brandName": "Rozucor 10",
+    "genericName": "Rosuvastatin 10mg",
+    "short_composition1": "Rosuvastatin (10mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Torrent Pharmaceuticals",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Rozucor 20 Tablet",
+    "brandName": "Rozucor 20",
+    "genericName": "Rosuvastatin 20mg",
+    "short_composition1": "Rosuvastatin (20mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Torrent Pharmaceuticals",
+    "standardStrengths": [
+      "20mg"
+    ]
+  },
+  {
+    "name": "Lipaglyn 4mg Tablet",
+    "brandName": "Lipaglyn 4",
+    "genericName": "Saroglitazar 4mg",
+    "short_composition1": "Saroglitazar (4mg)",
+    "category": "Cardiovascular / Antihypertensive",
+    "manufacturer": "Zydus Cadila",
+    "standardStrengths": [
+      "4mg"
+    ]
+  },
+  {
+    "name": "Glycomet 500 Tablet",
+    "brandName": "Glycomet 500",
+    "genericName": "Metformin Hydrochloride 500mg",
+    "short_composition1": "Metformin (500mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Glycomet 850 Tablet",
+    "brandName": "Glycomet 850",
+    "genericName": "Metformin Hydrochloride 850mg",
+    "short_composition1": "Metformin (850mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "850mg"
+    ]
+  },
+  {
+    "name": "Glycomet 1g Tablet",
+    "brandName": "Glycomet 1g",
+    "genericName": "Metformin Hydrochloride 1000mg",
+    "short_composition1": "Metformin (1000mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "1000mg"
+    ]
+  },
+  {
+    "name": "Glycomet-SR 500 Tablet",
+    "brandName": "Glycomet-SR 500",
+    "genericName": "Metformin 500mg Sustained Release",
+    "short_composition1": "Metformin SR (500mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "500mg"
+    ]
+  },
+  {
+    "name": "Glycomet-SR 1g Tablet",
+    "brandName": "Glycomet-SR 1g",
+    "genericName": "Metformin 1000mg Sustained Release",
+    "short_composition1": "Metformin SR (1000mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "1000mg"
+    ]
+  },
+  {
+    "name": "Glycomet-GP 1 Tablet",
+    "brandName": "Glycomet-GP 1",
+    "genericName": "Glimepiride (1mg) + Metformin (500mg SR)",
+    "short_composition1": "Glimepiride + Metformin",
+    "category": "Antidiabetic",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "1mg/500mg"
+    ]
+  },
+  {
+    "name": "Glycomet-GP 2 Tablet",
+    "brandName": "Glycomet-GP 2",
+    "genericName": "Glimepiride (2mg) + Metformin (500mg SR)",
+    "short_composition1": "Glimepiride + Metformin",
+    "category": "Antidiabetic",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "2mg/500mg"
+    ]
+  },
+  {
+    "name": "Glycomet-GP 0.5 Tablet",
+    "brandName": "Glycomet-GP 0.5",
+    "genericName": "Glimepiride (0.5mg) + Metformin (500mg SR)",
+    "short_composition1": "Glimepiride + Metformin",
+    "category": "Antidiabetic",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "0.5mg/500mg"
+    ]
+  },
+  {
+    "name": "Amaryl 1mg Tablet",
+    "brandName": "Amaryl 1",
+    "genericName": "Glimepiride 1mg",
+    "short_composition1": "Glimepiride (1mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "Sanofi India Ltd",
+    "standardStrengths": [
+      "1mg"
+    ]
+  },
+  {
+    "name": "Amaryl 2mg Tablet",
+    "brandName": "Amaryl 2",
+    "genericName": "Glimepiride 2mg",
+    "short_composition1": "Glimepiride (2mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "Sanofi India Ltd",
+    "standardStrengths": [
+      "2mg"
+    ]
+  },
+  {
+    "name": "Amaryl M 1mg Tablet",
+    "brandName": "Amaryl M 1",
+    "genericName": "Glimepiride (1mg) + Metformin (500mg SR)",
+    "short_composition1": "Glimepiride + Metformin",
+    "category": "Antidiabetic",
+    "manufacturer": "Sanofi India Ltd",
+    "standardStrengths": [
+      "1mg/500mg"
+    ]
+  },
+  {
+    "name": "Amaryl M 2mg Tablet",
+    "brandName": "Amaryl M 2",
+    "genericName": "Glimepiride (2mg) + Metformin (500mg SR)",
+    "short_composition1": "Glimepiride + Metformin",
+    "category": "Antidiabetic",
+    "manufacturer": "Sanofi India Ltd",
+    "standardStrengths": [
+      "2mg/500mg"
+    ]
+  },
+  {
+    "name": "Janumet 50mg/500mg Tablet",
+    "brandName": "Janumet 50/500",
+    "genericName": "Sitagliptin (50mg) + Metformin (500mg)",
+    "short_composition1": "Sitagliptin + Metformin",
+    "category": "Antidiabetic",
+    "manufacturer": "MSD Pharmaceuticals",
+    "standardStrengths": [
+      "50mg/500mg"
+    ]
+  },
+  {
+    "name": "Janumet 50mg/1000mg Tablet",
+    "brandName": "Janumet 50/1000",
+    "genericName": "Sitagliptin (50mg) + Metformin (1000mg)",
+    "short_composition1": "Sitagliptin + Metformin",
+    "category": "Antidiabetic",
+    "manufacturer": "MSD Pharmaceuticals",
+    "standardStrengths": [
+      "50mg/1000mg"
+    ]
+  },
+  {
+    "name": "Januvia 100mg Tablet",
+    "brandName": "Januvia 100",
+    "genericName": "Sitagliptin 100mg",
+    "short_composition1": "Sitagliptin (100mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "MSD Pharmaceuticals",
+    "standardStrengths": [
+      "100mg"
+    ]
+  },
+  {
+    "name": "Januvia 50mg Tablet",
+    "brandName": "Januvia 50",
+    "genericName": "Sitagliptin 50mg",
+    "short_composition1": "Sitagliptin (50mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "MSD Pharmaceuticals",
+    "standardStrengths": [
+      "50mg"
+    ]
+  },
+  {
+    "name": "Galvus 50mg Tablet",
+    "brandName": "Galvus 50",
+    "genericName": "Vildagliptin 50mg",
+    "short_composition1": "Vildagliptin (50mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "Novartis India Ltd",
+    "standardStrengths": [
+      "50mg"
+    ]
+  },
+  {
+    "name": "Galvus Met 50mg/500mg Tablet",
+    "brandName": "Galvus Met 50/500",
+    "genericName": "Vildagliptin (50mg) + Metformin (500mg)",
+    "short_composition1": "Vildagliptin + Metformin",
+    "category": "Antidiabetic",
+    "manufacturer": "Novartis India Ltd",
+    "standardStrengths": [
+      "50mg/500mg"
+    ]
+  },
+  {
+    "name": "Galvus Met 50mg/1000mg Tablet",
+    "brandName": "Galvus Met 50/1000",
+    "genericName": "Vildagliptin (50mg) + Metformin (1000mg)",
+    "short_composition1": "Vildagliptin + Metformin",
+    "category": "Antidiabetic",
+    "manufacturer": "Novartis India Ltd",
+    "standardStrengths": [
+      "50mg/1000mg"
+    ]
+  },
+  {
+    "name": "Jalra-M 50mg/500mg Tablet",
+    "brandName": "Jalra-M 50/500",
+    "genericName": "Vildagliptin (50mg) + Metformin (500mg)",
+    "short_composition1": "Vildagliptin + Metformin",
+    "category": "Antidiabetic",
+    "manufacturer": "USV Ltd",
+    "standardStrengths": [
+      "50mg/500mg"
+    ]
+  },
+  {
+    "name": "Teneliglip-M Tablet",
+    "brandName": "Teneliglip-M",
+    "genericName": "Teneligliptin (20mg) + Metformin (500mg SR)",
+    "short_composition1": "Teneligliptin + Metformin",
+    "category": "Antidiabetic",
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "standardStrengths": [
+      "20mg/500mg"
+    ]
+  },
+  {
+    "name": "Zita-Met Plus 20mg/500mg Tablet",
+    "brandName": "Zita-Met Plus",
+    "genericName": "Teneligliptin (20mg) + Metformin (500mg SR)",
+    "short_composition1": "Teneligliptin + Metformin",
+    "category": "Antidiabetic",
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "standardStrengths": [
+      "20mg/500mg"
+    ]
+  },
+  {
+    "name": "Forxiga 10mg Tablet",
+    "brandName": "Forxiga 10",
+    "genericName": "Dapagliflozin 10mg",
+    "short_composition1": "Dapagliflozin (10mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "AstraZeneca India",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Forxiga 5mg Tablet",
+    "brandName": "Forxiga 5",
+    "genericName": "Dapagliflozin 5mg",
+    "short_composition1": "Dapagliflozin (5mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "AstraZeneca India",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Jardiance 10mg Tablet",
+    "brandName": "Jardiance 10",
+    "genericName": "Empagliflozin 10mg",
+    "short_composition1": "Empagliflozin (10mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "Boehringer Ingelheim",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Jardiance 25mg Tablet",
+    "brandName": "Jardiance 25",
+    "genericName": "Empagliflozin 25mg",
+    "short_composition1": "Empagliflozin (25mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "Boehringer Ingelheim",
+    "standardStrengths": [
+      "25mg"
+    ]
+  },
+  {
+    "name": "Rybelsus 3mg Tablet",
+    "brandName": "Rybelsus 3",
+    "genericName": "Semaglutide 3mg",
+    "short_composition1": "Oral Semaglutide (3mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "Novo Nordisk",
+    "standardStrengths": [
+      "3mg"
+    ]
+  },
+  {
+    "name": "Rybelsus 7mg Tablet",
+    "brandName": "Rybelsus 7",
+    "genericName": "Semaglutide 7mg",
+    "short_composition1": "Oral Semaglutide (7mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "Novo Nordisk",
+    "standardStrengths": [
+      "7mg"
+    ]
+  },
+  {
+    "name": "Rybelsus 14mg Tablet",
+    "brandName": "Rybelsus 14",
+    "genericName": "Semaglutide 14mg",
+    "short_composition1": "Oral Semaglutide (14mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "Novo Nordisk",
+    "standardStrengths": [
+      "14mg"
+    ]
+  },
+  {
+    "name": "Voglibose 0.2mg Tablet",
+    "brandName": "Voglibose 0.2",
+    "genericName": "Voglibose 0.2mg",
+    "short_composition1": "Voglibose (0.2mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "Various",
+    "standardStrengths": [
+      "0.2mg"
+    ]
+  },
+  {
+    "name": "Voglibose 0.3mg Tablet",
+    "brandName": "Voglibose 0.3",
+    "genericName": "Voglibose 0.3mg",
+    "short_composition1": "Voglibose (0.3mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "Various",
+    "standardStrengths": [
+      "0.3mg"
+    ]
+  },
+  {
+    "name": "Volibo 0.3 Tablet",
+    "brandName": "Volibo 0.3",
+    "genericName": "Voglibose 0.3mg",
+    "short_composition1": "Voglibose (0.3mg)",
+    "category": "Antidiabetic",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "0.3mg"
+    ]
+  },
+  {
+    "name": "Thyronorm 50mcg Tablet",
+    "brandName": "Thyronorm 50",
+    "genericName": "Thyroxine Sodium (Levothyroxine) 50mcg",
+    "short_composition1": "Levothyroxine (50mcg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Abbott India Ltd",
+    "standardStrengths": [
+      "50mcg"
+    ]
+  },
+  {
+    "name": "Thyronorm 25mcg Tablet",
+    "brandName": "Thyronorm 25",
+    "genericName": "Thyroxine Sodium 25mcg",
+    "short_composition1": "Levothyroxine (25mcg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Abbott India Ltd",
+    "standardStrengths": [
+      "25mcg"
+    ]
+  },
+  {
+    "name": "Thyronorm 75mcg Tablet",
+    "brandName": "Thyronorm 75",
+    "genericName": "Thyroxine Sodium 75mcg",
+    "short_composition1": "Levothyroxine (75mcg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Abbott India Ltd",
+    "standardStrengths": [
+      "75mcg"
+    ]
+  },
+  {
+    "name": "Thyronorm 100mcg Tablet",
+    "brandName": "Thyronorm 100",
+    "genericName": "Thyroxine Sodium 100mcg",
+    "short_composition1": "Levothyroxine (100mcg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Abbott India Ltd",
+    "standardStrengths": [
+      "100mcg"
+    ]
+  },
+  {
+    "name": "Thyronorm 12.5mcg Tablet",
+    "brandName": "Thyronorm 12.5",
+    "genericName": "Thyroxine Sodium 12.5mcg",
+    "short_composition1": "Levothyroxine (12.5mcg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Abbott India Ltd",
+    "standardStrengths": [
+      "12.5mcg"
+    ]
+  },
+  {
+    "name": "Thyronorm 88mcg Tablet",
+    "brandName": "Thyronorm 88",
+    "genericName": "Thyroxine Sodium 88mcg",
+    "short_composition1": "Levothyroxine (88mcg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Abbott India Ltd",
+    "standardStrengths": [
+      "88mcg"
+    ]
+  },
+  {
+    "name": "Thyronorm 125mcg Tablet",
+    "brandName": "Thyronorm 125",
+    "genericName": "Thyroxine Sodium 125mcg",
+    "short_composition1": "Levothyroxine (125mcg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Abbott India Ltd",
+    "standardStrengths": [
+      "125mcg"
+    ]
+  },
+  {
+    "name": "Eltroxin 50mcg Tablet",
+    "brandName": "Eltroxin 50",
+    "genericName": "Thyroxine Sodium 50mcg",
+    "short_composition1": "Levothyroxine (50mcg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "GlaxoSmithKline",
+    "standardStrengths": [
+      "50mcg"
+    ]
+  },
+  {
+    "name": "Eltroxin 100mcg Tablet",
+    "brandName": "Eltroxin 100",
+    "genericName": "Thyroxine Sodium 100mcg",
+    "short_composition1": "Levothyroxine (100mcg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "GlaxoSmithKline",
+    "standardStrengths": [
+      "100mcg"
+    ]
+  },
+  {
+    "name": "Ciplar 10 Tablet",
+    "brandName": "Ciplar 10",
+    "genericName": "Propranolol Hydrochloride 10mg",
+    "short_composition1": "Propranolol (10mg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Ciplar 40 Tablet",
+    "brandName": "Ciplar 40",
+    "genericName": "Propranolol Hydrochloride 40mg",
+    "short_composition1": "Propranolol (40mg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "40mg"
+    ]
+  },
+  {
+    "name": "Ciplar-LA 40 Tablet",
+    "brandName": "Ciplar-LA 40",
+    "genericName": "Propranolol Hydrochloride 40mg Long Acting",
+    "short_composition1": "Propranolol LA (40mg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "40mg"
+    ]
+  },
+  {
+    "name": "Nexito 10 Tablet",
+    "brandName": "Nexito 10",
+    "genericName": "Escitalopram Oxalate 10mg",
+    "short_composition1": "Escitalopram (10mg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Nexito 5 Tablet",
+    "brandName": "Nexito 5",
+    "genericName": "Escitalopram Oxalate 5mg",
+    "short_composition1": "Escitalopram (5mg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Nexito Plus Tablet",
+    "brandName": "Nexito Plus",
+    "genericName": "Escitalopram (10mg) + Clonazepam (0.5mg)",
+    "short_composition1": "Escitalopram + Clonazepam",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Sun Pharmaceutical",
+    "standardStrengths": [
+      "10mg/0.5mg"
+    ]
+  },
+  {
+    "name": "Clonafit 0.5 Tablet",
+    "brandName": "Clonafit 0.5",
+    "genericName": "Clonazepam 0.5mg",
+    "short_composition1": "Clonazepam (0.5mg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Mankind Pharma",
+    "standardStrengths": [
+      "0.5mg"
+    ]
+  },
+  {
+    "name": "Restyl 0.25 Tablet",
+    "brandName": "Restyl 0.25",
+    "genericName": "Alprazolam 0.25mg",
+    "short_composition1": "Alprazolam (0.25mg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "0.25mg"
+    ]
+  },
+  {
+    "name": "Restyl 0.5 Tablet",
+    "brandName": "Restyl 0.5",
+    "genericName": "Alprazolam 0.5mg",
+    "short_composition1": "Alprazolam (0.5mg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "0.5mg"
+    ]
+  },
+  {
+    "name": "Etilaam 0.5 Tablet",
+    "brandName": "Etilaam 0.5",
+    "genericName": "Etizolam 0.5mg",
+    "short_composition1": "Etizolam (0.5mg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Intas Pharmaceuticals",
+    "standardStrengths": [
+      "0.5mg"
+    ]
+  },
+  {
+    "name": "Zolcalm 5 Tablet",
+    "brandName": "Zolcalm 5",
+    "genericName": "Zolpidem Tartrate 5mg",
+    "short_composition1": "Zolpidem (5mg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "5mg"
+    ]
+  },
+  {
+    "name": "Zolcalm 10 Tablet",
+    "brandName": "Zolcalm 10",
+    "genericName": "Zolpidem Tartrate 10mg",
+    "short_composition1": "Zolpidem (10mg)",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Cipla Ltd",
+    "standardStrengths": [
+      "10mg"
+    ]
+  },
+  {
+    "name": "Betadine 10% Solution",
+    "brandName": "Betadine",
+    "genericName": "Povidone Iodine (10% w/v)",
+    "short_composition1": "Povidone Iodine Antiseptic",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Win-Medicare Ltd",
+    "standardStrengths": [
+      "10%"
+    ]
+  },
+  {
+    "name": "Betadine 5% Ointment",
+    "brandName": "Betadine Ointment",
+    "genericName": "Povidone Iodine (5% w/w)",
+    "short_composition1": "Povidone Iodine Ointment",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Win-Medicare Ltd",
+    "standardStrengths": [
+      "5%"
+    ]
+  },
+  {
+    "name": "Soframycin Skin Cream",
+    "brandName": "Soframycin",
+    "genericName": "Framycetin Sulphate (1% w/w)",
+    "short_composition1": "Framycetin Antibiotic Cream",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Sanofi India Ltd",
+    "standardStrengths": [
+      "1%"
+    ]
+  },
+  {
+    "name": "T-Bact 2% Ointment",
+    "brandName": "T-Bact",
+    "genericName": "Mupirocin (2% w/w)",
+    "short_composition1": "Mupirocin Antibiotic Ointment",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "GlaxoSmithKline",
+    "standardStrengths": [
+      "2%"
+    ]
+  },
+  {
+    "name": "Candid-B Cream",
+    "brandName": "Candid-B",
+    "genericName": "Clotrimazole (1% w/w) + Beclomethasone (0.025% w/w)",
+    "short_composition1": "Clotrimazole + Beclomethasone",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "standardStrengths": [
+      "1%/0.025%"
+    ]
+  },
+  {
+    "name": "Quadriderm RF Cream",
+    "brandName": "Quadriderm",
+    "genericName": "Beclomethasone + Clotrimazole + Neomycin",
+    "short_composition1": "Antifungal Antibacterial Cream",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Fulford India Ltd",
+    "standardStrengths": [
+      "Cream"
+    ]
+  },
+  {
+    "name": "Liv 52 Tablet",
+    "brandName": "Liv 52",
+    "genericName": "Ayurvedic Hepatoprotective Herbal Formulation",
+    "short_composition1": "Herbal Liver Care",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Himalaya Wellness",
+    "standardStrengths": [
+      "Tablet"
+    ]
+  },
+  {
+    "name": "Liv 52 DS Tablet",
+    "brandName": "Liv 52 DS",
+    "genericName": "Double Strength Herbal Liver Care Formulation",
+    "short_composition1": "Herbal Liver Care DS",
+    "category": "Hormone / Endocrine / Neuro",
+    "manufacturer": "Himalaya Wellness",
+    "standardStrengths": [
+      "Tablet"
+    ]
+  }
+]

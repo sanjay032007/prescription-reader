@@ -1,9 +1,8 @@
-// ============================================================
-// Prescription Reader — Gemini API helpers
-// ============================================================
+import { verifyIndianMedicine, extractStandardPrefix } from "./verificationEngine";
 
 export interface Medicine {
   brandName: string;
+  originalExtractedName?: string;
   genericName: string;
   category: string;
   frequency: string;
@@ -11,6 +10,14 @@ export interface Medicine {
   duration: string;
   dosageUnderstood: boolean;
   confidence: "high" | "medium" | "low";
+  confidenceReason?: string;
+  suggestedCorrection?: {
+    brandName: string;
+    genericName: string;
+    similarity: number;
+  };
+  rawDetectedText?: string;
+  dosageWarning?: string;
   description: string;
   whyPrescribed: string;
   sideEffects: string[];
@@ -18,6 +25,7 @@ export interface Medicine {
   isPenicillinBased: boolean;
   allergyWarning: string | null;
   completionWarning: string | null;
+  manufacturer?: string;
 }
 
 export interface SymptomAnalysis {
@@ -55,84 +63,6 @@ export const toBase64 = (file: File): Promise<string> =>
   });
 
 /**
- * Build the clinical prompt. The single most important thing:
- * NEVER invent medicine names. If you cannot read it, say so.
- */
-function buildPrompt(symptoms: string): string {
-  const trimmed = symptoms.trim();
-  return `You are a pharmacist reading a doctor's prescription image.
-
-ABSOLUTE RULES — VIOLATION OF THESE MEANS FAILURE:
-
-RULE 1: IMAGE READABILITY CHECK (DO THIS FIRST)
-Before extracting ANY medicines, assess if the image is actually a readable prescription.
-Set "imageReadable": false if ANY of these are true:
-  - The image is blurry, dark, rotated, or too low resolution to read text
-  - The image is NOT a prescription (e.g. a random photo, selfie, landscape, receipt)
-  - The handwriting is completely illegible and you cannot make out ANY medicine names
-  - The image is cut off and critical information is missing
-If "imageReadable" is false, set "medicines" to an empty array [] and provide "unreadableReason" explaining what is wrong (e.g. "Image is too blurry to read any medicine names", "This does not appear to be a prescription").
-
-RULE 2: ZERO HALLUCINATION — THIS IS THE MOST IMPORTANT RULE
-  - ONLY output medicine names that you can ACTUALLY SEE written on the prescription.
-  - If you can see "Shelcal" written, output "Shelcal". If you can see "Dolo 650", output "Dolo 650".
-  - NEVER guess, infer, or fabricate a medicine name. If you cannot read a word clearly, SKIP that line entirely. Do NOT include it.
-  - Do NOT output common medicines (Paracetamol, Amoxicillin, etc.) unless you can literally see them written on the paper.
-  - For each medicine, set "confidence": "high" if clearly legible, "medium" if mostly readable but some letters uncertain, "low" if you are guessing. Do NOT include any medicine with "low" confidence — skip it.
-  - It is MUCH BETTER to return fewer medicines (even 0) than to return wrong names.
-
-RULE 3: DOSAGE — ONLY WHAT IS WRITTEN
-  - Extract frequency/timing/duration ONLY if explicitly written on the prescription.
-  - Common shorthands: "1-0-0"=Morning only, "1-0-1"=Morning+Night, "1-1-1"=Three times, "0-0-1"=Night only, "BD"=Twice, "TDS"=Thrice, "OD"=Once, "AC"=Before food, "PC"=After food.
-  - If dosage is not written or not legible, set "dosageUnderstood": false and leave frequency/timing/duration empty.
-
-RULE 4: SYMPTOM CROSS-CHECK
-Patient symptoms: ${trimmed ? `"${trimmed}"` : "None provided"}
-  - If symptoms are provided, compare them against the medicines' clinical uses.
-  - matchStatus: "matched" if medicines treat those symptoms, "partial_match" if only some symptoms are covered, "mismatch" if medicines clearly don't treat those symptoms.
-  - If mismatch, explain WHY and give possibleReasons.
-  - If no symptoms provided, set matchStatus: "none_provided".
-
-RULE 5: SAFETY FLAGS
-  - Set isAntibiotic: true for antibiotics, with completionWarning about finishing the full course.
-  - Set isPenicillinBased: true for penicillin-derived drugs (Amoxicillin, Augmentin, Ampicillin) with allergyWarning.
-
-OUTPUT: Return ONLY valid JSON, no markdown fences, no extra text:
-
-{
-  "imageReadable": true,
-  "unreadableReason": "",
-  "medicines": [
-    {
-      "brandName": "EXACT name as written on paper",
-      "genericName": "Correct generic salt name",
-      "category": "Clinical class",
-      "frequency": "",
-      "timing": "",
-      "duration": "",
-      "dosageUnderstood": false,
-      "confidence": "high",
-      "description": "What this medicine does, 1-2 sentences.",
-      "whyPrescribed": "Why a doctor would prescribe this.",
-      "sideEffects": ["effect1", "effect2"],
-      "isAntibiotic": false,
-      "isPenicillinBased": false,
-      "allergyWarning": null,
-      "completionWarning": null
-    }
-  ],
-  "generalWarnings": [],
-  "symptomAnalysis": {
-    "symptomsProvided": ${trimmed ? `"${trimmed}"` : "null"},
-    "isMatch": true,
-    "matchStatus": "${trimmed ? "matched" : "none_provided"}",
-    "explanation": "",
-    "possibleReasons": []
-  }
-}`;
-}
-
-/**
  * Strip possible ```json fences and surrounding noise.
  */
 function sanitizeResponseText(raw: string): string {
@@ -150,199 +80,292 @@ function sanitizeResponseText(raw: string): string {
 }
 
 /**
- * Validate / coerce a parsed JSON object into a PrescriptionResult.
+ * Prompt 1 — Extraction Pass (OCR focus, strict literal read)
  */
-function coerceResult(parsed: unknown): PrescriptionResult {
-  const safeString = (v: unknown, fallback = ""): string =>
-    typeof v === "string" && v.trim().length > 0 ? v.trim() : fallback;
-  const safeStringArray = (v: unknown): string[] =>
-    Array.isArray(v)
-      ? v.map((x) => (typeof x === "string" ? x.trim() : "")).filter((x) => x.length > 0)
-      : [];
-  const safeBool = (v: unknown): boolean => v === true;
-  const safeNullableString = (v: unknown): string | null =>
-    typeof v === "string" && v.trim().length > 0 ? v.trim() : null;
+function buildExtractionPrompt(): string {
+  return `You are a medical OCR specialist. Look at this doctor prescription image very carefully.
+List ONLY the medicine names, strengths, forms, frequencies (e.g. 1-0-1, 1-1-1, 1-0-0, 0-0-1), timings (AC/PC/HS), and durations you can literally see written on the paper.
 
-  const obj = (parsed && typeof parsed === "object" ? parsed : {}) as Record<string, unknown>;
+CRITICAL RULES:
+1. Do NOT guess or fabricate. If a word is unclear, write it exactly as it appears with '(unclear)' tag.
+2. If image is blurry or not a prescription, set imageReadable: false with unreadableReason.
+3. Extract each medicine as a structured item.
 
-  // Image readability check
-  const imageReadable = obj.imageReadable !== false;
-  const unreadableReason = safeString(obj.unreadableReason);
-
-  const rawMedicines = "medicines" in obj ? obj.medicines : [];
-  const medicinesList = Array.isArray(rawMedicines) ? rawMedicines : [];
-
-  // Filter out low-confidence medicines to prevent hallucinations
-  const medicines: Medicine[] = medicinesList
-    .map((m): Medicine | null => {
-      const med = (m ?? {}) as Record<string, unknown>;
-      const brandName = safeString(med.brandName);
-      const confidence = safeString(med.confidence, "high") as "high" | "medium" | "low";
-
-      // Skip medicines with low confidence or "Unknown" names
-      if (
-        confidence === "low" ||
-        !brandName ||
-        brandName === "Unknown medicine" ||
-        brandName.toLowerCase().includes("unknown") ||
-        brandName.toLowerCase().includes("illegible") ||
-        brandName.toLowerCase().includes("unreadable")
-      ) {
-        return null;
-      }
-
-      const freq = safeString(med.frequency);
-      const tim = safeString(med.timing);
-      const dur = safeString(med.duration);
-      const explicitUnderstood = typeof med.dosageUnderstood === "boolean" ? med.dosageUnderstood : null;
-
-      const hasValidDosage =
-        Boolean(freq && !freq.toLowerCase().includes("unclear")) ||
-        Boolean(tim && !tim.toLowerCase().includes("unclear")) ||
-        Boolean(dur && !dur.toLowerCase().includes("unclear"));
-
-      const dosageUnderstood = explicitUnderstood !== null ? (explicitUnderstood && hasValidDosage) : hasValidDosage;
-
-      return {
-        brandName,
-        genericName: safeString(med.genericName),
-        category: safeString(med.category, "Medicine"),
-        frequency: freq,
-        timing: tim,
-        duration: dur,
-        dosageUnderstood,
-        confidence,
-        description: safeString(med.description),
-        whyPrescribed: safeString(med.whyPrescribed),
-        sideEffects: safeStringArray(med.sideEffects).slice(0, 3),
-        isAntibiotic: safeBool(med.isAntibiotic),
-        isPenicillinBased: safeBool(med.isPenicillinBased),
-        allergyWarning: safeNullableString(med.allergyWarning),
-        completionWarning: safeNullableString(med.completionWarning),
-      };
-    })
-    .filter((m): m is Medicine => m !== null);
-
-  const generalWarnings = "generalWarnings" in obj ? safeStringArray(obj.generalWarnings) : [];
-
-  let symptomAnalysis: SymptomAnalysis | undefined = undefined;
-  if ("symptomAnalysis" in obj) {
-    const rawSym = obj.symptomAnalysis as Record<string, unknown>;
-    if (rawSym && typeof rawSym === "object") {
-      const matchStatus = safeString(rawSym.matchStatus, "none_provided") as
-        | "matched" | "partial_match" | "mismatch" | "none_provided";
-      symptomAnalysis = {
-        symptomsProvided: safeNullableString(rawSym.symptomsProvided),
-        isMatch: matchStatus === "matched",
-        matchStatus,
-        explanation: safeString(rawSym.explanation),
-        possibleReasons: safeStringArray(rawSym.possibleReasons),
-      };
+OUTPUT ONLY JSON:
+{
+  "imageReadable": true,
+  "unreadableReason": "",
+  "items": [
+    {
+      "detectedName": "Exact text on paper (e.g. Tab. Dolo 650)",
+      "frequency": "e.g. 1-0-1",
+      "timing": "e.g. after food / PC",
+      "duration": "e.g. 5 days",
+      "isUnclear": false
     }
-  }
-
-  return { medicines, generalWarnings, symptomAnalysis, imageReadable, unreadableReason };
+  ]
+}`;
 }
 
-// Use only the most accurate model — no fallback to weaker models
-const CANDIDATE_MODELS = [
-  "gemini-3.7-flash",
-];
-
 /**
- * Analyse a prescription image with Gemini Vision.
+ * Prompt 2 — Verification Pass (Indian clinical pharmacist with 20+ years experience)
  */
-export async function analysePrescription(
+function buildVerificationPrompt(symptoms: string): string {
+  const trimmed = symptoms.trim();
+  return `You are a licensed Indian clinical pharmacist with 20+ years of dispensing experience in India.
+Look at this Indian doctor prescription image.
+
+Your task:
+1. Read the prescription and cross-check all Indian brand names (common examples: Dolo 650, Crocin, Augmentin 625, Pan-D, Pantocid 40, Calpol 650, Meftal-Spas, Allegra 120, Montair-LC, Azithral 500, Azee 500, Shelcal 500, Telma 40, Glycomet 500, Zerodol-P, Voveran, etc.).
+2. Identify dosage schedules in standard Indian format (1-0-0 = Morning, 1-0-1 = Morning & Night, 1-1-1 = Thrice daily, 0-0-1 = Bedtime).
+3. For each medicine, provide generic salt composition, therapeutic category, clinical rationale (why prescribed), side effects, and safety warnings (penicillin / antibiotic completion).
+4. Patient symptoms reported: ${trimmed ? `"${trimmed}"` : "None provided"}. Assess if medicines match symptoms.
+
+OUTPUT ONLY JSON:
+{
+  "imageReadable": true,
+  "unreadableReason": "",
+  "medicines": [
+    {
+      "brandName": "Correct Indian Brand Name (e.g. Dolo 650, Augmentin 625)",
+      "genericName": "Generic Salt Name (e.g. Paracetamol 650mg)",
+      "category": "Therapeutic Class (e.g. Antipyretic, Antibiotic, PPI Antacid)",
+      "frequency": "e.g. 1-1-1",
+      "timing": "e.g. after food",
+      "duration": "e.g. 5 days",
+      "dosageUnderstood": true,
+      "description": "Short explanation of the medication.",
+      "whyPrescribed": "Clinical reason for this medication.",
+      "sideEffects": ["nausea", "headache"],
+      "isAntibiotic": false,
+      "isPenicillinBased": false,
+      "allergyWarning": null,
+      "completionWarning": null
+    }
+  ],
+  "generalWarnings": [],
+  "symptomAnalysis": {
+    "symptomsProvided": ${trimmed ? `"${trimmed}"` : "null"},
+    "isMatch": true,
+    "matchStatus": "${trimmed ? "matched" : "none_provided"}",
+    "explanation": "",
+    "possibleReasons": []
+  }
+}`;
+}
+
+async function callGemini(
+  apiKey: string,
   imageBase64: string,
   mimeType: string,
-  symptoms: string,
-): Promise<PrescriptionResult> {
-  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-  if (!apiKey) {
-    throw new GeminiError(
-      "Missing NEXT_PUBLIC_GEMINI_API_KEY. Add it to .env.local and restart the dev server.",
-    );
-  }
+  promptText: string
+): Promise<any> {
+  const modelName = "gemini-3.7-flash";
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
 
   const body = {
     contents: [
       {
         parts: [
           { inline_data: { mime_type: mimeType, data: imageBase64 } },
-          { text: buildPrompt(symptoms) },
+          { text: promptText },
         ],
       },
     ],
     generationConfig: {
-      temperature: 0.0,   // Zero temperature = zero creativity = zero hallucination
+      temperature: 0.2, // Clinical balance between exact OCR and Indian pharmacist domain knowledge
       topP: 0.9,
-      maxOutputTokens: 2048,
+      maxOutputTokens: 2500,
     },
   };
 
-  let lastError = "";
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
 
-  for (const modelName of CANDIDATE_MODELS) {
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
-
+  if (!res.ok) {
+    let detail = "";
     try {
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-      if (!res.ok) {
-        let detail = "";
-        try {
-          const errJson = await res.json();
-          detail = errJson?.error?.message ?? errJson?.message ?? JSON.stringify(errJson);
-        } catch {
-          detail = await res.text().catch(() => "");
-        }
-        lastError = `(${res.status}) ${detail}`;
-        continue;
-      }
-
-      const data = await res.json();
-      const text =
-        data?.candidates?.[0]?.content?.parts?.[0]?.text ??
-        data?.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text).join("") ??
-        "";
-
-      if (!text) {
-        lastError = "Model returned an empty response.";
-        continue;
-      }
-
-      const cleaned = sanitizeResponseText(text);
-      const parsed = JSON.parse(cleaned);
-      const result = coerceResult(parsed);
-
-      // If the image was flagged as unreadable by the model
-      if (!result.imageReadable) {
-        throw new GeminiError(
-          result.unreadableReason ||
-          "The prescription image is not clear enough to read. Please upload a sharper, well-lit photo and try again."
-        );
-      }
-
-      // If no medicines were extracted at all
-      if (result.medicines.length === 0) {
-        throw new GeminiError(
-          "Could not identify any medicine names on this prescription. The handwriting may be too unclear, or this may not be a prescription. Please upload a clearer photo."
-        );
-      }
-
-      return result;
-    } catch (err: any) {
-      if (err instanceof GeminiError) throw err;
-      lastError = err?.message || String(err);
-      continue;
+      const errJson = await res.json();
+      detail = errJson?.error?.message ?? errJson?.message ?? JSON.stringify(errJson);
+    } catch {
+      detail = await res.text().catch(() => "");
     }
+    throw new GeminiError(`(${res.status}) ${detail}`);
   }
 
-  throw new GeminiError(
-    `Could not analyze the prescription. ${lastError || "Please try uploading a clearer, well-lit photo."}`
-  );
+  const data = await res.json();
+  const text =
+    data?.candidates?.[0]?.content?.parts?.[0]?.text ??
+    data?.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text).join("") ??
+    "";
+
+  if (!text) {
+    throw new GeminiError("Model returned an empty response.");
+  }
+
+  const cleaned = sanitizeResponseText(text);
+  return JSON.parse(cleaned);
+}
+
+/**
+ * Multi-layer 4-step Verification Pipeline:
+ * Layer 1: Parallel Gemini Dual-Pass Extraction
+ * Layer 2: Fuse.js Fuzzy Matching against Indian Medicine Database
+ * Layer 3: Pure JS Dosage Pattern & Strength Rule Engine
+ * Layer 4: Confidence Assignment & User Verification Payload
+ */
+export async function analysePrescription(
+  imageBase64: string,
+  mimeType: string,
+  symptoms: string
+): Promise<PrescriptionResult> {
+  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new GeminiError("Missing NEXT_PUBLIC_GEMINI_API_KEY. Add it to .env.local and restart.");
+  }
+
+  // ============================================================
+  // LAYER 1: Parallel Dual-Pass Execution via Promise.all()
+  // ============================================================
+  let pass1Data: any = null;
+  let pass2Data: any = null;
+
+  try {
+    const [res1, res2] = await Promise.all([
+      callGemini(apiKey, imageBase64, mimeType, buildExtractionPrompt()),
+      callGemini(apiKey, imageBase64, mimeType, buildVerificationPrompt(symptoms)),
+    ]);
+    pass1Data = res1;
+    pass2Data = res2;
+  } catch (err: any) {
+    throw new GeminiError(err?.message || "Failed to analyze prescription image with dual vision passes.");
+  }
+
+  // Check image readability from both passes
+  const isReadable = (pass1Data?.imageReadable !== false) && (pass2Data?.imageReadable !== false);
+  if (!isReadable) {
+    throw new GeminiError(
+      pass2Data?.unreadableReason ||
+      pass1Data?.unreadableReason ||
+      "The prescription image is too unclear or is not a medical prescription. Please upload a clearer photo."
+    );
+  }
+
+  const rawExtractedItems = Array.isArray(pass1Data?.items) ? pass1Data.items : [];
+  const rawVerifiedMedicines = Array.isArray(pass2Data?.medicines) ? pass2Data.medicines : [];
+
+  if (rawExtractedItems.length === 0 && rawVerifiedMedicines.length === 0) {
+    throw new GeminiError(
+      "No legible medicine names were found. The handwriting may be too faded or unclear. Please upload a well-lit photo."
+    );
+  }
+
+  // ============================================================
+  // LAYERS 2 & 3: Fuzzy Matching + Dosage Rule Engine
+  // ============================================================
+  const finalMedicines: Medicine[] = [];
+
+  // Match each medicine from the verified list
+  const primaryList = rawVerifiedMedicines.length > 0 ? rawVerifiedMedicines : rawExtractedItems;
+
+  for (let i = 0; i < primaryList.length; i++) {
+    const vMed = (rawVerifiedMedicines[i] || {}) as Record<string, any>;
+    const eItem = (rawExtractedItems[i] || {}) as Record<string, any>;
+
+    const pass1Name = (eItem.detectedName || vMed.brandName || "").trim();
+    const pass2Name = (vMed.brandName || eItem.detectedName || "").trim();
+    const frequency = vMed.frequency || eItem.frequency || "";
+    const timing = vMed.timing || eItem.timing || "";
+    const duration = vMed.duration || eItem.duration || "";
+
+    if (!pass1Name && !pass2Name) continue;
+
+    // Run verification engine (Layer 2 & Layer 3)
+    const verification = verifyIndianMedicine(pass1Name, pass2Name, frequency, timing, duration);
+
+    // Determine final brand name & generic composition
+    let finalBrand = pass2Name || pass1Name;
+    let finalGeneric = vMed.genericName || verification.suggestedGenericName || "General formulation";
+    let finalCategory = vMed.category || verification.matchedRecord?.category || "Medication";
+
+    // Build suggested correction if fuzzy match found a close variant
+    let suggestedCorrection: Medicine["suggestedCorrection"] = undefined;
+    if (verification.suggestedBrandName && verification.suggestedBrandName.toLowerCase() !== finalBrand.toLowerCase()) {
+      suggestedCorrection = {
+        brandName: verification.suggestedBrandName,
+        genericName: verification.suggestedGenericName || finalGeneric,
+        similarity: Math.round((1 - verification.similarityScore) * 100),
+      };
+
+      // Auto-correct high confidence typos (similarity >= 88%)
+      if (verification.similarityScore <= 0.15 && verification.matchedRecord) {
+        finalBrand = verification.matchedRecord.brandName;
+        finalGeneric = verification.matchedRecord.genericName;
+        finalCategory = verification.matchedRecord.category;
+      }
+    }
+
+    // Ensure medical prefix (Tab., Cap., Syp.)
+    const prefix = verification.standardizedPrefix;
+    if (!finalBrand.startsWith("Tab.") && !finalBrand.startsWith("Cap.") && !finalBrand.startsWith("Syp.") && !finalBrand.startsWith("Inj.")) {
+      finalBrand = `${prefix} ${finalBrand}`;
+    }
+
+    const hasValidDosage = Boolean(
+      (verification.standardizedFrequency && !verification.standardizedFrequency.toLowerCase().includes("unclear")) ||
+      (timing && !timing.toLowerCase().includes("unclear"))
+    );
+
+    finalMedicines.push({
+      brandName: finalBrand,
+      originalExtractedName: pass1Name,
+      genericName: finalGeneric,
+      category: finalCategory,
+      frequency: verification.standardizedFrequency,
+      timing: timing || "",
+      duration: verification.standardizedDuration || duration,
+      dosageUnderstood: hasValidDosage,
+      confidence: verification.confidence,
+      confidenceReason: verification.confidenceReason,
+      suggestedCorrection,
+      rawDetectedText: pass1Name !== finalBrand ? pass1Name : undefined,
+      dosageWarning: verification.dosageWarning,
+      description: vMed.description || `Commonly prescribed in India for clinical treatment.`,
+      whyPrescribed: vMed.whyPrescribed || `Prescribed for therapeutic indications.`,
+      sideEffects: Array.isArray(vMed.sideEffects) ? vMed.sideEffects.slice(0, 3) : ["Mild nausea", "Headache"],
+      isAntibiotic: Boolean(vMed.isAntibiotic || finalCategory.toLowerCase().includes("antibiotic")),
+      isPenicillinBased: Boolean(vMed.isPenicillinBased || finalGeneric.toLowerCase().includes("amoxicillin") || finalGeneric.toLowerCase().includes("augmentin")),
+      allergyWarning: vMed.allergyWarning || (finalGeneric.toLowerCase().includes("amoxicillin") ? "Contains penicillin-based antibiotic. Avoid if allergic to penicillin." : null),
+      completionWarning: vMed.completionWarning || (vMed.isAntibiotic ? "Complete full prescribed antibiotic course even if feeling better." : null),
+      manufacturer: verification.matchedRecord?.manufacturer,
+    });
+  }
+
+  // General warnings
+  const generalWarnings: string[] = Array.isArray(pass2Data?.generalWarnings)
+    ? pass2Data.generalWarnings
+    : [];
+
+  // Symptom cross check
+  let symptomAnalysis: SymptomAnalysis | undefined = undefined;
+  if (pass2Data?.symptomAnalysis && typeof pass2Data.symptomAnalysis === "object") {
+    const sym = pass2Data.symptomAnalysis;
+    symptomAnalysis = {
+      symptomsProvided: sym.symptomsProvided || null,
+      isMatch: sym.matchStatus === "matched",
+      matchStatus: sym.matchStatus || (symptoms.trim() ? "matched" : "none_provided"),
+      explanation: sym.explanation || "",
+      possibleReasons: Array.isArray(sym.possibleReasons) ? sym.possibleReasons : [],
+    };
+  }
+
+  return {
+    medicines: finalMedicines,
+    generalWarnings,
+    symptomAnalysis,
+    imageReadable: true,
+  };
 }

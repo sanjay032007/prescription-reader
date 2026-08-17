@@ -1,0 +1,29 @@
+{
+  "validPatterns": ["1-0-0", "0-1-0", "0-0-1", "1-0-1", "1-1-0", "0-1-1", "1-1-1", "1-0-0-1", "1/2-0-1/2", "0-0-1/2", "1/2-0-0", "1-0-0 (OD)", "1-0-1 (BD)", "1-1-1 (TDS)", "0-0-1 (HS)"],
+  "standardDurations": [1, 2, 3, 5, 7, 10, 14, 15, 21, 30, 45, 60, 90],
+  "genericStrengths": {
+    "paracetamol": ["500mg", "650mg", "1000mg"],
+    "amoxicillin": ["125mg", "250mg", "500mg", "625mg", "875mg", "1000mg"],
+    "pantoprazole": ["20mg", "40mg"],
+    "rabeprazole": ["10mg", "20mg"],
+    "omeprazole": ["10mg", "20mg", "40mg"],
+    "cetirizine": ["5mg", "10mg"],
+    "levocetirizine": ["2.5mg", "5mg"],
+    "azithromycin": ["250mg", "500mg"],
+    "metformin": ["250mg", "500mg", "850mg", "1000mg"],
+    "atorvastatin": ["5mg", "10mg", "20mg", "40mg", "80mg"],
+    "rosuvastatin": ["5mg", "10mg", "20mg", "40mg"],
+    "telmisartan": ["20mg", "40mg", "80mg"],
+    "amlodipine": ["2.5mg", "5mg", "10mg"],
+    "cefixime": ["100mg", "200mg", "400mg"],
+    "ciprofloxacin": ["250mg", "500mg", "750mg"],
+    "ofloxacin": ["100mg", "200mg", "400mg"],
+    "ibuprofen": ["200mg", "400mg", "600mg"],
+    "aceclofenac": ["100mg", "200mg"],
+    "diclofenac": ["50mg", "75mg", "100mg"],
+    "calcium": ["500mg", "1000mg", "1250mg"],
+    "thyroxine": ["12.5mcg", "25mcg", "50mcg", "75mcg", "88mcg", "100mcg", "112mcg", "125mcg", "150mcg"],
+    "dextromethorphan": ["5mg", "10mg", "15mg"],
+    "montelukast": ["4mg", "5mg", "10mg"]
+  }
+}

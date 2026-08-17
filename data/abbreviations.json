@@ -1,0 +1,51 @@
+{
+  "prefixes": {
+    "tab": "Tab. (Tablet)",
+    "tab.": "Tab. (Tablet)",
+    "tablet": "Tab. (Tablet)",
+    "cap": "Cap. (Capsule)",
+    "cap.": "Cap. (Capsule)",
+    "capsule": "Cap. (Capsule)",
+    "syp": "Syp. (Syrup)",
+    "syp.": "Syp. (Syrup)",
+    "syrup": "Syp. (Syrup)",
+    "inj": "Inj. (Injection)",
+    "inj.": "Inj. (Injection)",
+    "injection": "Inj. (Injection)",
+    "oint": "Oint. (Ointment)",
+    "oint.": "Oint. (Ointment)",
+    "ointment": "Oint. (Ointment)",
+    "gel": "Gel",
+    "drops": "Drops",
+    "eye drops": "Eye Drops",
+    "ear drops": "Ear Drops"
+  },
+  "frequencies": {
+    "1-0-0": "Once daily (Morning)",
+    "0-1-0": "Once daily (Afternoon)",
+    "0-0-1": "Once daily (Night / Bedtime)",
+    "1-0-1": "Twice daily (Morning & Night)",
+    "1-1-0": "Twice daily (Morning & Afternoon)",
+    "0-1-1": "Twice daily (Afternoon & Night)",
+    "1-1-1": "Thrice daily (Morning, Afternoon & Night)",
+    "1-1-1-1": "Four times daily (QID)",
+    "od": "Once a day (OD)",
+    "bd": "Twice a day (BD)",
+    "bid": "Twice a day (BID)",
+    "tds": "Three times a day (TDS)",
+    "tid": "Three times a day (TID)",
+    "qid": "Four times a day (QID)",
+    "sos": "As needed / when required (SOS)",
+    "hs": "At bedtime (HS)",
+    "stat": "Immediately (STAT / Single dose)"
+  },
+  "timings": {
+    "ac": "Before meals (AC)",
+    "pc": "After meals (PC)",
+    "bbf": "Before breakfast (BBF)",
+    "abf": "After breakfast (ABF)",
+    "hs": "At bedtime / Night",
+    "empty stomach": "On an empty stomach",
+    "with food": "With food / meals"
+  }
+}
