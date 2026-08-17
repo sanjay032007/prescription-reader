@@ -13,7 +13,7 @@ import {
   type PrescriptionResult,
   GeminiError,
 } from "@/lib/gemini";
-import { ArrowLeft, RefreshCw, Info, Shield } from "lucide-react";
+import { ArrowLeft, RefreshCw, Info, Shield, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export default function UploadPage() {
@@ -42,7 +42,7 @@ export default function UploadPage() {
 
   const handleAnalyse = useCallback(async () => {
     if (!file) {
-      setError("Please upload or capture a prescription image first.");
+      setError("Please upload, capture, or select a prescription image first.");
       return;
     }
 
@@ -66,7 +66,7 @@ export default function UploadPage() {
       } else if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("Unable to read the prescription. Please upload a clearer photo.");
+        setError("Unable to read the prescription. Please upload a clearer, well-lit photo.");
       }
     } finally {
       setLoading(false);
@@ -86,11 +86,19 @@ export default function UploadPage() {
   }, [result]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8fafc]">
+    <div className="min-h-screen flex flex-col bg-[#f8fafc] relative overflow-hidden">
+      {/* Top Ambient Glow */}
+      <div 
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[250px] pointer-events-none opacity-50"
+        style={{
+          background: "radial-gradient(ellipse at 50% 0%, rgba(2, 132, 199, 0.1) 0%, transparent 70%)",
+        }}
+      />
+
       <BrandHeader />
 
-      <main className="flex-1 w-full py-8 sm:py-12">
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6">
+      <main className="flex-1 w-full py-8 sm:py-12 z-10">
+        <div className="max-w-[820px] mx-auto px-4 sm:px-6">
           
           {/* Breadcrumb Navigation */}
           <div className="mb-6">
@@ -105,18 +113,21 @@ export default function UploadPage() {
 
           {/* Page Header */}
           <div className="mb-8">
-            <h1 className="text-[28px] sm:text-[34px] font-extrabold tracking-tight text-slate-950">
-              Prescription Studio
+            <div className="inline-flex items-center gap-1.5 text-[12px] font-bold text-[#0284c7] uppercase tracking-wider mb-2">
+              <span>Prescription Studio</span>
+            </div>
+            <h1 className="text-[28px] sm:text-[36px] font-extrabold tracking-tight text-slate-950">
+              Scan &amp; Analyze Prescription
             </h1>
             <p className="mt-2 text-[15px] text-slate-600 leading-relaxed max-w-xl">
               Upload a clear photo or scan your prescription using your camera. We&apos;ll extract the medicines, schedules, and clinical guidance.
             </p>
           </div>
 
-          {/* Main Workspace Card */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 p-5 sm:p-8 shadow-xs mb-8">
+          {/* Main Studio Container */}
+          <div className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-8 shadow-xs mb-8">
             
-            {/* Step 1: Upload Zone */}
+            {/* Upload Area */}
             <div className="mb-6">
               <UploadZone
                 onFileSelected={handleFileSelected}
@@ -126,7 +137,7 @@ export default function UploadPage() {
               />
             </div>
 
-            {/* Step 2: Optional Symptoms Context */}
+            {/* Optional Symptoms Bar */}
             <div className="mb-6">
               <SymptomsInput
                 value={symptoms}
@@ -135,7 +146,7 @@ export default function UploadPage() {
               />
             </div>
 
-            {/* Error Banner with Quick Reset */}
+            {/* Error Notification */}
             {error && (
               <div className="mb-6">
                 <ErrorCard message={error} />
@@ -150,7 +161,7 @@ export default function UploadPage() {
               </div>
             )}
 
-            {/* Step 3: Action Button */}
+            {/* Analyze Action */}
             <div>
               <AnalyseButton
                 onClick={handleAnalyse}
@@ -159,7 +170,7 @@ export default function UploadPage() {
               />
             </div>
 
-            {/* Quality Tips */}
+            {/* Guidance Tips */}
             {!result && !loading && (
               <div className="mt-8 pt-6 border-t border-slate-100">
                 <div className="flex items-center gap-1.5 text-[12px] font-bold text-slate-400 uppercase tracking-wider mb-2.5">
@@ -167,13 +178,13 @@ export default function UploadPage() {
                   <span>Tips for best accuracy</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-[13px] text-slate-600">
-                  <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-100/80">
                     📸 <strong>Lighting:</strong> Ensure even light without strong glares or shadows.
                   </div>
-                  <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-100/80">
                     🔍 <strong>Framing:</strong> Capture the full prescription sheet flat in frame.
                   </div>
-                  <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-100/80">
                     ✍️ <strong>Text:</strong> Printed prescriptions or clear handwriting yield best results.
                   </div>
                 </div>
