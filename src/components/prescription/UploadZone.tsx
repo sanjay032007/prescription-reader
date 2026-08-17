@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, type DragEvent, type ChangeEvent } from "react";
-import { Camera, Image as ImageIcon, Cloud, FileText, Sparkles } from "lucide-react";
+import { FileText, Sparkles, Camera, Image as ImageIcon, Cloud, ScanLine } from "lucide-react";
 import LiveCameraScanner from "./LiveCameraScanner";
 
 interface UploadZoneProps {
@@ -11,13 +11,13 @@ interface UploadZoneProps {
   disabled?: boolean;
 }
 
-const MAX_BYTES = 10 * 1024 * 1024;
+const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
 
 export default function UploadZone({
   onFileSelected,
   fileName,
   previewUrl,
-  disabled,
+  disabled = false,
 }: UploadZoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
@@ -73,14 +73,14 @@ export default function UploadZone({
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, 1600, 2262);
 
-        // Doctor header matching screenshot
+        // Header - Generic Medical Center (Zero doctor names)
         ctx.fillStyle = "#0f172a";
         ctx.font = "bold 44px sans-serif";
-        ctx.fillText("Dr. Ramesh Kumar", 120, 140);
+        ctx.fillText("CENTRAL CLINICAL HEALTHCARE", 120, 140);
         ctx.fillStyle = "#64748b";
         ctx.font = "500 24px sans-serif";
-        ctx.fillText("MBBS, MD (General Medicine)", 120, 185);
-        ctx.fillText("Reg. No. 12345", 120, 225);
+        ctx.fillText("Department of Internal Medicine", 120, 185);
+        ctx.fillText("Reg. #MH-48921-A · Outpatient Care", 120, 225);
 
         ctx.textAlign = "right";
         ctx.fillText("Date: 14/05/2024", 1480, 140);
@@ -93,7 +93,7 @@ export default function UploadZone({
         ctx.lineTo(1480, 260);
         ctx.stroke();
 
-        ctx.fillStyle = "#0f172a";
+        ctx.fillStyle = "#0284c7";
         ctx.font = "italic bold 100px Georgia, serif";
         ctx.fillText("℞", 120, 390);
 
@@ -106,14 +106,15 @@ export default function UploadZone({
 
         ctx.textAlign = "right";
         ctx.font = "italic bold 48px cursive";
-        ctx.fillText("Ramesh", 1450, 1150);
+        ctx.fillStyle = "#1e293b";
+        ctx.fillText("Medical Officer", 1450, 1150);
         ctx.font = "bold 22px sans-serif";
         ctx.fillStyle = "#64748b";
-        ctx.fillText("Dr. Ramesh Kumar", 1450, 1190);
+        ctx.fillText("Authorized Practitioner Signature", 1450, 1190);
 
         canvas.toBlob((blob) => {
           if (blob) {
-            onFileSelected(new File([blob], "sample_ramesh_prescription.jpg", { type: "image/jpeg" }));
+            onFileSelected(new File([blob], "sample_prescription.jpg", { type: "image/jpeg" }));
           }
           setIsGeneratingSample(false);
         }, "image/jpeg", 0.95);
@@ -142,11 +143,11 @@ export default function UploadZone({
 
       {previewUrl && fileName ? (
         <div className="rounded-2xl border border-slate-200/90 overflow-hidden bg-slate-50/50 shadow-2xs">
-          <div className="relative p-2 bg-white flex items-center justify-center">
+          <div className="relative p-3 bg-white flex items-center justify-center min-h-[220px]">
             <img
               src={previewUrl}
               alt="Prescription preview"
-              className="max-h-[260px] sm:max-h-[320px] w-auto object-contain rounded-lg"
+              className="max-h-[260px] sm:max-h-[320px] w-auto object-contain rounded-xl shadow-xs"
             />
           </div>
 
@@ -162,14 +163,14 @@ export default function UploadZone({
               <button
                 type="button"
                 onClick={() => setIsScannerOpen(true)}
-                className="text-[12.5px] font-semibold text-slate-600 hover:text-slate-950 px-2.5 py-1 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+                className="text-[12.5px] font-semibold text-slate-600 hover:text-slate-950 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 Rescan
               </button>
               <button
                 type="button"
                 onClick={triggerBrowse}
-                className="text-[12.5px] font-semibold text-[#0284c7] hover:text-[#0369a1] px-2.5 py-1 rounded-lg hover:bg-sky-50 transition-colors cursor-pointer"
+                className="text-[12.5px] font-semibold text-[#0284c7] hover:text-[#0369a1] px-3 py-1.5 rounded-lg hover:bg-sky-50 transition-colors cursor-pointer"
               >
                 Change photo
               </button>
@@ -187,20 +188,20 @@ export default function UploadZone({
           onDragLeave={onDragLeave}
           className={`rounded-2xl p-7 sm:p-10 text-center cursor-pointer transition-all border-2 border-dashed ${
             dragOver
-              ? "border-[#0284c7] bg-sky-50/60"
-              : "border-slate-300/90 bg-white hover:border-slate-400 hover:bg-slate-50/40"
+              ? "border-[#0284c7] bg-sky-50/60 shadow-md"
+              : "border-slate-300 bg-white hover:border-slate-400 hover:bg-slate-50/40"
           }`}
         >
           {/* Cloud Upload Icon */}
-          <div className="w-12 h-12 rounded-full bg-sky-50 border border-sky-100 flex items-center justify-center mx-auto mb-3 text-[#0284c7]">
-            <Cloud className="w-6 h-6" />
+          <div className="w-14 h-14 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center mx-auto mb-3.5 text-[#0284c7] shadow-2xs">
+            <Cloud className="w-7 h-7" />
           </div>
 
-          <p className="text-[15px] sm:text-[16px] font-bold text-slate-800 mb-1">
+          <p className="text-[16px] sm:text-[17px] font-extrabold text-slate-900 mb-1">
             Drop prescription here
           </p>
-          <p className="text-[13px] text-slate-400 font-medium mb-4">
-            or
+          <p className="text-[13px] text-slate-400 font-medium mb-5">
+            or choose an option below
           </p>
 
           {/* Action Buttons Row */}
@@ -211,9 +212,9 @@ export default function UploadZone({
                 e.stopPropagation();
                 setIsScannerOpen(true);
               }}
-              className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#0c1e3d] text-white text-[13.5px] font-semibold hover:bg-[#162a4d] transition-colors shadow-2xs cursor-pointer"
+              className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#0c1e3d] text-white text-[13.5px] font-semibold hover:bg-[#162a4d] transition-all shadow-sm cursor-pointer"
             >
-              <Camera size={15} />
+              <Camera size={16} />
               <span>Take a photo</span>
             </button>
 
@@ -223,15 +224,15 @@ export default function UploadZone({
                 e.stopPropagation();
                 triggerBrowse();
               }}
-              className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-700 text-[13.5px] font-semibold hover:bg-slate-50 transition-colors shadow-2xs cursor-pointer"
+              className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white text-slate-700 text-[13.5px] font-semibold hover:bg-slate-50 transition-all shadow-2xs cursor-pointer"
             >
-              <ImageIcon size={15} className="text-slate-500" />
+              <ImageIcon size={16} className="text-slate-500" />
               <span>Choose from device</span>
             </button>
           </div>
 
           {/* Sample Prescription Helper */}
-          <div className="mt-4">
+          <div className="mt-5">
             <button
               type="button"
               disabled={isGeneratingSample}

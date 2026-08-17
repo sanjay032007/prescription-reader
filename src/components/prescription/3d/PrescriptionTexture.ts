@@ -41,7 +41,7 @@ export function createPaperBumpTexture(size = 1024): THREE.CanvasTexture {
 
 /**
  * Photorealistic Clean Medical Prescription Texture.
- * Designed with a modern, elegant, editorial clinic aesthetic.
+ * Generic clinical aesthetic without doctor names.
  */
 export function createPrescriptionCanvasTexture(
   options: PrescriptionTextureOptions = {}
@@ -69,7 +69,7 @@ export function createPrescriptionCanvasTexture(
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, width, height);
 
-  // Very subtle light blue watermark seal in background center
+  // Subtle clean watermark seal in background center
   ctx.save();
   ctx.translate(width / 2, height / 2 + 100);
   ctx.strokeStyle = "rgba(74, 144, 217, 0.035)";
@@ -92,7 +92,6 @@ export function createPrescriptionCanvasTexture(
   ctx.strokeRect(40, 40, width - 80, height - 80);
 
   // 2. Minimalist Clinic Header
-  // Clean Medical Cross Icon
   ctx.save();
   ctx.translate(110, 130);
   ctx.fillStyle = "#0284c7";
@@ -105,21 +104,20 @@ export function createPrescriptionCanvasTexture(
   ctx.fillRect(-20, -6, 40, 12);
   ctx.restore();
 
-  // Clinic & Doctor Name
   ctx.textAlign = "left";
   ctx.textBaseline = "alphabetic";
 
   ctx.fillStyle = "#0a1628";
   ctx.font = "bold 52px 'DM Sans', system-ui, -apple-system, sans-serif";
-  ctx.fillText("CITY HEALTH MEDICAL CLINIC", 175, 125);
+  ctx.fillText("CENTRAL MEDICAL CLINIC", 175, 125);
 
   ctx.fillStyle = "#0284c7";
   ctx.font = "600 28px 'DM Sans', system-ui, sans-serif";
-  ctx.fillText("Dr. Anita Sharma", 175, 168);
+  ctx.fillText("Department of Internal Medicine", 175, 168);
 
   ctx.fillStyle = "#475569";
   ctx.font = "500 24px 'DM Sans', system-ui, sans-serif";
-  ctx.fillText("MBBS, MD · Senior Consultant Physician · Reg. No: 48921-A", 175, 204);
+  ctx.fillText("Senior Clinical Practice · Reg. No: MH-48921-A", 175, 204);
 
   // Clinic Address & Contact (Top Right)
   ctx.textAlign = "right";
@@ -127,10 +125,10 @@ export function createPrescriptionCanvasTexture(
   ctx.font = "500 22px 'DM Sans', system-ui, sans-serif";
   ctx.fillText("104 Medical Plaza, Suite 400", width - 96, 122);
   ctx.fillText("Tel: +1 (555) 019-2834", width - 96, 158);
-  ctx.fillText("appointments@cityhealth.org", width - 96, 194);
+  ctx.fillText("info@centralclinic.org", width - 96, 194);
   ctx.textAlign = "left";
 
-  // Ultra-Clean Cyan-Navy Hairline Divider
+  // Divider
   const headerLine = ctx.createLinearGradient(96, 235, width - 96, 235);
   headerLine.addColorStop(0, "#0284c7");
   headerLine.addColorStop(0.6, "#4a90d9");
@@ -138,7 +136,7 @@ export function createPrescriptionCanvasTexture(
   ctx.fillStyle = headerLine;
   ctx.fillRect(96, 235, width - 192, 4);
 
-  // 3. Patient Information Bar (Minimalist clean row)
+  // 3. Patient Information Bar
   ctx.fillStyle = "#f8fafc";
   ctx.fillRect(96, 260, width - 192, 90);
   ctx.strokeStyle = "#e2e8f0";
@@ -152,10 +150,9 @@ export function createPrescriptionCanvasTexture(
   ctx.fillText("Date:", 1220, 315);
   ctx.fillText("Rx #:", 1640, 315);
 
-  // Handwritten blue ink data
   ctx.fillStyle = "#0f3460";
   ctx.font = "700 32px 'Caveat', cursive, Georgia, serif";
-  ctx.fillText("Johnathan Doe", 225, 315);
+  ctx.fillText("Patient Record", 225, 315);
   ctx.fillText("38 Y / M", 900, 315);
   ctx.fillText("16 Aug 2026", 1300, 315);
   ctx.fillText("48921-A", 1720, 315);
@@ -165,7 +162,6 @@ export function createPrescriptionCanvasTexture(
   ctx.font = "italic 800 130px 'Playfair Display', Georgia, serif";
   ctx.fillText("℞", 100, 480);
 
-  // Subtle clean horizontal rule lines for writing
   ctx.strokeStyle = "#f1f5f9";
   ctx.lineWidth = 1.5;
   for (let y = 540; y <= 1960; y += 105) {
@@ -175,7 +171,7 @@ export function createPrescriptionCanvasTexture(
     ctx.stroke();
   }
 
-  // 5. Prescribed Medications (Clean, Deep Medical Blue Handwriting)
+  // 5. Prescribed Medications
   const medEntries = [
     {
       num: "1.",
@@ -209,27 +205,22 @@ export function createPrescriptionCanvasTexture(
 
   let currentY = 600;
   medEntries.forEach((med) => {
-    // Number
     ctx.fillStyle = "#0284c7";
     ctx.font = "bold 32px 'DM Sans', system-ui, sans-serif";
     ctx.fillText(med.num, 115, currentY);
 
-    // Medicine Name in Clean Medical Script
     ctx.fillStyle = "#0f3460";
     ctx.font = "700 46px 'Caveat', 'Kalam', cursive, sans-serif";
     ctx.fillText(med.name, 170, currentY);
 
-    // Dosage Frequency (1-1-1) in clean bold mono
     ctx.fillStyle = "#0a1628";
     ctx.font = "bold 36px 'DM Sans', monospace";
     ctx.fillText(med.dosage, width - 420, currentY);
 
-    // Timing & Duration subline
     ctx.fillStyle = "#2563eb";
     ctx.font = "600 28px 'Caveat', cursive, sans-serif";
     ctx.fillText(`(${med.timing})`, width - 820, currentY);
 
-    // Clinical note
     ctx.fillStyle = "#64748b";
     ctx.font = "italic 24px 'DM Sans', system-ui, sans-serif";
     ctx.fillText(`↳ Note: ${med.advice}`, 170, currentY + 44);
@@ -237,7 +228,7 @@ export function createPrescriptionCanvasTexture(
     currentY += 150;
   });
 
-  // 6. Physician Instructions Box (Minimal & Clean)
+  // 6. Clinical Instructions Box
   const adviceY = currentY + 40;
   ctx.fillStyle = "#f8fafc";
   ctx.fillRect(96, adviceY, width - 192, 130);
@@ -247,14 +238,14 @@ export function createPrescriptionCanvasTexture(
 
   ctx.fillStyle = "#0a1628";
   ctx.font = "bold 24px 'DM Sans', system-ui, sans-serif";
-  ctx.fillText("Physician Instructions & General Advice:", 125, adviceY + 42);
+  ctx.fillText("Clinical Instructions & General Advice:", 125, adviceY + 42);
 
   ctx.fillStyle = "#475569";
   ctx.font = "500 22px 'DM Sans', system-ui, sans-serif";
-  ctx.fillText("• Drink plenty of warm water and ensure adequate rest.", 135, adviceY + 78);
-  ctx.fillText("• Review in clinic if fever or symptoms persist after 5 days.", 135, adviceY + 110);
+  ctx.fillText("• Drink plenty of warm fluids and ensure adequate rest.", 135, adviceY + 78);
+  ctx.fillText("• Follow up in clinic if fever or symptoms persist after 5 days.", 135, adviceY + 110);
 
-  // 7. Official Clinic Seal Stamp (Soft Cyan-Indigo Ink)
+  // 7. Official Clinic Seal Stamp
   const stampX = 300;
   const stampY = height - 380;
 
@@ -276,22 +267,22 @@ export function createPrescriptionCanvasTexture(
   ctx.fillStyle = "rgba(2, 132, 199, 0.85)";
   ctx.font = "bold 16px 'DM Sans', system-ui, sans-serif";
   ctx.textAlign = "center";
-  ctx.fillText("CITY HEALTH CLINIC", 0, -48);
+  ctx.fillText("CENTRAL CLINIC", 0, -48);
   ctx.font = "bold 24px 'DM Sans', system-ui, sans-serif";
-  ctx.fillText("VERIFIED", 0, -10);
+  ctx.fillText("VERIFIED RX", 0, -10);
   ctx.font = "bold 16px 'DM Sans', system-ui, sans-serif";
-  ctx.fillText("DR. ANITA SHARMA", 0, 24);
+  ctx.fillText("CLINICAL PRACTICE", 0, 24);
   ctx.font = "bold 14px monospace";
   ctx.fillText("REG NO: 48921-A", 0, 50);
   ctx.restore();
 
-  // 8. Doctor's Signature (Fluid Dark Blue Cursive)
+  // 8. Authorized Practitioner Signature
   const sigX = width - 540;
   const sigY = height - 400;
 
   ctx.fillStyle = "#0f3460";
   ctx.font = "700 68px 'Caveat', cursive, Georgia, serif";
-  ctx.fillText("Dr. Anita Sharma", sigX + 20, sigY + 50);
+  ctx.fillText("Medical Officer", sigX + 20, sigY + 50);
 
   ctx.strokeStyle = "#0f3460";
   ctx.lineWidth = 2.5;
@@ -302,7 +293,7 @@ export function createPrescriptionCanvasTexture(
 
   ctx.fillStyle = "#64748b";
   ctx.font = "600 22px 'DM Sans', system-ui, sans-serif";
-  ctx.fillText("Authorized Physician Signature", sigX + 35, sigY + 115);
+  ctx.fillText("Authorized Practitioner Signature", sigX + 35, sigY + 115);
 
   // 9. Minimal Footer Bar
   ctx.fillStyle = "#f8fafc";

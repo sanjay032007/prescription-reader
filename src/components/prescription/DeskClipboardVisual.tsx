@@ -4,14 +4,12 @@ export default function DeskClipboardVisual() {
   return (
     <div className="relative w-full max-w-[560px] mx-auto select-none">
       
-      {/* Top Right Decorative Plant in Ceramic Pot */}
+      {/* Top Right Decorative Ceramic Plant */}
       <div className="absolute -top-6 -right-6 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-emerald-50 border-4 border-white shadow-md z-0 overflow-hidden flex items-center justify-center pointer-events-none opacity-90 sm:opacity-100">
         <div className="relative w-full h-full bg-gradient-to-br from-white to-slate-100 rounded-full flex items-center justify-center p-2">
-          {/* Leaves SVG */}
-          <svg viewBox="0 0 100 100" className="w-full h-full text-emerald-800 drop-shadow-sm">
+          <svg viewBox="0 0 100 100" className="w-full h-full text-emerald-800 drop-shadow-xs">
             <ellipse cx="50" cy="50" rx="36" ry="36" fill="#e2e8f0" />
             <ellipse cx="50" cy="50" rx="30" ry="30" fill="#2d3748" opacity="0.1" />
-            {/* Succulent Leaves */}
             <path d="M50 15 Q60 35 50 50 Q40 35 50 15Z" fill="#15803d" />
             <path d="M50 85 Q60 65 50 50 Q40 65 50 85Z" fill="#166534" />
             <path d="M15 50 Q35 60 50 50 Q35 40 15 50Z" fill="#15803d" />
@@ -44,19 +42,19 @@ export default function DeskClipboardVisual() {
           <div>
             <div className="flex justify-between items-start text-left border-b border-slate-100 pb-3">
               <div>
-                <h4 className="text-[13px] sm:text-[14px] font-bold text-slate-900 leading-tight">
-                  Dr. Ramesh Kumar
+                <h4 className="text-[13px] sm:text-[14px] font-extrabold text-slate-900 leading-tight uppercase tracking-wide">
+                  Central Health Clinic
                 </h4>
-                <p className="text-[10.5px] sm:text-[11px] text-slate-500 font-medium leading-tight mt-0.5">
-                  MBBS, MD (General Medicine)
+                <p className="text-[10.5px] sm:text-[11px] text-slate-500 font-semibold leading-tight mt-0.5">
+                  Department of Internal Medicine
                 </p>
                 <p className="text-[10px] text-slate-400 font-medium">
-                  Reg. No. 12345
+                  Reg. #MH-48921-A &bull; OP Clinic
                 </p>
               </div>
 
               <div className="text-right">
-                <span className="text-[11px] font-medium text-slate-600">
+                <span className="text-[11px] font-semibold text-slate-600">
                   Date: 14/05/2024
                 </span>
               </div>
@@ -64,7 +62,7 @@ export default function DeskClipboardVisual() {
 
             {/* Rx Symbol */}
             <div className="mt-3 text-left">
-              <span className="font-serif font-bold text-[28px] italic text-slate-900 leading-none">
+              <span className="font-serif font-bold text-[28px] italic text-[#0284c7] leading-none">
                 ℞
               </span>
             </div>
@@ -103,26 +101,23 @@ export default function DeskClipboardVisual() {
             </div>
           </div>
 
-          {/* Doctor Signature at Bottom Right */}
+          {/* Clinical Stamp & Signature at Bottom Right */}
           <div className="flex flex-col items-end text-right pt-4 border-t border-slate-100">
             <div className="font-handwriting text-[24px] sm:text-[28px] font-bold text-slate-800 leading-none pr-3">
-              Ramesh
+              Clinician
             </div>
-            <div className="text-[11px] font-medium text-slate-700 mt-1">
-              Dr. Ramesh Kumar
+            <div className="text-[11px] font-semibold text-slate-600 mt-1">
+              Authorized Medical Officer
             </div>
           </div>
 
         </div>
       </div>
 
-      {/* Black Metallic Executive Pen Resting on the Right */}
+      {/* Black Metallic Executive Pen */}
       <div className="absolute -bottom-4 right-1 sm:-right-6 w-3.5 h-44 sm:h-52 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-950 rounded-full shadow-lg transform rotate-[-12deg] z-20 pointer-events-none hidden sm:block border-t border-slate-700">
-        {/* Silver Pen Clip */}
         <div className="absolute top-4 left-0 w-1.5 h-14 bg-gradient-to-r from-slate-200 to-slate-400 rounded-sm shadow-xs" />
-        {/* Silver Band */}
         <div className="absolute top-20 left-0 w-full h-2 bg-slate-300" />
-        {/* Silver Nib Tip */}
         <div className="absolute bottom-0 left-0 w-full h-4 bg-slate-300 rounded-b-full" />
       </div>
 
