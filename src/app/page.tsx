@@ -1,112 +1,293 @@
 "use client";
 
-import Link from "next/link";
-import dynamic from "next/dynamic";
+import { useState, useCallback, useMemo, useRef } from "react";
 import BrandHeader from "@/components/prescription/BrandHeader";
-import Hero3DFallback from "@/components/prescription/Hero3DFallback";
-import { ArrowRight, ShieldCheck, Clock, CheckCircle2, ScanLine, Sparkles } from "lucide-react";
-
-const Hero3D = dynamic(() => import("@/components/prescription/Hero3D"), {
-  ssr: false,
-  loading: () => <Hero3DFallback />,
-});
+import DeskClipboardVisual from "@/components/prescription/DeskClipboardVisual";
+import UploadZone from "@/components/prescription/UploadZone";
+import SymptomsInput from "@/components/prescription/SymptomsInput";
+import AnalyseButton from "@/components/prescription/AnalyseButton";
+import ResultsSection from "@/components/prescription/ResultsSection";
+import ErrorCard from "@/components/prescription/ErrorCard";
+import {
+  analysePrescription,
+  toBase64,
+  type PrescriptionResult,
+  GeminiError,
+} from "@/lib/gemini";
+import {
+  Upload,
+  Lock,
+  Shield,
+  Zap,
+  RefreshCw,
+  ArrowRight,
+  ShieldCheck,
+} from "lucide-react";
 
 export default function Home() {
-  return (
-    <div className="min-h-screen flex flex-col justify-between bg-[#f8fafc] relative overflow-hidden">
-      {/* Top Ambient Glow */}
-      <div 
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] pointer-events-none opacity-60"
-        style={{
-          background: "radial-gradient(ellipse at 50% 0%, rgba(2, 132, 199, 0.12) 0%, rgba(99, 102, 241, 0.04) 50%, transparent 80%)",
-        }}
-      />
+  const [file, setFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [symptoms, setSymptoms] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<PrescriptionResult | null>(null);
 
+  const studioRef = useRef<HTMLDivElement>(null);
+
+  const scrollToStudio = () => {
+    studioRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleFileSelected = useCallback((selected: File) => {
+    setFile(selected);
+    setError(null);
+    setResult(null);
+    const url = URL.createObjectURL(selected);
+    setPreviewUrl(url);
+  }, []);
+
+  const handleReset = useCallback(() => {
+    setFile(null);
+    setPreviewUrl(null);
+    setSymptoms("");
+    setError(null);
+    setResult(null);
+  }, []);
+
+  const handleAnalyse = useCallback(async () => {
+    if (!file) {
+      setError("Please select or capture a prescription image first.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setResult(null);
+
+    try {
+      const base64 = await toBase64(file);
+      const mimeType = file.type || "image/jpeg";
+      const data = await analysePrescription(base64, mimeType, symptoms);
+      setResult(data);
+
+      setTimeout(() => {
+        const el = document.getElementById("results-breakdown");
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 200);
+    } catch (err) {
+      if (err instanceof GeminiError) {
+        setError(err.message);
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Unable to read prescription. Please upload a clear photo.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [file, symptoms]);
+
+  const allergyWarningMessage = useMemo(() => {
+    if (!result) return null;
+    const penMed = result.medicines.find(
+      (m) => m.isPenicillinBased || m.allergyWarning
+    );
+    if (!penMed) return null;
+    return (
+      penMed.allergyWarning ||
+      "This prescription contains penicillin-based antibiotics. Inform your doctor if you have an allergy."
+    );
+  }, [result]);
+
+  return (
+    <div className="min-h-screen flex flex-col bg-[#fcfdfd]">
       <BrandHeader />
 
-      <main className="flex-1 w-full flex items-center py-8 sm:py-14 z-10">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+      {/* ============================================================ */}
+      {/* 1. TOP HERO BANNER (Warm Wooden Desk Surface Background)     */}
+      {/* ============================================================ */}
+      <section className="w-full desk-surface border-b border-[#e5ded4] py-12 sm:py-16 lg:py-20 overflow-hidden">
+        <div className="max-w-[1360px] mx-auto px-6 sm:px-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             
-            {/* Left Column — Text & CTAs */}
+            {/* Left Hero Content */}
             <div className="lg:col-span-6 flex flex-col items-start text-left">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 shadow-2xs text-[12.5px] font-semibold text-slate-700 mb-6">
-                <span className="w-2 h-2 rounded-full bg-[#0284c7] animate-pulse" />
-                <span className="text-[#0284c7]">Clinical Intelligence</span>
-                <span className="text-slate-300">|</span>
-                <span className="text-slate-500 font-normal">Instant Pharmacopeia OCR</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#eaf4fd] text-[#0284c7] text-[11px] font-extrabold uppercase tracking-widest mb-6">
+                <span>Clinical Intelligence</span>
               </div>
 
-              {/* Headline */}
-              <h1 className="text-[38px] sm:text-[50px] lg:text-[56px] font-extrabold tracking-tight text-slate-950 leading-[1.08] mb-5">
-                Understand your prescription with clinical clarity.
+              {/* Serif Headline matching reference */}
+              <h1 className="font-serif-heading text-[42px] sm:text-[54px] lg:text-[62px] font-extrabold text-slate-950 tracking-tight leading-[1.08] mb-5">
+                Make your<br />
+                prescription<br />
+                easier to read.
               </h1>
 
               {/* Subtitle */}
-              <p className="text-[16px] sm:text-[18px] text-slate-600 font-normal leading-relaxed max-w-[500px] mb-8">
-                Upload or scan a photo of your doctor&apos;s handwritten prescription. 
-                Get an instant, structured breakdown of active salts, daily dosage timelines, and essential safety warnings.
+              <p className="text-[16px] sm:text-[17px] text-slate-600 font-normal leading-relaxed max-w-[480px] mb-8">
+                Upload a photo of your doctor&apos;s prescription. We&apos;ll organize the medicines, strengths and instructions into a clearer format.
               </p>
 
-              {/* Action Button Row */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full sm:w-auto mb-10">
-                <Link
-                  href="/upload"
-                  className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-white text-[15px] font-semibold shadow-xs hover:shadow transition-all group cursor-pointer"
-                >
-                  <ScanLine size={17} className="text-sky-400 group-hover:scale-110 transition-transform" />
-                  <span>Scan &amp; Upload Prescription</span>
-                  <ArrowRight size={16} className="opacity-80 group-hover:translate-x-0.5 transition-transform" />
-                </Link>
-              </div>
+              {/* Upload Prescription Button */}
+              <button
+                type="button"
+                onClick={scrollToStudio}
+                className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-lg bg-[#0c1e3d] hover:bg-[#162a4d] text-white text-[15px] font-semibold transition-all shadow-sm cursor-pointer mb-6"
+              >
+                <Upload size={17} />
+                <span>Upload Prescription</span>
+              </button>
 
-              {/* Trust Indicators */}
-              <div className="flex flex-wrap items-center gap-y-2 gap-x-6 text-[13px] font-medium text-slate-500 pt-2 border-t border-slate-200/60 w-full">
+              {/* Specs & Privacy Note */}
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[13px] text-slate-500 font-medium">
                 <span className="inline-flex items-center gap-1.5">
-                  <ShieldCheck size={16} className="text-emerald-600" />
-                  100% Private &amp; Encrypted
+                  <Lock size={13} className="text-slate-400" />
+                  Private processing
                 </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <CheckCircle2 size={16} className="text-[#0284c7]" />
-                  Zero Hallucinations
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <Clock size={16} className="text-indigo-600" />
-                  Instant Results
-                </span>
+                <span className="text-slate-300">&bull;</span>
+                <span>JPG, PNG, WEBP</span>
+                <span className="text-slate-300">&bull;</span>
+                <span>Up to 10 MB</span>
               </div>
             </div>
 
-            {/* Right Column — 3D Interactive Canvas */}
-            <div className="lg:col-span-6 flex flex-col items-center justify-center">
-              <div className="w-full max-w-[500px] bg-white/90 backdrop-blur-md rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-sm relative overflow-hidden group">
-                <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-100 text-[12px] text-slate-400 font-medium">
-                  <span className="flex items-center gap-1.5 text-slate-700 font-semibold">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    Interactive 3D Preview
-                  </span>
-                  <span className="font-mono text-[11px] text-slate-400">Dr. Anita Sharma Rx</span>
-                </div>
-
-                <div className="w-full flex items-center justify-center">
-                  <Hero3D />
-                </div>
-
-                <div className="pt-2 text-center text-[12px] text-slate-400 font-medium flex items-center justify-center gap-1.5">
-                  <Sparkles size={12} className="text-amber-500" />
-                  <span>Move cursor or swipe to rotate in 3D space</span>
-                </div>
-              </div>
+            {/* Right Hero Desk Clipboard Visual */}
+            <div className="lg:col-span-6 flex items-center justify-center pt-4 lg:pt-0">
+              <DeskClipboardVisual />
             </div>
 
           </div>
         </div>
-      </main>
+      </section>
 
-      {/* Minimal Bottom Footer Bar */}
-      <footer className="w-full py-5 border-t border-slate-200/60 text-center text-[12px] text-slate-400 font-medium bg-white/50 backdrop-blur-xs z-10">
-        Prescription Reader · Clinical information system · Always consult your physician for medical decisions
+      {/* ============================================================ */}
+      {/* 2. PRESCRIPTION STUDIO & DATA SAFETY SECTION                 */}
+      {/* ============================================================ */}
+      <section id="studio-section" ref={studioRef} className="w-full py-12 sm:py-16 bg-[#fcfdfd]">
+        <div className="max-w-[1360px] mx-auto px-6 sm:px-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            {/* Left Column: Upload Studio Box */}
+            <div className="lg:col-span-8 flex flex-col">
+              <div className="mb-4">
+                <span className="text-[11.5px] font-extrabold uppercase tracking-widest text-[#0284c7] block mb-1">
+                  Prescription Studio
+                </span>
+                <h2 className="font-serif-heading text-[26px] sm:text-[30px] font-extrabold text-slate-950 tracking-tight">
+                  Upload Prescription
+                </h2>
+                <p className="text-[14.5px] text-slate-500 mt-1">
+                  Upload a clear photo of your prescription.
+                </p>
+              </div>
+
+              {/* Dashed Dropzone */}
+              <div className="bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-6 shadow-2xs">
+                <UploadZone
+                  onFileSelected={handleFileSelected}
+                  fileName={file?.name}
+                  previewUrl={previewUrl}
+                  disabled={loading}
+                />
+
+                {/* Optional Symptoms Bar */}
+                {file && (
+                  <div className="mt-5 pt-4 border-t border-slate-100">
+                    <SymptomsInput
+                      value={symptoms}
+                      onChange={setSymptoms}
+                      disabled={loading}
+                    />
+                  </div>
+                )}
+
+                {/* Error Banner */}
+                {error && (
+                  <div className="mt-4">
+                    <ErrorCard message={error} />
+                    <button
+                      type="button"
+                      onClick={handleReset}
+                      className="mt-2 text-[12.5px] font-semibold text-[#0284c7] hover:underline flex items-center gap-1 cursor-pointer"
+                    >
+                      <RefreshCw size={12} />
+                      <span>Try another photo</span>
+                    </button>
+                  </div>
+                )}
+
+                {/* Analyse Action Button */}
+                {file && (
+                  <div className="mt-5">
+                    <AnalyseButton
+                      onClick={handleAnalyse}
+                      isLoading={loading}
+                      disabled={!file}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Right Column: "Your data is safe" Card */}
+            <div className="lg:col-span-4 flex flex-col">
+              <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-7 shadow-2xs">
+                
+                {/* Shield Icon Badge */}
+                <div className="w-12 h-12 rounded-full bg-[#f0f7fe] flex items-center justify-center text-[#0284c7] mb-4">
+                  <Shield size={22} />
+                </div>
+
+                {/* Heading */}
+                <h3 className="text-[17px] font-bold text-slate-950 mb-2">
+                  Your data is safe
+                </h3>
+
+                {/* Description */}
+                <p className="text-[13.5px] text-slate-600 leading-relaxed mb-6">
+                  We don&apos;t store your images or data. Everything is processed securely and privately.
+                </p>
+
+                {/* Bullet Points */}
+                <div className="space-y-4 pt-5 border-t border-slate-100 text-[13.5px] font-medium text-slate-700">
+                  <div className="flex items-center gap-3">
+                    <Lock size={16} className="text-[#0284c7] shrink-0" />
+                    <span>100% Private &amp; Encrypted</span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <ShieldCheck size={16} className="text-[#0284c7] shrink-0" />
+                    <span>No Data Stored</span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <Zap size={16} className="text-[#0284c7] shrink-0" />
+                    <span>Instant Results</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          {/* ============================================================ */}
+          {/* 3. MULTI-LAYER VERIFIED RESULTS BREAKDOWN                    */}
+          {/* ============================================================ */}
+          <div className="mt-6">
+            <ResultsSection
+              result={result}
+              allergyWarningMessage={allergyWarningMessage}
+            />
+          </div>
+
+        </div>
+      </section>
+
+      {/* Minimal Footer */}
+      <footer className="w-full py-6 border-t border-slate-200/70 text-center text-[12px] text-slate-400 font-medium bg-white">
+        Prescription Reader &bull; Clinical information system &bull; Always follow the advice of your qualified medical provider
       </footer>
     </div>
   );

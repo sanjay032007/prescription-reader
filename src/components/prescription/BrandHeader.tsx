@@ -1,55 +1,48 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ArrowRight, FileText, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function BrandHeader() {
-  const pathname = usePathname();
-
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-colors">
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Brand Logo & Name */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center text-white shadow-xs group-hover:bg-[#0284c7] transition-colors">
-            <span className="font-serif font-bold text-[18px] italic leading-none">℞</span>
+    <header className="w-full bg-white border-b border-slate-200/80 sticky top-0 z-50">
+      <div className="max-w-[1360px] mx-auto px-6 sm:px-10 h-20 flex items-center justify-between">
+        
+        {/* Brand Logo & Tagline */}
+        <Link href="/" className="flex items-center gap-3.5 group">
+          <div className="w-10 h-10 rounded-lg bg-[#0c1e3d] flex items-center justify-center text-white shadow-xs group-hover:bg-[#162a4d] transition-colors">
+            <span className="font-serif font-bold text-[20px] italic leading-none tracking-tight">
+              ℞
+            </span>
           </div>
           <div className="flex flex-col">
-            <span className="text-[15px] font-bold text-slate-900 tracking-tight leading-tight group-hover:text-[#0284c7] transition-colors">
+            <span className="font-serif-heading text-[19px] font-bold text-slate-950 tracking-tight leading-tight">
               Prescription Reader
             </span>
-            <span className="text-[11px] font-medium text-slate-400">
-              Clinical Intelligence
+            <span className="text-[12px] font-medium text-slate-500 tracking-normal mt-0.5">
+              Read &bull; Organize &bull; Verify
             </span>
           </div>
         </Link>
 
-        {/* Navigation & Action */}
-        <nav className="flex items-center gap-2 sm:gap-4">
+        {/* Right Navigation */}
+        <div className="flex items-center gap-6">
           <Link
             href="/"
-            className={`px-3 py-1.5 rounded-lg text-[13.5px] font-medium transition-all ${
-              pathname === "/"
-                ? "text-slate-900 bg-slate-100/80"
-                : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
-            }`}
+            className="text-[14.5px] font-medium text-slate-600 hover:text-slate-950 transition-colors hidden sm:inline-block"
           >
             Overview
           </Link>
           
           <Link
-            href="/upload"
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13.5px] font-semibold transition-all ${
-              pathname === "/upload"
-                ? "bg-[#0284c7] text-white shadow-xs"
-                : "bg-slate-900 text-white hover:bg-slate-800 shadow-xs"
-            }`}
+            href="/#studio-section"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#0c1e3d] hover:bg-[#162a4d] text-white text-[14px] font-semibold transition-all shadow-xs"
           >
-            <span>Scan &amp; Upload</span>
-            <ArrowRight size={14} className="opacity-80" />
+            <span>Scan Prescription</span>
+            <ArrowRight size={15} />
           </Link>
-        </nav>
+        </div>
+
       </div>
     </header>
   );
