@@ -9,29 +9,30 @@ interface AnalyseButtonProps {
   disabled?: boolean;
 }
 
-const LOADING_STAGES = [
-  "Enhancing prescription resolution...",
-  "Deciphering handwriting & medical abbreviations...",
-  "Identifying active pharmaceutical ingredients...",
-  "Checking clinical indications & warnings...",
+const LOADING_MESSAGES = [
+  "Running TrOCR handwritten recognition…",
+  "Inspecting via Qwen & Llama vision…",
+  "Cross-referencing Indian Pharmacopeia…",
+  "Validating dosages & active salts…",
+  "Compiling multi-model evidence…",
 ];
 
 export default function AnalyseButton({
   onClick,
-  isLoading,
-  disabled,
+  isLoading = false,
+  disabled = false,
 }: AnalyseButtonProps) {
-  const [stageIndex, setStageIndex] = useState(0);
+  const [msgIndex, setMsgIndex] = useState(0);
 
   useEffect(() => {
     if (!isLoading) {
-      setStageIndex(0);
+      setMsgIndex(0);
       return;
     }
-    const interval = setInterval(() => {
-      setStageIndex((prev) => (prev + 1) % LOADING_STAGES.length);
-    }, 1400);
-    return () => clearInterval(interval);
+    const timer = setInterval(() => {
+      setMsgIndex((prev) => (prev + 1) % LOADING_MESSAGES.length);
+    }, 1600);
+    return () => clearInterval(timer);
   }, [isLoading]);
 
   return (
@@ -39,21 +40,22 @@ export default function AnalyseButton({
       type="button"
       onClick={onClick}
       disabled={disabled || isLoading}
-      className={`w-full h-12 rounded-xl text-[14.5px] font-semibold flex items-center justify-center gap-2.5 transition-all shadow-xs ${
+      className={`w-full py-4 px-6 rounded-xl font-bold text-[15px] flex items-center justify-center gap-2.5 transition-all shadow-sm ${
         disabled || isLoading
           ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed"
-          : "bg-slate-950 hover:bg-slate-800 text-white cursor-pointer hover:shadow"
+          : "bg-gradient-to-r from-[#0c1e3d] via-[#162a4d] to-[#0c1e3d] hover:opacity-95 text-white cursor-pointer shadow-md hover:shadow-lg active:scale-[0.99]"
       }`}
     >
       {isLoading ? (
         <>
-          <Loader2 className="animate-spin h-4 w-4 text-sky-400 shrink-0" />
-          <span className="truncate max-w-xs">{LOADING_STAGES[stageIndex]}</span>
+          <Loader2 className="animate-spin h-5 w-5 text-[#38bdf8]" />
+          <span className="text-white font-medium">{LOADING_MESSAGES[msgIndex]}</span>
         </>
       ) : (
         <>
-          <span>Analyze Prescription</span>
-          <ArrowRight size={16} className="opacity-80" />
+          <Sparkles size={16} className="text-amber-400" />
+          <span>Analyse &amp; Verify Prescription</span>
+          <ArrowRight size={16} className="ml-1" />
         </>
       )}
     </button>

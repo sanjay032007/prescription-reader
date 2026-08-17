@@ -22,6 +22,8 @@ import {
   Search,
   Wand2,
   FileCheck2,
+  CheckCircle2,
+  Activity,
 } from "lucide-react";
 
 export default function Home() {
@@ -213,7 +215,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fcfdfd]">
+    <div className="min-h-screen flex flex-col bg-[#fafbfc]">
       <BrandHeader />
 
       <ManualMedicineSearchModal
@@ -225,48 +227,55 @@ export default function Home() {
       {/* ============================================================ */}
       {/* 1. TOP HERO BANNER (Warm Wooden Desk Surface Background)     */}
       {/* ============================================================ */}
-      <section className="w-full desk-surface border-b border-[#e5ded4] py-12 sm:py-16 lg:py-20 overflow-hidden">
-        <div className="max-w-[1360px] mx-auto px-6 sm:px-10">
+      <section className="w-full desk-surface border-b border-[#e6dfd6] py-14 sm:py-18 lg:py-22 overflow-hidden">
+        <div className="max-w-[1360px] mx-auto px-5 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             
             {/* Left Hero Content */}
             <div className="lg:col-span-6 flex flex-col items-start text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#eaf4fd] text-[#0284c7] text-[11px] font-extrabold uppercase tracking-widest mb-6">
+              
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-slate-200/80 text-[#0284c7] text-[11.5px] font-extrabold uppercase tracking-widest mb-6 shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-[#0284c7] animate-pulse" />
                 <span>Multi-Model Clinical Intelligence</span>
               </div>
 
-              <h1 className="font-serif-heading text-[42px] sm:text-[54px] lg:text-[62px] font-extrabold text-slate-950 tracking-tight leading-[1.08] mb-5">
+              {/* Serif Headline */}
+              <h1 className="font-serif-heading text-[44px] sm:text-[56px] lg:text-[64px] font-extrabold text-slate-950 tracking-tight leading-[1.06] mb-5">
                 Make your<br />
                 prescription<br />
-                easier to read.
+                <span className="text-[#0284c7]">easier to read.</span>
               </h1>
 
-              <p className="text-[16px] sm:text-[17px] text-slate-600 font-normal leading-relaxed max-w-[480px] mb-8">
-                Independent OCR &amp; Vision intelligence verified against the Indian Pharmacopeia. Zero assumptions, full evidence transparency.
+              {/* Subtitle */}
+              <p className="text-[16px] sm:text-[17.5px] text-slate-600 font-normal leading-relaxed max-w-[500px] mb-8">
+                Upload a photo of your doctor&apos;s prescription. We cross-verify handwritten medicines, exact strengths, and dosage schedules against the Indian Pharmacopeia.
               </p>
 
+              {/* Upload Prescription Button */}
               <button
                 type="button"
                 onClick={scrollToStudio}
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-lg bg-[#0c1e3d] hover:bg-[#162a4d] text-white text-[15px] font-semibold transition-all shadow-sm cursor-pointer mb-6"
+                className="inline-flex items-center gap-2.5 px-7 py-4 rounded-xl bg-[#0c1e3d] hover:bg-[#162a4d] text-white text-[15px] font-bold transition-all shadow-md hover:shadow-lg active:scale-[0.99] cursor-pointer mb-6"
               >
-                <Upload size={17} />
+                <Upload size={18} />
                 <span>Upload Prescription</span>
               </button>
 
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[13px] text-slate-500 font-medium">
-                <span className="inline-flex items-center gap-1.5">
-                  <Lock size={13} className="text-slate-400" />
-                  Private processing
+              {/* Specs & Privacy Note */}
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[13px] text-slate-500 font-semibold">
+                <span className="inline-flex items-center gap-1.5 text-slate-700">
+                  <Lock size={13} className="text-[#0284c7]" />
+                  100% Private &amp; Encrypted
                 </span>
                 <span className="text-slate-300">&bull;</span>
                 <span>TrOCR + Qwen + Llama</span>
                 <span className="text-slate-300">&bull;</span>
-                <span>Indian Database Match</span>
+                <span>Indian Database Verified</span>
               </div>
             </div>
 
-            {/* Right Hero Visual */}
+            {/* Right Hero Desk Clipboard Visual */}
             <div className="lg:col-span-6 flex items-center justify-center pt-4 lg:pt-0">
               <DeskClipboardVisual />
             </div>
@@ -278,9 +287,9 @@ export default function Home() {
       {/* ============================================================ */}
       {/* 2. PRESCRIPTION STUDIO & DATA SAFETY SECTION                 */}
       {/* ============================================================ */}
-      <section id="studio-section" ref={studioRef} className="w-full py-12 sm:py-16 bg-[#fcfdfd]">
-        <div className="max-w-[1360px] mx-auto px-6 sm:px-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <section id="studio-section" ref={studioRef} className="w-full py-14 sm:py-18 bg-[#fafbfc]">
+        <div className="max-w-[1360px] mx-auto px-5 sm:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             
             {/* Left Column: Upload Studio Box */}
             <div className="lg:col-span-8 flex flex-col">
@@ -289,18 +298,18 @@ export default function Home() {
                   <span className="text-[11.5px] font-extrabold uppercase tracking-widest text-[#0284c7] block mb-1">
                     Prescription Studio
                   </span>
-                  <h2 className="font-serif-heading text-[26px] sm:text-[30px] font-extrabold text-slate-950 tracking-tight">
+                  <h2 className="font-serif-heading text-[28px] sm:text-[32px] font-extrabold text-slate-950 tracking-tight">
                     Upload Prescription
                   </h2>
                   <p className="text-[14.5px] text-slate-500 mt-0.5">
-                    Upload a clear photo of your prescription.
+                    Upload a clear photo or document of your prescription.
                   </p>
                 </div>
 
                 <button
                   type="button"
                   onClick={() => setIsManualSearchOpen(true)}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-[13px] font-semibold text-slate-700 transition-colors shadow-2xs cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 text-[13px] font-bold text-slate-700 transition-all shadow-2xs cursor-pointer"
                 >
                   <Search size={14} className="text-[#0284c7]" />
                   <span>Quick Lookup</span>
@@ -308,7 +317,7 @@ export default function Home() {
               </div>
 
               {/* Dashed Dropzone Box */}
-              <div className="bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-6 shadow-2xs">
+              <div className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-7 shadow-xs hover:border-slate-300 transition-all">
                 <UploadZone
                   onFileSelected={handleFileSelected}
                   fileName={file?.name}
@@ -318,11 +327,11 @@ export default function Home() {
 
                 {/* Auto-Enhance Filter Tool */}
                 {file && (
-                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/60 text-[12.5px]">
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 text-[12.5px]">
                     <div className="flex items-center gap-2">
-                      <Wand2 size={14} className="text-[#0284c7]" />
-                      <span className="font-medium text-slate-700">
-                        {isEnhanced ? "✨ High-Contrast Document Filter Active" : "Faint or blurry handwriting?"}
+                      <Wand2 size={15} className="text-[#0284c7]" />
+                      <span className="font-semibold text-slate-800">
+                        {isEnhanced ? "✨ High-Contrast Document Filter Active" : "Faint or blurry ink?"}
                       </span>
                     </div>
 
@@ -330,13 +339,13 @@ export default function Home() {
                       <button
                         type="button"
                         onClick={handleToggleEnhance}
-                        className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-slate-300 text-[#0284c7] font-bold text-[12px] transition-colors cursor-pointer shadow-2xs flex items-center gap-1"
+                        className="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-[#0284c7] font-bold text-[12px] transition-all cursor-pointer shadow-2xs flex items-center gap-1"
                       >
-                        <Sparkles size={12} />
+                        <Sparkles size={12} className="text-amber-500" />
                         <span>Apply Auto-Enhance Filter</span>
                       </button>
                     ) : (
-                      <span className="text-emerald-700 font-semibold text-[12px] flex items-center gap-1">
+                      <span className="text-emerald-700 font-bold text-[12px] flex items-center gap-1">
                         <FileCheck2 size={13} />
                         <span>Enhanced for OCR</span>
                       </span>
@@ -344,7 +353,7 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* Symptoms Input */}
+                {/* Optional Symptoms Input */}
                 {file && (
                   <div className="mt-4 pt-4 border-t border-slate-100">
                     <SymptomsInput
@@ -363,7 +372,7 @@ export default function Home() {
                       <button
                         type="button"
                         onClick={handleToggleEnhance}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-50 border border-sky-200 text-[#0284c7] hover:bg-sky-100 font-semibold text-[12px] transition-colors cursor-pointer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-50 border border-sky-200 text-[#0284c7] hover:bg-sky-100 font-bold text-[12px] transition-colors cursor-pointer"
                       >
                         <Sparkles size={13} />
                         <span>1. Enhance Contrast</span>
@@ -372,16 +381,16 @@ export default function Home() {
                       <button
                         type="button"
                         onClick={handleAnalyse}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 font-semibold text-[12px] transition-colors cursor-pointer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 font-bold text-[12px] transition-colors cursor-pointer"
                       >
                         <RefreshCw size={13} />
-                        <span>2. Retry Multi-Model Scan</span>
+                        <span>2. Retry Scan</span>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => setIsManualSearchOpen(true)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200 font-semibold text-[12px] transition-colors cursor-pointer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200 font-bold text-[12px] transition-colors cursor-pointer"
                       >
                         <Search size={13} />
                         <span>3. Lookup Medicine Name</span>
@@ -390,10 +399,10 @@ export default function Home() {
                       <button
                         type="button"
                         onClick={handleReset}
-                        className="inline-flex items-center gap-1 text-[12px] font-medium text-slate-500 hover:text-slate-800 ml-auto cursor-pointer"
+                        className="inline-flex items-center gap-1 text-[12px] font-semibold text-slate-500 hover:text-slate-800 ml-auto cursor-pointer"
                       >
                         <RefreshCw size={12} />
-                        <span>Try different photo</span>
+                        <span>Try another photo</span>
                       </button>
                     </div>
                   </div>
@@ -414,35 +423,44 @@ export default function Home() {
 
             {/* Right Column: "Your data is safe" Card */}
             <div className="lg:col-span-4 flex flex-col">
-              <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-7 shadow-2xs">
-                <div className="w-12 h-12 rounded-full bg-[#f0f7fe] flex items-center justify-center text-[#0284c7] mb-4">
-                  <Shield size={22} />
+              <div className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs">
+                
+                {/* Shield Icon */}
+                <div className="w-13 h-13 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-[#0284c7] mb-5 shadow-2xs">
+                  <Shield size={24} />
                 </div>
 
-                <h3 className="text-[17px] font-bold text-slate-950 mb-2">
-                  Evidence-Based Accuracy
+                <h3 className="text-[19px] font-extrabold text-slate-950 mb-2">
+                  Evidence-Based Clinical Intelligence
                 </h3>
 
                 <p className="text-[13.5px] text-slate-600 leading-relaxed mb-6">
-                  We cross-verify handwritten OCR with independent vision models and the official Indian Pharmacopeia. Zero hallucinations.
+                  We cross-verify handwritten doctor scripts with independent vision models and the official Indian Pharmacopeia. Zero assumptions.
                 </p>
 
-                <div className="space-y-4 pt-5 border-t border-slate-100 text-[13.5px] font-medium text-slate-700">
+                <div className="space-y-4 pt-6 border-t border-slate-100 text-[13.5px] font-semibold text-slate-800">
                   <div className="flex items-center gap-3">
-                    <Lock size={16} className="text-[#0284c7] shrink-0" />
-                    <span>100% Private &amp; Encrypted</span>
+                    <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-slate-100">
+                      <Lock size={15} />
+                    </div>
+                    <span>100% Ephemeral &amp; Private</span>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Shield size={16} className="text-[#0284c7] shrink-0" />
-                    <span>No Data Stored</span>
+                    <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-slate-100">
+                      <CheckCircle2 size={15} />
+                    </div>
+                    <span>Zero Default Values or Guessing</span>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Zap size={16} className="text-[#0284c7] shrink-0" />
-                    <span>Multi-Model Verification</span>
+                    <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-slate-100">
+                      <Activity size={15} />
+                    </div>
+                    <span>Multi-Model Vision Consensus</span>
                   </div>
                 </div>
+
               </div>
             </div>
 
@@ -451,7 +469,7 @@ export default function Home() {
           {/* ============================================================ */}
           {/* 3. MULTI-LAYER VERIFIED RESULTS BREAKDOWN                    */}
           {/* ============================================================ */}
-          <div className="mt-6">
+          <div className="mt-8">
             <ResultsSection
               result={result}
               onConfirmCandidate={handleConfirmCandidate}
@@ -463,8 +481,8 @@ export default function Home() {
       </section>
 
       {/* Minimal Footer */}
-      <footer className="w-full py-6 border-t border-slate-200/70 text-center text-[12px] text-slate-400 font-medium bg-white">
-        Prescription Reader &bull; Clinical verification system &bull; Always follow the advice of your qualified medical provider
+      <footer className="w-full py-8 border-t border-slate-200 text-center text-[12.5px] text-slate-400 font-medium bg-white">
+        Prescription Reader &bull; Multi-Model Clinical Verification System &bull; Always consult your qualified healthcare professional
       </footer>
     </div>
   );
