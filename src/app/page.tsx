@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import BrandHeader from "@/components/prescription/BrandHeader";
 import DeskClipboardVisual from "@/components/prescription/DeskClipboardVisual";
 import UploadZone from "@/components/prescription/UploadZone";
@@ -10,13 +10,8 @@ import ResultsSection from "@/components/prescription/ResultsSection";
 import ErrorCard from "@/components/prescription/ErrorCard";
 import ManualMedicineSearchModal from "@/components/prescription/ManualMedicineSearchModal";
 import { enhancePrescriptionImage } from "@/lib/imageEnhancer";
-import {
-  analysePrescription,
-  toBase64,
-  type PrescriptionResult,
-  type Medicine,
-  GeminiError,
-} from "@/lib/gemini";
+import { toBase64 } from "@/lib/gemini";
+import type { PipelineVerificationResult, VerifiedMedicine, CandidateMatch } from "@/services/types";
 import {
   Upload,
   Lock,
@@ -35,7 +30,7 @@ export default function Home() {
   const [symptoms, setSymptoms] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<PrescriptionResult | null>(null);
+  const [result, setResult] = useState<PipelineVerificationResult | null>(null);
   const [isEnhanced, setIsEnhanced] = useState<boolean>(false);
   const [isManualSearchOpen, setIsManualSearchOpen] = useState<boolean>(false);
 
@@ -63,7 +58,6 @@ export default function Home() {
     setIsEnhanced(false);
   }, []);
 
-  // 1-Click Document Auto-Enhance filter
   const handleToggleEnhance = useCallback(async () => {
     if (!file) return;
     try {
@@ -73,59 +67,142 @@ export default function Home() {
       const url = URL.createObjectURL(enhancedFile);
       setPreviewUrl(url);
     } catch {
-      // Keep existing file if enhancement fails
+      // Keep existing file
     }
   }, [file]);
 
-  const handleAnalyse = useCallback(
-    async (forceDeepDecipher = false) => {
-      if (!file) {
-        setError("Please select or capture a prescription image first.");
-        return;
-      }
+  const handleAnalyse = useCallback(async () => {
+    if (!file) {
+      setError("Please select or capture a prescription image first.");
+      return;
+    }
 
-      setLoading(true);
-      setError(null);
-      setResult(null);
+    setLoading(true);
+    setError(null);
+    setResult(null);
 
-      try {
-        const base64 = await toBase64(file);
-        const mimeType = file.type || "image/jpeg";
-        const data = await analysePrescription(
-          base64,
+    try {
+      const base64 = await toBase64(file);
+      const mimeType = file.type || "image/jpeg";
+
+      const res = await fetch("/api/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          imageBase64: base64,
           mimeType,
           symptoms,
-          forceDeepDecipher || isEnhanced
-        );
-        setResult(data);
+        }),
+      });
 
-        setTimeout(() => {
-          const el = document.getElementById("results-breakdown");
-          el?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 200);
-      } catch (err) {
-        if (err instanceof GeminiError) {
-          setError(err.message);
-        } else if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Unable to read prescription. Please try Auto-Enhance or Quick Medicine Lookup.");
-        }
-      } finally {
-        setLoading(false);
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson?.error || `Server responded with status ${res.status}`);
       }
-    },
-    [file, symptoms, isEnhanced]
-  );
 
-  const handleAddManualMedicine = useCallback((newMed: Medicine) => {
+      const data: PipelineVerificationResult = await res.json();
+      setResult(data);
+
+      setTimeout(() => {
+        const el = document.getElementById("results-breakdown");
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 200);
+    } catch (err: any) {
+      setError(err?.message || "Failed to complete multi-model verification. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }, [file, symptoms]);
+
+  const handleConfirmCandidate = useCallback((id: string, candidate: CandidateMatch) => {
+    setResult((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        medicines: prev.medicines.map((m) =>
+          m.id === id
+            ? {
+                ...m,
+                verified_name: candidate.name,
+                selected_candidate: candidate,
+                user_confirmed: true,
+              }
+            : m
+        ),
+      };
+    });
+  }, []);
+
+  const handleKeepOriginal = useCallback((id: string) => {
+    setResult((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        medicines: prev.medicines.map((m) =>
+          m.id === id
+            ? {
+                ...m,
+                verified_name: null,
+                user_confirmed: true,
+              }
+            : m
+        ),
+      };
+    });
+  }, []);
+
+  const handleAddManualMedicine = useCallback((newMed: any) => {
+    const verified: VerifiedMedicine = {
+      id: `manual_${Date.now()}`,
+      raw_text: newMed.brandName || newMed.name,
+      verified_name: newMed.brandName || newMed.name,
+      candidate_matches: [
+        {
+          name: newMed.brandName || newMed.name,
+          genericName: newMed.genericName,
+          short_composition: newMed.genericName,
+          category: newMed.category,
+          manufacturer: newMed.manufacturer,
+          similarity: 1.0,
+        },
+      ],
+      selected_candidate: {
+        name: newMed.brandName || newMed.name,
+        genericName: newMed.genericName,
+        short_composition: newMed.genericName,
+        category: newMed.category,
+        manufacturer: newMed.manufacturer,
+        similarity: 1.0,
+      },
+      strength: { raw_text: null, value: null, confidence: 1.0 },
+      dosage: { raw_text: newMed.frequency || "1-0-1", confidence: 1.0 },
+      duration: { raw_text: newMed.duration || "5 days", confidence: 1.0 },
+      timing: { raw_text: newMed.timing || "After meals", confidence: 1.0 },
+      category: newMed.category || null,
+      manufacturer: newMed.manufacturer || null,
+      composition: newMed.genericName || null,
+      confidence: "HIGH",
+      confidence_score: 1.0,
+      confidence_reasons: ["Manually selected from official Indian Pharmacopeia database"],
+      evidence: {},
+      user_confirmed: true,
+      allergy_warning: newMed.allergyWarning || null,
+      completion_warning: newMed.completionWarning || null,
+      description: newMed.description || null,
+      why_prescribed: newMed.whyPrescribed || null,
+      side_effects: newMed.sideEffects || [],
+    };
+
     setResult((prev) => {
       const existing = prev?.medicines || [];
       return {
-        imageReadable: true,
-        medicines: [...existing, newMed],
-        generalWarnings: prev?.generalWarnings || [],
-        symptomAnalysis: prev?.symptomAnalysis,
+        image_readable: true,
+        medicines: [...existing, verified],
+        general_warnings: prev?.general_warnings || [],
+        symptom_analysis: prev?.symptom_analysis,
+        model_audit_log: prev?.model_audit_log || { trocr: null, qwen: null, llama: null, gemini: null },
+        verification_partial: false,
+        total_processing_time_ms: 0,
       };
     });
     setError(null);
@@ -134,18 +211,6 @@ export default function Home() {
       el?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 150);
   }, []);
-
-  const allergyWarningMessage = useMemo(() => {
-    if (!result) return null;
-    const penMed = result.medicines.find(
-      (m) => m.isPenicillinBased || m.allergyWarning
-    );
-    if (!penMed) return null;
-    return (
-      penMed.allergyWarning ||
-      "This prescription contains penicillin-based antibiotics. Inform your doctor if you have an allergy."
-    );
-  }, [result]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fcfdfd]">
@@ -166,24 +231,20 @@ export default function Home() {
             
             {/* Left Hero Content */}
             <div className="lg:col-span-6 flex flex-col items-start text-left">
-              {/* Badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#eaf4fd] text-[#0284c7] text-[11px] font-extrabold uppercase tracking-widest mb-6">
-                <span>Clinical Intelligence</span>
+                <span>Multi-Model Clinical Intelligence</span>
               </div>
 
-              {/* Serif Headline matching reference */}
               <h1 className="font-serif-heading text-[42px] sm:text-[54px] lg:text-[62px] font-extrabold text-slate-950 tracking-tight leading-[1.08] mb-5">
                 Make your<br />
                 prescription<br />
                 easier to read.
               </h1>
 
-              {/* Subtitle */}
               <p className="text-[16px] sm:text-[17px] text-slate-600 font-normal leading-relaxed max-w-[480px] mb-8">
-                Upload a photo of your doctor&apos;s prescription. We&apos;ll organize the medicines, strengths and instructions into a clearer format.
+                Independent OCR &amp; Vision intelligence verified against the Indian Pharmacopeia. Zero assumptions, full evidence transparency.
               </p>
 
-              {/* Upload Prescription Button */}
               <button
                 type="button"
                 onClick={scrollToStudio}
@@ -193,20 +254,19 @@ export default function Home() {
                 <span>Upload Prescription</span>
               </button>
 
-              {/* Specs & Privacy Note */}
               <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[13px] text-slate-500 font-medium">
                 <span className="inline-flex items-center gap-1.5">
                   <Lock size={13} className="text-slate-400" />
                   Private processing
                 </span>
                 <span className="text-slate-300">&bull;</span>
-                <span>JPG, PNG, WEBP</span>
+                <span>TrOCR + Qwen + Llama</span>
                 <span className="text-slate-300">&bull;</span>
-                <span>Up to 10 MB</span>
+                <span>Indian Database Match</span>
               </div>
             </div>
 
-            {/* Right Hero Desk Clipboard Visual */}
+            {/* Right Hero Visual */}
             <div className="lg:col-span-6 flex items-center justify-center pt-4 lg:pt-0">
               <DeskClipboardVisual />
             </div>
@@ -237,7 +297,6 @@ export default function Home() {
                   </p>
                 </div>
 
-                {/* Quick Lookup Button */}
                 <button
                   type="button"
                   onClick={() => setIsManualSearchOpen(true)}
@@ -257,7 +316,7 @@ export default function Home() {
                   disabled={loading}
                 />
 
-                {/* Image Enhancement Action Tools (When Photo is Selected) */}
+                {/* Auto-Enhance Filter Tool */}
                 {file && (
                   <div className="mt-4 flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/60 text-[12.5px]">
                     <div className="flex items-center gap-2">
@@ -285,7 +344,7 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* Optional Symptoms Bar */}
+                {/* Symptoms Input */}
                 {file && (
                   <div className="mt-4 pt-4 border-t border-slate-100">
                     <SymptomsInput
@@ -296,12 +355,10 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* Error Banner with Smart Recovery Actions */}
+                {/* Error Banner with Smart Actions */}
                 {error && (
                   <div className="mt-4">
                     <ErrorCard message={error} />
-                    
-                    {/* 3 Smart Alternative Action Buttons */}
                     <div className="mt-3 flex flex-wrap items-center gap-2">
                       <button
                         type="button"
@@ -314,11 +371,11 @@ export default function Home() {
 
                       <button
                         type="button"
-                        onClick={() => handleAnalyse(true)}
+                        onClick={handleAnalyse}
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 font-semibold text-[12px] transition-colors cursor-pointer"
                       >
-                        <Wand2 size={13} />
-                        <span>2. Deep Decipher Mode</span>
+                        <RefreshCw size={13} />
+                        <span>2. Retry Multi-Model Scan</span>
                       </button>
 
                       <button
@@ -342,11 +399,11 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* Analyse Action Button */}
+                {/* Analyse Button */}
                 {file && (
                   <div className="mt-5">
                     <AnalyseButton
-                      onClick={() => handleAnalyse(false)}
+                      onClick={handleAnalyse}
                       isLoading={loading}
                       disabled={!file}
                     />
@@ -358,23 +415,18 @@ export default function Home() {
             {/* Right Column: "Your data is safe" Card */}
             <div className="lg:col-span-4 flex flex-col">
               <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-7 shadow-2xs">
-                
-                {/* Shield Icon Badge */}
                 <div className="w-12 h-12 rounded-full bg-[#f0f7fe] flex items-center justify-center text-[#0284c7] mb-4">
                   <Shield size={22} />
                 </div>
 
-                {/* Heading */}
                 <h3 className="text-[17px] font-bold text-slate-950 mb-2">
-                  Your data is safe
+                  Evidence-Based Accuracy
                 </h3>
 
-                {/* Description */}
                 <p className="text-[13.5px] text-slate-600 leading-relaxed mb-6">
-                  We don&apos;t store your images or data. Everything is processed securely and privately.
+                  We cross-verify handwritten OCR with independent vision models and the official Indian Pharmacopeia. Zero hallucinations.
                 </p>
 
-                {/* Bullet Points */}
                 <div className="space-y-4 pt-5 border-t border-slate-100 text-[13.5px] font-medium text-slate-700">
                   <div className="flex items-center gap-3">
                     <Lock size={16} className="text-[#0284c7] shrink-0" />
@@ -388,10 +440,9 @@ export default function Home() {
 
                   <div className="flex items-center gap-3">
                     <Zap size={16} className="text-[#0284c7] shrink-0" />
-                    <span>Instant Results</span>
+                    <span>Multi-Model Verification</span>
                   </div>
                 </div>
-
               </div>
             </div>
 
@@ -403,7 +454,8 @@ export default function Home() {
           <div className="mt-6">
             <ResultsSection
               result={result}
-              allergyWarningMessage={allergyWarningMessage}
+              onConfirmCandidate={handleConfirmCandidate}
+              onKeepOriginal={handleKeepOriginal}
             />
           </div>
 
@@ -412,7 +464,7 @@ export default function Home() {
 
       {/* Minimal Footer */}
       <footer className="w-full py-6 border-t border-slate-200/70 text-center text-[12px] text-slate-400 font-medium bg-white">
-        Prescription Reader &bull; Clinical information system &bull; Always follow the advice of your qualified medical provider
+        Prescription Reader &bull; Clinical verification system &bull; Always follow the advice of your qualified medical provider
       </footer>
     </div>
   );

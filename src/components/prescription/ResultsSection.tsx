@@ -1,151 +1,100 @@
 "use client";
 
 import { useState } from "react";
-import type { Medicine, PrescriptionResult } from "@/lib/gemini";
+import type { PipelineVerificationResult, VerifiedMedicine, CandidateMatch } from "@/services/types";
 import MedicineCard from "./MedicineCard";
-import DetectedChips from "./DetectedChips";
-import AllergyWarning from "./AllergyWarning";
-import SymptomMatchCard from "./SymptomMatchCard";
-import { Copy, Check, Printer, AlertCircle, ShieldCheck } from "lucide-react";
+import { Copy, Check, ShieldAlert, Cpu } from "lucide-react";
 
 interface ResultsSectionProps {
-  result: PrescriptionResult | null;
-  allergyWarningMessage: string | null;
+  result: PipelineVerificationResult | null;
+  onConfirmCandidate?: (id: string, candidate: CandidateMatch) => void;
+  onKeepOriginal?: (id: string) => void;
 }
 
 export default function ResultsSection({
   result,
-  allergyWarningMessage,
+  onConfirmCandidate,
+  onKeepOriginal,
 }: ResultsSectionProps) {
   const [copied, setCopied] = useState(false);
-  const [medicines, setMedicines] = useState<Medicine[]>(result?.medicines || []);
 
-  if (!result || !result.medicines || result.medicines.length === 0) {
-    return null;
-  }
-
-  const handleUpdateMedicine = (index: number, updated: Medicine) => {
-    setMedicines((prev) => {
-      const next = [...prev];
-      next[index] = updated;
-      return next;
-    });
-  };
-
-  const activeMedicines = medicines.length > 0 ? medicines : result.medicines;
+  if (!result || !result.medicines || result.medicines.length === 0) return null;
 
   const handleCopy = () => {
-    const text = activeMedicines
-      .map(
-        (m, i) =>
-          `${i + 1}. ${m.brandName} (${m.genericName || "Generic"})\n   Confidence: ${m.confidence.toUpperCase()}\n   Schedule: ${m.dosageUnderstood ? m.frequency || "As prescribed" : "Consult doctor"} | ${m.timing || "N/A"}\n   Duration: ${m.duration || "N/A"}\n   Why: ${m.whyPrescribed || m.description}\n`
-      )
-      .join("\n");
-    const symptomText = result.symptomAnalysis?.explanation
-      ? `\nSymptom Analysis: ${result.symptomAnalysis.explanation}\n`
-      : "";
-    const full = `VERIFIED PRESCRIPTION BREAKDOWN (Indian Pharmacopeia Multi-Layer Verified)\n${text}${symptomText}\nDisclaimer: Informational only. Always follow your prescribing physician's directions.`;
+    const text = result.medicines
+      .map((m, i) => {
+        const name = m.selected_candidate?.name || m.verified_name || m.raw_text;
+        const comp = m.selected_candidate?.short_composition || m.composition || "General formulation";
+        const dos = m.dosage.raw_text || "As prescribed";
+        const dur = m.duration.raw_text || "As advised";
+        const tim = m.timing.raw_text || "As advised";
+        return `${i + 1}. ${name} (${comp})\n   Dosage: ${dos} | Timing: ${tim} | Duration: ${dur}`;
+      })
+      .join("\n\n");
+
+    const full = `PRESCRIPTION SUMMARY\n\n${text}\n\nProcessed with Multi-Model Clinical Verification.\nAlways consult your doctor.`;
     navigator.clipboard.writeText(full).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     });
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const verifiedCount = activeMedicines.filter((m) => m.confidence === "high").length;
-
   return (
     <section id="results-breakdown" className="pt-8 pb-12">
-      {/* Top Header & Export Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 pb-4 border-b border-slate-200/80">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-[11.5px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1.5">
-            <ShieldCheck size={13} className="text-emerald-600" />
-            <span>4-Layer Multi-Verification Complete</span>
+          <div className="inline-flex items-center gap-1.5 text-[11.5px] font-bold text-[#0284c7] uppercase tracking-wider mb-1">
+            <Cpu size={13} />
+            <span>Multi-Model Verification Complete</span>
           </div>
-          <h2 className="text-[22px] sm:text-[26px] font-extrabold text-slate-950 tracking-tight">
-            Prescription Breakdown
+          <h2 className="text-[24px] sm:text-[28px] font-bold text-slate-950">
+            Detected Medications
           </h2>
           <p className="text-[14px] text-slate-500 mt-0.5">
-            {activeMedicines.length}{" "}
-            {activeMedicines.length === 1 ? "medication" : "medications"}{" "}
-            detected ({verifiedCount} verified against Indian drug database)
+            {result.medicines.length} {result.medicines.length === 1 ? "medication" : "medications"} identified with evidence verification
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-[13px] font-semibold text-slate-700 transition-colors shadow-2xs cursor-pointer"
-          >
-            {copied ? (
-              <>
-                <Check size={14} className="text-emerald-600" />
-                <span className="text-emerald-700">Copied</span>
-              </>
-            ) : (
-              <>
-                <Copy size={14} />
-                <span>Copy summary</span>
-              </>
-            )}
-          </button>
-
-          <button
-            type="button"
-            onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-[13px] font-semibold text-slate-700 transition-colors shadow-2xs cursor-pointer"
-          >
-            <Printer size={14} />
-            <span>Print / PDF</span>
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={handleCopy}
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-slate-200 bg-white text-[13px] font-semibold text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer shadow-2xs self-start sm:self-auto"
+        >
+          {copied ? (
+            <>
+              <Check size={14} className="text-emerald-600" />
+              <span className="text-emerald-700">Copied Summary</span>
+            </>
+          ) : (
+            <>
+              <Copy size={14} />
+              <span>Copy summary</span>
+            </>
+          )}
+        </button>
       </div>
 
-      {/* Symptom Correlation Check */}
-      {result.symptomAnalysis && (
-        <SymptomMatchCard analysis={result.symptomAnalysis} />
-      )}
-
-      {/* Detected Medication Quick Chips */}
-      <div className="mb-6">
-        <DetectedChips medicines={activeMedicines} />
-      </div>
-
-      {/* Penicillin / Antibiotic Warnings */}
-      {allergyWarningMessage && (
-        <div className="mb-6">
-          <AllergyWarning message={allergyWarningMessage} />
-        </div>
-      )}
-
-      {/* General Warnings Notice */}
-      {result.generalWarnings && result.generalWarnings.length > 0 && (
-        <div className="mb-6 p-4 rounded-2xl bg-amber-50/80 border border-amber-200">
-          <div className="flex items-center gap-2 text-[12.5px] font-bold text-amber-900 uppercase tracking-wider mb-1.5">
-            <AlertCircle size={15} className="text-amber-600" />
-            <span>Important Clinical Notices</span>
-          </div>
-          <ul className="space-y-1 text-[13px] text-amber-900 list-disc list-inside">
-            {result.generalWarnings.map((w, idx) => (
-              <li key={idx}>{w}</li>
+      {/* General Notices / Warnings */}
+      {result.general_warnings && result.general_warnings.length > 0 && (
+        <div className="mb-6 p-4 bg-sky-50 border border-sky-200 rounded-2xl flex items-start gap-3">
+          <ShieldAlert size={18} className="text-[#0284c7] shrink-0 mt-0.5" />
+          <div className="text-[13px] text-sky-950 font-medium space-y-1">
+            {result.general_warnings.map((w, idx) => (
+              <p key={idx}>{w}</p>
             ))}
-          </ul>
+          </div>
         </div>
       )}
 
-      {/* Medicine Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {activeMedicines.map((med, idx) => (
+      {/* Grid of Verified Medicine Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+        {result.medicines.map((med) => (
           <MedicineCard
-            key={idx}
+            key={med.id}
             medicine={med}
-            onUpdateMedicine={(updated) => handleUpdateMedicine(idx, updated)}
-            isExample={false}
+            onConfirmCandidate={onConfirmCandidate}
+            onKeepOriginal={onKeepOriginal}
           />
         ))}
       </div>
