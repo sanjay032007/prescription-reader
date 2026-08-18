@@ -215,7 +215,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fafbfc]">
+    <div className="min-h-screen flex flex-col bg-[#fafbfc] overflow-x-hidden">
       <BrandHeader />
 
       <ManualMedicineSearchModal
@@ -225,30 +225,30 @@ export default function Home() {
       />
 
       {/* ============================================================ */}
-      {/* 1. TOP HERO BANNER (Warm Wooden Desk Surface Background)     */}
+      {/* 1. TOP HERO BANNER (Warm Desk Surface Background)            */}
       {/* ============================================================ */}
-      <section className="w-full desk-surface border-b border-[#e6dfd6] py-14 sm:py-18 lg:py-22 overflow-hidden">
-        <div className="max-w-[1360px] mx-auto px-5 sm:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+      <section className="w-full desk-surface border-b border-[#e6dfd6] py-8 sm:py-14 lg:py-20 overflow-hidden">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
             
             {/* Left Hero Content */}
-            <div className="lg:col-span-6 flex flex-col items-start text-left">
+            <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left">
               
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-slate-200/80 text-[#0284c7] text-[11.5px] font-extrabold uppercase tracking-widest mb-6 shadow-2xs">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 border border-slate-200/80 text-[#0284c7] text-[11px] sm:text-[11.5px] font-extrabold uppercase tracking-widest mb-4 sm:mb-6 shadow-2xs">
                 <span className="w-2 h-2 rounded-full bg-[#0284c7] animate-pulse" />
                 <span>Multi-Model Clinical Intelligence</span>
               </div>
 
               {/* Serif Headline */}
-              <h1 className="font-serif-heading text-[44px] sm:text-[56px] lg:text-[64px] font-extrabold text-slate-950 tracking-tight leading-[1.06] mb-5">
-                Make your<br />
-                prescription<br />
-                <span className="text-[#0284c7]">easier to read.</span>
+              <h1 className="font-serif-heading text-[34px] sm:text-[50px] lg:text-[62px] font-extrabold text-slate-950 tracking-tight leading-[1.08] mb-3 sm:mb-5">
+                Make your<br className="hidden sm:block" />
+                {" "}prescription<br className="hidden sm:block" />
+                {" "}<span className="text-[#0284c7]">easier to read.</span>
               </h1>
 
               {/* Subtitle */}
-              <p className="text-[16px] sm:text-[17.5px] text-slate-600 font-normal leading-relaxed max-w-[500px] mb-8">
+              <p className="text-[14.5px] sm:text-[17px] text-slate-600 font-normal leading-relaxed max-w-[480px] mb-6 sm:mb-8">
                 Upload a photo of your doctor&apos;s prescription. We cross-verify handwritten medicines, exact strengths, and dosage schedules against the Indian Pharmacopeia.
               </p>
 
@@ -256,14 +256,14 @@ export default function Home() {
               <button
                 type="button"
                 onClick={scrollToStudio}
-                className="inline-flex items-center gap-2.5 px-7 py-4 rounded-xl bg-[#0c1e3d] hover:bg-[#162a4d] text-white text-[15px] font-bold transition-all shadow-md hover:shadow-lg active:scale-[0.99] cursor-pointer mb-6"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 sm:py-4 rounded-xl bg-[#0c1e3d] hover:bg-[#162a4d] text-white text-[14.5px] sm:text-[15px] font-bold transition-all shadow-md hover:shadow-lg active:scale-[0.99] cursor-pointer mb-5 sm:mb-6"
               >
                 <Upload size={18} />
                 <span>Upload Prescription</span>
               </button>
 
               {/* Specs & Privacy Note */}
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[13px] text-slate-500 font-semibold">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 text-[12px] sm:text-[13px] text-slate-500 font-semibold">
                 <span className="inline-flex items-center gap-1.5 text-slate-700">
                   <Lock size={13} className="text-[#0284c7]" />
                   100% Private &amp; Encrypted
@@ -276,7 +276,7 @@ export default function Home() {
             </div>
 
             {/* Right Hero Desk Clipboard Visual */}
-            <div className="lg:col-span-6 flex items-center justify-center pt-4 lg:pt-0">
+            <div className="lg:col-span-6 flex items-center justify-center pt-2 sm:pt-4 lg:pt-0">
               <DeskClipboardVisual />
             </div>
 
@@ -287,21 +287,21 @@ export default function Home() {
       {/* ============================================================ */}
       {/* 2. PRESCRIPTION STUDIO & DATA SAFETY SECTION                 */}
       {/* ============================================================ */}
-      <section id="studio-section" ref={studioRef} className="w-full py-14 sm:py-18 bg-[#fafbfc]">
-        <div className="max-w-[1360px] mx-auto px-5 sm:px-8">
+      <section id="studio-section" ref={studioRef} className="w-full py-10 sm:py-16 bg-[#fafbfc]">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             
             {/* Left Column: Upload Studio Box */}
             <div className="lg:col-span-8 flex flex-col">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <div>
-                  <span className="text-[11.5px] font-extrabold uppercase tracking-widest text-[#0284c7] block mb-1">
+                  <span className="text-[11px] sm:text-[11.5px] font-extrabold uppercase tracking-widest text-[#0284c7] block mb-0.5">
                     Prescription Studio
                   </span>
-                  <h2 className="font-serif-heading text-[28px] sm:text-[32px] font-extrabold text-slate-950 tracking-tight">
+                  <h2 className="font-serif-heading text-[24px] sm:text-[30px] font-extrabold text-slate-950 tracking-tight">
                     Upload Prescription
                   </h2>
-                  <p className="text-[14.5px] text-slate-500 mt-0.5">
+                  <p className="text-[13.5px] sm:text-[14.5px] text-slate-500 mt-0.5">
                     Upload a clear photo or document of your prescription.
                   </p>
                 </div>
@@ -309,7 +309,7 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => setIsManualSearchOpen(true)}
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 text-[13px] font-bold text-slate-700 transition-all shadow-2xs cursor-pointer"
+                  className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 text-[12.5px] sm:text-[13px] font-bold text-slate-700 transition-all shadow-2xs cursor-pointer"
                 >
                   <Search size={14} className="text-[#0284c7]" />
                   <span>Quick Lookup</span>
@@ -317,7 +317,7 @@ export default function Home() {
               </div>
 
               {/* Dashed Dropzone Box */}
-              <div className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-7 shadow-xs hover:border-slate-300 transition-all">
+              <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 p-4 sm:p-7 shadow-xs hover:border-slate-300 transition-all">
                 <UploadZone
                   onFileSelected={handleFileSelected}
                   fileName={file?.name}
@@ -327,7 +327,7 @@ export default function Home() {
 
                 {/* Auto-Enhance Filter Tool */}
                 {file && (
-                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 text-[12.5px]">
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-2.5 p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200/70 text-[12px] sm:text-[12.5px]">
                     <div className="flex items-center gap-2">
                       <Wand2 size={15} className="text-[#0284c7]" />
                       <span className="font-semibold text-slate-800">
@@ -339,13 +339,13 @@ export default function Home() {
                       <button
                         type="button"
                         onClick={handleToggleEnhance}
-                        className="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-[#0284c7] font-bold text-[12px] transition-all cursor-pointer shadow-2xs flex items-center gap-1"
+                        className="px-3 py-1.5 rounded-lg sm:rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-[#0284c7] font-bold text-[11.5px] sm:text-[12px] transition-all cursor-pointer shadow-2xs flex items-center gap-1"
                       >
                         <Sparkles size={12} className="text-amber-500" />
                         <span>Apply Auto-Enhance Filter</span>
                       </button>
                     ) : (
-                      <span className="text-emerald-700 font-bold text-[12px] flex items-center gap-1">
+                      <span className="text-emerald-700 font-bold text-[11.5px] sm:text-[12px] flex items-center gap-1">
                         <FileCheck2 size={13} />
                         <span>Enhanced for OCR</span>
                       </span>
@@ -423,39 +423,39 @@ export default function Home() {
 
             {/* Right Column: "Your data is safe" Card */}
             <div className="lg:col-span-4 flex flex-col">
-              <div className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs">
+              <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 p-5 sm:p-8 shadow-xs">
                 
                 {/* Shield Icon */}
-                <div className="w-13 h-13 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-[#0284c7] mb-5 shadow-2xs">
-                  <Shield size={24} />
+                <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-xl sm:rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-[#0284c7] mb-4 sm:mb-5 shadow-2xs">
+                  <Shield size={22} />
                 </div>
 
-                <h3 className="text-[19px] font-extrabold text-slate-950 mb-2">
+                <h3 className="text-[17px] sm:text-[19px] font-extrabold text-slate-950 mb-2">
                   Evidence-Based Clinical Intelligence
                 </h3>
 
-                <p className="text-[13.5px] text-slate-600 leading-relaxed mb-6">
+                <p className="text-[13px] sm:text-[13.5px] text-slate-600 leading-relaxed mb-5 sm:mb-6">
                   We cross-verify handwritten doctor scripts with independent vision models and the official Indian Pharmacopeia. Zero assumptions.
                 </p>
 
-                <div className="space-y-4 pt-6 border-t border-slate-100 text-[13.5px] font-semibold text-slate-800">
+                <div className="space-y-3.5 sm:space-y-4 pt-5 sm:pt-6 border-t border-slate-100 text-[13px] sm:text-[13.5px] font-semibold text-slate-800">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-slate-100">
-                      <Lock size={15} />
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-slate-100">
+                      <Lock size={14} />
                     </div>
                     <span>100% Ephemeral &amp; Private</span>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-slate-100">
-                      <CheckCircle2 size={15} />
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-slate-100">
+                      <CheckCircle2 size={14} />
                     </div>
                     <span>Zero Default Values or Guessing</span>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-slate-100">
-                      <Activity size={15} />
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-slate-100">
+                      <Activity size={14} />
                     </div>
                     <span>Multi-Model Vision Consensus</span>
                   </div>
@@ -481,7 +481,7 @@ export default function Home() {
       </section>
 
       {/* Minimal Footer */}
-      <footer className="w-full py-8 border-t border-slate-200 text-center text-[12.5px] text-slate-400 font-medium bg-white">
+      <footer className="w-full py-6 sm:py-8 border-t border-slate-200 text-center text-[11.5px] sm:text-[12.5px] text-slate-400 font-medium bg-white">
         Prescription Reader &bull; Multi-Model Clinical Verification System &bull; Always consult your qualified healthcare professional
       </footer>
     </div>
