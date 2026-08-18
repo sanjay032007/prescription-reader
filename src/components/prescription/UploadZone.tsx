@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, type DragEvent, type ChangeEvent } from "react";
-import { FileText, Sparkles, Camera, Image as ImageIcon, Cloud, ScanLine } from "lucide-react";
+import { FileText, Sparkles, Camera, Image as ImageIcon, UploadCloud, RefreshCw } from "lucide-react";
 import LiveCameraScanner from "./LiveCameraScanner";
 
 interface UploadZoneProps {
@@ -73,7 +73,7 @@ export default function UploadZone({
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, 1600, 2262);
 
-        // Header - Generic Medical Center (Zero doctor names)
+        // Header - Generic Medical Clinic
         ctx.fillStyle = "#0f172a";
         ctx.font = "bold 44px sans-serif";
         ctx.fillText("CENTRAL CLINICAL HEALTHCARE", 120, 140);
@@ -142,37 +142,37 @@ export default function UploadZone({
       />
 
       {previewUrl && fileName ? (
-        <div className="rounded-2xl border border-slate-200/90 overflow-hidden bg-slate-50/50 shadow-2xs">
-          <div className="relative p-3 bg-white flex items-center justify-center min-h-[220px]">
+        <div className="rounded-2xl border border-slate-200 overflow-hidden bg-slate-50/60 shadow-2xs">
+          <div className="relative p-2 sm:p-4 bg-slate-900/5 flex items-center justify-center min-h-[180px] sm:min-h-[260px]">
             <img
               src={previewUrl}
               alt="Prescription preview"
-              className="max-h-[260px] sm:max-h-[320px] w-auto object-contain rounded-xl shadow-xs"
+              className="max-h-[220px] sm:max-h-[300px] w-auto object-contain rounded-xl shadow-xs bg-white"
             />
           </div>
 
-          <div className="px-5 py-3.5 flex items-center justify-between border-t border-slate-200/80 bg-white">
-            <div className="flex items-center gap-2.5 min-w-0">
+          <div className="px-4 py-3 sm:px-5 sm:py-3.5 flex items-center justify-between border-t border-slate-200/80 bg-white">
+            <div className="flex items-center gap-2 min-w-0 pr-2">
               <FileText size={16} className="text-[#0284c7] shrink-0" />
-              <span className="text-[13.5px] font-semibold text-slate-800 truncate max-w-[200px] sm:max-w-md">
+              <span className="text-[13px] sm:text-[14px] font-semibold text-slate-800 truncate">
                 {fileName}
               </span>
             </div>
             
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <button
                 type="button"
                 onClick={() => setIsScannerOpen(true)}
-                className="text-[12.5px] font-semibold text-slate-600 hover:text-slate-950 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+                className="text-[12px] sm:text-[12.5px] font-bold text-slate-600 hover:text-slate-950 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 Rescan
               </button>
               <button
                 type="button"
                 onClick={triggerBrowse}
-                className="text-[12.5px] font-semibold text-[#0284c7] hover:text-[#0369a1] px-3 py-1.5 rounded-lg hover:bg-sky-50 transition-colors cursor-pointer"
+                className="text-[12px] sm:text-[12.5px] font-bold text-[#0284c7] hover:text-[#0369a1] px-2.5 py-1.5 rounded-lg hover:bg-sky-50 transition-colors cursor-pointer"
               >
-                Change photo
+                Change
               </button>
             </div>
           </div>
@@ -186,36 +186,36 @@ export default function UploadZone({
           onDragOver={onDragOver}
           onDragEnter={onDragOver}
           onDragLeave={onDragLeave}
-          className={`rounded-2xl p-7 sm:p-10 text-center cursor-pointer transition-all border-2 border-dashed ${
+          className={`rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center cursor-pointer transition-all border-2 border-dashed ${
             dragOver
-              ? "border-[#0284c7] bg-sky-50/60 shadow-md"
-              : "border-slate-300 bg-white hover:border-slate-400 hover:bg-slate-50/40"
+              ? "border-[#0284c7] bg-sky-50/70 shadow-md scale-[1.01]"
+              : "border-slate-300 bg-white hover:border-[#0284c7] hover:bg-sky-50/20"
           }`}
         >
           {/* Cloud Upload Icon */}
-          <div className="w-14 h-14 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center mx-auto mb-3.5 text-[#0284c7] shadow-2xs">
-            <Cloud className="w-7 h-7" />
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center mx-auto mb-3.5 text-[#0284c7] shadow-2xs">
+            <UploadCloud className="w-6 h-6 sm:w-7 sm:h-7" />
           </div>
 
-          <p className="text-[16px] sm:text-[17px] font-extrabold text-slate-900 mb-1">
-            Drop prescription here
-          </p>
-          <p className="text-[13px] text-slate-400 font-medium mb-5">
-            or choose an option below
+          <h3 className="text-[16px] sm:text-[18px] font-extrabold text-slate-900 mb-1">
+            Upload or snap your prescription
+          </h3>
+          <p className="text-[12.5px] sm:text-[13.5px] text-slate-500 font-medium mb-5">
+            Drag &amp; drop an image, or use the buttons below
           </p>
 
           {/* Action Buttons Row */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 w-full max-w-xs sm:max-w-md mx-auto">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 w-full max-w-xs sm:max-w-md mx-auto">
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsScannerOpen(true);
               }}
-              className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#0c1e3d] text-white text-[13.5px] font-semibold hover:bg-[#162a4d] transition-all shadow-sm cursor-pointer"
+              className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#0c1e3d] hover:bg-[#162a4d] text-white text-[13.5px] font-bold transition-all shadow-xs cursor-pointer active:scale-[0.99]"
             >
               <Camera size={16} />
-              <span>Take a photo</span>
+              <span>Camera Scan</span>
             </button>
 
             <button
@@ -224,15 +224,15 @@ export default function UploadZone({
                 e.stopPropagation();
                 triggerBrowse();
               }}
-              className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white text-slate-700 text-[13.5px] font-semibold hover:bg-slate-50 transition-all shadow-2xs cursor-pointer"
+              className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 text-[13.5px] font-bold transition-all shadow-2xs cursor-pointer active:scale-[0.99]"
             >
-              <ImageIcon size={16} className="text-slate-500" />
-              <span>Choose from device</span>
+              <ImageIcon size={16} className="text-[#0284c7]" />
+              <span>Choose Photo</span>
             </button>
           </div>
 
-          {/* Sample Prescription Helper */}
-          <div className="mt-5">
+          {/* Sample Prescription Action */}
+          <div className="mt-4 sm:mt-5">
             <button
               type="button"
               disabled={isGeneratingSample}
@@ -240,16 +240,15 @@ export default function UploadZone({
                 e.stopPropagation();
                 handleLoadSample();
               }}
-              className="inline-flex items-center gap-1.5 text-[12.5px] text-slate-500 hover:text-slate-800 font-medium cursor-pointer transition-colors"
+              className="inline-flex items-center gap-1.5 text-[12px] sm:text-[12.5px] text-slate-500 hover:text-slate-900 font-semibold cursor-pointer transition-colors"
             >
               <Sparkles size={13} className="text-amber-500" />
-              <span>{isGeneratingSample ? "Loading sample..." : "Try sample prescription"}</span>
+              <span>{isGeneratingSample ? "Loading sample prescription..." : "✨ Try a sample prescription"}</span>
             </button>
           </div>
 
-          {/* Subtext Specs */}
-          <p className="mt-4 text-[11.5px] text-slate-400 font-medium">
-            JPG &bull; PNG &bull; WEBP &bull; Max 10 MB
+          <p className="mt-4 text-[11px] sm:text-[11.5px] text-slate-400 font-medium">
+            Supports JPG, PNG, WEBP &bull; Max 10 MB
           </p>
         </div>
       )}

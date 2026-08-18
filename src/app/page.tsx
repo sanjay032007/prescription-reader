@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useRef } from "react";
 import BrandHeader from "@/components/prescription/BrandHeader";
-import DeskClipboardVisual from "@/components/prescription/DeskClipboardVisual";
 import UploadZone from "@/components/prescription/UploadZone";
 import SymptomsInput from "@/components/prescription/SymptomsInput";
 import AnalyseButton from "@/components/prescription/AnalyseButton";
@@ -13,17 +12,17 @@ import { enhancePrescriptionImage } from "@/lib/imageEnhancer";
 import { toBase64 } from "@/lib/gemini";
 import type { PipelineVerificationResult, VerifiedMedicine, CandidateMatch } from "@/services/types";
 import {
-  Upload,
   Lock,
-  Shield,
-  Zap,
-  RefreshCw,
+  ShieldCheck,
+  Cpu,
   Sparkles,
   Search,
   Wand2,
   FileCheck2,
   CheckCircle2,
   Activity,
+  RefreshCw,
+  FileText,
 } from "lucide-react";
 
 export default function Home() {
@@ -36,11 +35,7 @@ export default function Home() {
   const [isEnhanced, setIsEnhanced] = useState<boolean>(false);
   const [isManualSearchOpen, setIsManualSearchOpen] = useState<boolean>(false);
 
-  const studioRef = useRef<HTMLDivElement>(null);
-
-  const scrollToStudio = () => {
-    studioRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleFileSelected = useCallback((selected: File) => {
     setFile(selected);
@@ -215,8 +210,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fafbfc] overflow-x-hidden">
-      <BrandHeader />
+    <div className="min-h-screen flex flex-col bg-[#fafbfc] selection:bg-sky-100 selection:text-[#0284c7] overflow-x-hidden">
+      <BrandHeader onOpenLookup={() => setIsManualSearchOpen(true)} />
 
       <ManualMedicineSearchModal
         isOpen={isManualSearchOpen}
@@ -224,265 +219,190 @@ export default function Home() {
         onSelectMedicine={handleAddManualMedicine}
       />
 
-      {/* ============================================================ */}
-      {/* 1. TOP HERO BANNER (Warm Desk Surface Background)            */}
-      {/* ============================================================ */}
-      <section className="w-full desk-surface border-b border-[#e6dfd6] py-10 sm:py-16 lg:py-20 overflow-hidden">
-        <div className="max-w-[1360px] mx-auto px-5 sm:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
-            
-            {/* Left Hero Content */}
-            <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left">
-              
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 border border-slate-200/80 text-[#0284c7] text-[11px] sm:text-[11.5px] font-extrabold uppercase tracking-widest mb-4 sm:mb-6 shadow-2xs">
-                <span className="w-2 h-2 rounded-full bg-[#0284c7] animate-pulse" />
-                <span>Multi-Model Clinical Intelligence</span>
-              </div>
-
-              {/* Serif Headline */}
-              <h1 className="font-serif-heading text-[36px] sm:text-[50px] lg:text-[62px] font-extrabold text-slate-950 tracking-tight leading-[1.08] mb-3.5 sm:mb-5">
-                Make your<br className="hidden sm:block" />
-                {" "}prescription<br className="hidden sm:block" />
-                {" "}<span className="text-[#0284c7]">easier to read.</span>
-              </h1>
-
-              {/* Subtitle */}
-              <p className="text-[15px] sm:text-[17px] text-slate-600 font-normal leading-relaxed max-w-[480px] mb-6 sm:mb-8">
-                Upload a photo of your doctor&apos;s prescription. We cross-verify handwritten medicines, exact strengths, and dosage schedules against the Indian Pharmacopeia.
-              </p>
-
-              {/* Upload Prescription Button */}
-              <button
-                type="button"
-                onClick={scrollToStudio}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-[#0c1e3d] hover:bg-[#162a4d] text-white text-[15px] font-bold transition-all shadow-md hover:shadow-lg active:scale-[0.99] cursor-pointer mb-5 sm:mb-6"
-              >
-                <Upload size={18} />
-                <span>Upload Prescription</span>
-              </button>
-
-              {/* Specs & Privacy Note */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 text-[12.5px] sm:text-[13px] text-slate-500 font-semibold">
-                <span className="inline-flex items-center gap-1.5 text-slate-700">
-                  <Lock size={13} className="text-[#0284c7]" />
-                  100% Private &amp; Encrypted
-                </span>
-                <span className="text-slate-300">&bull;</span>
-                <span>TrOCR + Qwen + Llama</span>
-                <span className="text-slate-300">&bull;</span>
-                <span>Indian Database Verified</span>
-              </div>
-            </div>
-
-            {/* Right Hero Desk Clipboard Visual (Desktop only - prevents mobile hero truncation) */}
-            <div className="lg:col-span-6 hidden lg:flex items-center justify-center">
-              <DeskClipboardVisual />
-            </div>
-
+      <main className="flex-1 w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        
+        {/* ============================================================ */}
+        {/* 1. HERO HEADER (Clean, Centered, Punchy on All Devices)       */}
+        {/* ============================================================ */}
+        <section className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
+          {/* Top Pill Badge */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-200/80 text-[#0284c7] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider mb-4 shadow-2xs">
+            <Sparkles size={13} className="text-amber-500" />
+            <span>AI-Powered Handwritten Prescription Reader</span>
           </div>
-        </div>
-      </section>
 
-      {/* ============================================================ */}
-      {/* 2. PRESCRIPTION STUDIO & DATA SAFETY SECTION                 */}
-      {/* ============================================================ */}
-      <section id="studio-section" ref={studioRef} className="w-full py-10 sm:py-16 bg-[#fafbfc]">
-        <div className="max-w-[1360px] mx-auto px-4 sm:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          {/* Main Title */}
+          <h1 className="text-[32px] sm:text-[46px] lg:text-[54px] font-extrabold text-slate-950 tracking-tight leading-[1.1] mb-3.5 sm:mb-4">
+            Understand your prescription.<br />
+            <span className="text-[#0284c7]">Accurate &amp; Verified.</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-[14.5px] sm:text-[16.5px] text-slate-600 font-normal leading-relaxed max-w-2xl mx-auto">
+            Upload any handwritten prescription. We cross-verify medicine names, exact strengths, and dosage schedules against the Indian Pharmacopeia using multi-model AI.
+          </p>
+        </section>
+
+        {/* ============================================================ */}
+        {/* 2. CENTRAL PRESCRIPTION WORKSPACE                            */}
+        {/* ============================================================ */}
+        <section className="max-w-3xl mx-auto mb-12">
+          <div className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-8 shadow-xs hover:border-slate-300 transition-all">
             
-            {/* Left Column: Upload Studio Box */}
-            <div className="lg:col-span-8 flex flex-col">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-                <div>
-                  <span className="text-[11px] sm:text-[11.5px] font-extrabold uppercase tracking-widest text-[#0284c7] block mb-0.5">
-                    Prescription Studio
+            {/* Upload Zone Component */}
+            <UploadZone
+              onFileSelected={handleFileSelected}
+              fileName={file?.name}
+              previewUrl={previewUrl}
+              disabled={loading}
+            />
+
+            {/* Auto-Enhance Filter Option */}
+            {file && (
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-2.5 p-3 sm:p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 text-[12px] sm:text-[12.5px]">
+                <div className="flex items-center gap-2">
+                  <Wand2 size={15} className="text-[#0284c7]" />
+                  <span className="font-semibold text-slate-800">
+                    {isEnhanced ? "✨ High-Contrast Document Filter Applied" : "Faint ink or dim lighting?"}
                   </span>
-                  <h2 className="font-serif-heading text-[24px] sm:text-[30px] font-extrabold text-slate-950 tracking-tight">
-                    Upload Prescription
-                  </h2>
-                  <p className="text-[13.5px] sm:text-[14.5px] text-slate-500 mt-0.5">
-                    Upload a clear photo or document of your prescription.
-                  </p>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => setIsManualSearchOpen(true)}
-                  className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 text-[12.5px] sm:text-[13px] font-bold text-slate-700 transition-all shadow-2xs cursor-pointer"
-                >
-                  <Search size={14} className="text-[#0284c7]" />
-                  <span>Quick Lookup</span>
-                </button>
+                {!isEnhanced ? (
+                  <button
+                    type="button"
+                    onClick={handleToggleEnhance}
+                    className="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-[#0284c7] font-bold text-[11.5px] sm:text-[12px] transition-all cursor-pointer shadow-2xs flex items-center gap-1"
+                  >
+                    <Sparkles size={12} className="text-amber-500" />
+                    <span>Apply Auto-Enhance Filter</span>
+                  </button>
+                ) : (
+                  <span className="text-emerald-700 font-bold text-[12px] flex items-center gap-1">
+                    <FileCheck2 size={13} />
+                    <span>Enhanced for OCR</span>
+                  </span>
+                )}
               </div>
+            )}
 
-              {/* Dashed Dropzone Box */}
-              <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 p-4 sm:p-7 shadow-xs hover:border-slate-300 transition-all">
-                <UploadZone
-                  onFileSelected={handleFileSelected}
-                  fileName={file?.name}
-                  previewUrl={previewUrl}
+            {/* Optional Symptoms Input */}
+            {file && (
+              <div className="mt-4 pt-4 border-t border-slate-100">
+                <SymptomsInput
+                  value={symptoms}
+                  onChange={setSymptoms}
                   disabled={loading}
                 />
-
-                {/* Auto-Enhance Filter Tool */}
-                {file && (
-                  <div className="mt-4 flex flex-wrap items-center justify-between gap-2.5 p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200/70 text-[12px] sm:text-[12.5px]">
-                    <div className="flex items-center gap-2">
-                      <Wand2 size={15} className="text-[#0284c7]" />
-                      <span className="font-semibold text-slate-800">
-                        {isEnhanced ? "✨ High-Contrast Document Filter Active" : "Faint or blurry ink?"}
-                      </span>
-                    </div>
-
-                    {!isEnhanced ? (
-                      <button
-                        type="button"
-                        onClick={handleToggleEnhance}
-                        className="px-3 py-1.5 rounded-lg sm:rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-[#0284c7] font-bold text-[11.5px] sm:text-[12px] transition-all cursor-pointer shadow-2xs flex items-center gap-1"
-                      >
-                        <Sparkles size={12} className="text-amber-500" />
-                        <span>Apply Auto-Enhance Filter</span>
-                      </button>
-                    ) : (
-                      <span className="text-emerald-700 font-bold text-[11.5px] sm:text-[12px] flex items-center gap-1">
-                        <FileCheck2 size={13} />
-                        <span>Enhanced for OCR</span>
-                      </span>
-                    )}
-                  </div>
-                )}
-
-                {/* Optional Symptoms Input */}
-                {file && (
-                  <div className="mt-4 pt-4 border-t border-slate-100">
-                    <SymptomsInput
-                      value={symptoms}
-                      onChange={setSymptoms}
-                      disabled={loading}
-                    />
-                  </div>
-                )}
-
-                {/* Error Banner with Smart Actions */}
-                {error && (
-                  <div className="mt-4">
-                    <ErrorCard message={error} />
-                    <div className="mt-3 flex flex-wrap items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={handleToggleEnhance}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-50 border border-sky-200 text-[#0284c7] hover:bg-sky-100 font-bold text-[12px] transition-colors cursor-pointer"
-                      >
-                        <Sparkles size={13} />
-                        <span>1. Enhance Contrast</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={handleAnalyse}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 font-bold text-[12px] transition-colors cursor-pointer"
-                      >
-                        <RefreshCw size={13} />
-                        <span>2. Retry Scan</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setIsManualSearchOpen(true)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200 font-bold text-[12px] transition-colors cursor-pointer"
-                      >
-                        <Search size={13} />
-                        <span>3. Lookup Medicine Name</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={handleReset}
-                        className="inline-flex items-center gap-1 text-[12px] font-semibold text-slate-500 hover:text-slate-800 ml-auto cursor-pointer"
-                      >
-                        <RefreshCw size={12} />
-                        <span>Try another photo</span>
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* Analyse Button */}
-                {file && (
-                  <div className="mt-5">
-                    <AnalyseButton
-                      onClick={handleAnalyse}
-                      isLoading={loading}
-                      disabled={!file}
-                    />
-                  </div>
-                )}
               </div>
-            </div>
+            )}
 
-            {/* Right Column: "Your data is safe" Card */}
-            <div className="lg:col-span-4 flex flex-col">
-              <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 p-5 sm:p-8 shadow-xs">
-                
-                {/* Shield Icon */}
-                <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-xl sm:rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-[#0284c7] mb-4 sm:mb-5 shadow-2xs">
-                  <Shield size={22} />
+            {/* Error Banner with Smart Remediation Actions */}
+            {error && (
+              <div className="mt-4">
+                <ErrorCard message={error} />
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleToggleEnhance}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-50 border border-sky-200 text-[#0284c7] hover:bg-sky-100 font-bold text-[12px] transition-colors cursor-pointer"
+                  >
+                    <Sparkles size={13} />
+                    <span>1. Enhance Contrast</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleAnalyse}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 font-bold text-[12px] transition-colors cursor-pointer"
+                  >
+                    <RefreshCw size={13} />
+                    <span>2. Retry Scan</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsManualSearchOpen(true)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200 font-bold text-[12px] transition-colors cursor-pointer"
+                  >
+                    <Search size={13} />
+                    <span>3. Lookup Medicine Name</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="inline-flex items-center gap-1 text-[12px] font-semibold text-slate-500 hover:text-slate-800 ml-auto cursor-pointer"
+                  >
+                    <RefreshCw size={12} />
+                    <span>Try another photo</span>
+                  </button>
                 </div>
-
-                <h3 className="text-[17px] sm:text-[19px] font-extrabold text-slate-950 mb-2">
-                  Evidence-Based Clinical Intelligence
-                </h3>
-
-                <p className="text-[13px] sm:text-[13.5px] text-slate-600 leading-relaxed mb-5 sm:mb-6">
-                  We cross-verify handwritten doctor scripts with independent vision models and the official Indian Pharmacopeia. Zero assumptions.
-                </p>
-
-                <div className="space-y-3.5 sm:space-y-4 pt-5 sm:pt-6 border-t border-slate-100 text-[13px] sm:text-[13.5px] font-semibold text-slate-800">
-                  <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-slate-100">
-                      <Lock size={14} />
-                    </div>
-                    <span>100% Ephemeral &amp; Private</span>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-slate-100">
-                      <CheckCircle2 size={14} />
-                    </div>
-                    <span>Zero Default Values or Guessing</span>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-slate-100">
-                      <Activity size={14} />
-                    </div>
-                    <span>Multi-Model Vision Consensus</span>
-                  </div>
-                </div>
-
               </div>
-            </div>
+            )}
+
+            {/* Primary Action Button */}
+            {file && (
+              <div className="mt-5">
+                <AnalyseButton
+                  onClick={handleAnalyse}
+                  isLoading={loading}
+                  disabled={!file}
+                />
+              </div>
+            )}
 
           </div>
 
-          {/* ============================================================ */}
-          {/* 3. MULTI-LAYER VERIFIED RESULTS BREAKDOWN                    */}
-          {/* ============================================================ */}
-          <div className="mt-8">
-            <ResultsSection
-              result={result}
-              onConfirmCandidate={handleConfirmCandidate}
-              onKeepOriginal={handleKeepOriginal}
-            />
-          </div>
+          {/* Quick Feature Badges Row */}
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-3 shadow-2xs">
+              <div className="w-8 h-8 rounded-xl bg-sky-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-sky-100">
+                <Lock size={15} />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[12.5px] font-bold text-slate-900 leading-tight">100% Private</p>
+                <p className="text-[11px] text-slate-500 truncate">No images or data stored</p>
+              </div>
+            </div>
 
+            <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-3 shadow-2xs">
+              <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0 border border-emerald-100">
+                <Cpu size={15} />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[12.5px] font-bold text-slate-900 leading-tight">Multi-Model AI</p>
+                <p className="text-[11px] text-slate-500 truncate">TrOCR + Qwen + Llama</p>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-3 shadow-2xs">
+              <div className="w-8 h-8 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 shrink-0 border border-amber-100">
+                <ShieldCheck size={15} />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[12.5px] font-bold text-slate-900 leading-tight">Indian Database</p>
+                <p className="text-[11px] text-slate-500 truncate">Verified formulations</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================================ */}
+        {/* 3. MULTI-LAYER VERIFIED RESULTS SECTION                      */}
+        {/* ============================================================ */}
+        <div ref={resultsRef}>
+          <ResultsSection
+            result={result}
+            onConfirmCandidate={handleConfirmCandidate}
+            onKeepOriginal={handleKeepOriginal}
+          />
         </div>
-      </section>
+
+      </main>
 
       {/* Minimal Footer */}
-      <footer className="w-full py-6 sm:py-8 border-t border-slate-200 text-center text-[11.5px] sm:text-[12.5px] text-slate-400 font-medium bg-white">
-        Prescription Reader &bull; Multi-Model Clinical Verification System &bull; Always consult your qualified healthcare professional
+      <footer className="w-full py-6 sm:py-8 border-t border-slate-200 text-center text-[12px] sm:text-[12.5px] text-slate-400 font-medium bg-white">
+        Prescription Reader &bull; Multi-Model Clinical Verification &bull; Always consult your qualified physician
       </footer>
     </div>
   );
