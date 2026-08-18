@@ -227,28 +227,28 @@ export default function Home() {
       {/* ============================================================ */}
       {/* 1. TOP HERO BANNER (Warm Desk Surface Background)            */}
       {/* ============================================================ */}
-      <section className="w-full desk-surface border-b border-[#e6dfd6] py-8 sm:py-14 lg:py-20 overflow-hidden">
-        <div className="max-w-[1360px] mx-auto px-4 sm:px-8">
+      <section className="w-full desk-surface border-b border-[#e6dfd6] py-10 sm:py-16 lg:py-20 overflow-hidden">
+        <div className="max-w-[1360px] mx-auto px-5 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
             
             {/* Left Hero Content */}
             <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left">
               
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 border border-slate-200/80 text-[#0284c7] text-[11px] sm:text-[11.5px] font-extrabold uppercase tracking-widest mb-4 sm:mb-6 shadow-2xs">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 border border-slate-200/80 text-[#0284c7] text-[11px] sm:text-[11.5px] font-extrabold uppercase tracking-widest mb-4 sm:mb-6 shadow-2xs">
                 <span className="w-2 h-2 rounded-full bg-[#0284c7] animate-pulse" />
                 <span>Multi-Model Clinical Intelligence</span>
               </div>
 
               {/* Serif Headline */}
-              <h1 className="font-serif-heading text-[34px] sm:text-[50px] lg:text-[62px] font-extrabold text-slate-950 tracking-tight leading-[1.08] mb-3 sm:mb-5">
+              <h1 className="font-serif-heading text-[36px] sm:text-[50px] lg:text-[62px] font-extrabold text-slate-950 tracking-tight leading-[1.08] mb-3.5 sm:mb-5">
                 Make your<br className="hidden sm:block" />
                 {" "}prescription<br className="hidden sm:block" />
                 {" "}<span className="text-[#0284c7]">easier to read.</span>
               </h1>
 
               {/* Subtitle */}
-              <p className="text-[14.5px] sm:text-[17px] text-slate-600 font-normal leading-relaxed max-w-[480px] mb-6 sm:mb-8">
+              <p className="text-[15px] sm:text-[17px] text-slate-600 font-normal leading-relaxed max-w-[480px] mb-6 sm:mb-8">
                 Upload a photo of your doctor&apos;s prescription. We cross-verify handwritten medicines, exact strengths, and dosage schedules against the Indian Pharmacopeia.
               </p>
 
@@ -256,14 +256,14 @@ export default function Home() {
               <button
                 type="button"
                 onClick={scrollToStudio}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 sm:py-4 rounded-xl bg-[#0c1e3d] hover:bg-[#162a4d] text-white text-[14.5px] sm:text-[15px] font-bold transition-all shadow-md hover:shadow-lg active:scale-[0.99] cursor-pointer mb-5 sm:mb-6"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-[#0c1e3d] hover:bg-[#162a4d] text-white text-[15px] font-bold transition-all shadow-md hover:shadow-lg active:scale-[0.99] cursor-pointer mb-5 sm:mb-6"
               >
                 <Upload size={18} />
                 <span>Upload Prescription</span>
               </button>
 
               {/* Specs & Privacy Note */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 text-[12px] sm:text-[13px] text-slate-500 font-semibold">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 text-[12.5px] sm:text-[13px] text-slate-500 font-semibold">
                 <span className="inline-flex items-center gap-1.5 text-slate-700">
                   <Lock size={13} className="text-[#0284c7]" />
                   100% Private &amp; Encrypted
@@ -275,8 +275,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Hero Desk Clipboard Visual */}
-            <div className="lg:col-span-6 flex items-center justify-center pt-2 sm:pt-4 lg:pt-0">
+            {/* Right Hero Desk Clipboard Visual (Desktop only - prevents mobile hero truncation) */}
+            <div className="lg:col-span-6 hidden lg:flex items-center justify-center">
               <DeskClipboardVisual />
             </div>
 
