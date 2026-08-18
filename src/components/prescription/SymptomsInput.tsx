@@ -13,10 +13,10 @@ const COMMON_SYMPTOMS = [
   "Headache",
   "Cough & Cold",
   "Sore Throat",
-  "Body Ache",
-  "Acidity / Heartburn",
+  "Body Pain",
+  "Acidity",
   "Chest Congestion",
-  "Stomach Pain",
+  "Stomach Ache",
 ];
 
 export default function SymptomsInput({
@@ -33,14 +33,12 @@ export default function SymptomsInput({
     if (disabled) return;
     const lower = sym.toLowerCase();
     if (currentSymptoms.includes(lower)) {
-      // Remove
       const filtered = value
         .split(",")
         .map((s) => s.trim())
         .filter((s) => s.toLowerCase() !== lower);
       onChange(filtered.join(", "));
     } else {
-      // Add
       if (!value.trim()) {
         onChange(sym);
       } else {
@@ -54,11 +52,11 @@ export default function SymptomsInput({
       <div className="flex items-center justify-between mb-2">
         <label
           htmlFor="symptoms-input"
-          className="flex items-center gap-1.5 text-[13px] font-bold text-slate-800"
+          className="flex items-center gap-1.5 text-[13px] sm:text-[13.5px] font-bold text-slate-800"
         >
           <Stethoscope size={15} className="text-[#0284c7]" />
           <span>Patient Symptoms</span>
-          <span className="text-slate-400 font-normal text-[12px]">(optional clinical cross-check)</span>
+          <span className="text-slate-400 font-normal text-[12px]">(optional clinical context)</span>
         </label>
       </div>
 
@@ -68,11 +66,11 @@ export default function SymptomsInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
-        placeholder="e.g. fever for 3 days, cough, throat irritation..."
-        className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50/70 text-[14px] text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#0284c7] focus:ring-2 focus:ring-sky-100 focus:outline-none transition-all"
+        placeholder="e.g. fever for 3 days, dry cough, acidity..."
+        className="w-full h-11 sm:h-12 px-4 rounded-xl border border-slate-200 bg-slate-50/70 text-[14px] text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#0284c7] focus:ring-2 focus:ring-sky-100 focus:outline-none transition-all"
       />
 
-      {/* Quick Clickable Symptom Pills */}
+      {/* Clickable Quick Symptom Pills */}
       <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
         <span className="text-[11.5px] font-medium text-slate-400 mr-1">Quick add:</span>
         {COMMON_SYMPTOMS.map((sym) => {
@@ -83,9 +81,9 @@ export default function SymptomsInput({
               type="button"
               disabled={disabled}
               onClick={() => toggleSymptom(sym)}
-              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[12px] font-semibold transition-all cursor-pointer ${
+              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11.5px] sm:text-[12px] font-semibold transition-all cursor-pointer ${
                 isSelected
-                  ? "bg-[#0c1e3d] text-white shadow-2xs"
+                  ? "bg-[#0f172a] text-white shadow-2xs"
                   : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300"
               }`}
             >

@@ -20,9 +20,8 @@ import {
   Wand2,
   FileCheck2,
   CheckCircle2,
-  Activity,
   RefreshCw,
-  FileText,
+  Zap,
 } from "lucide-react";
 
 export default function Home() {
@@ -34,8 +33,6 @@ export default function Home() {
   const [result, setResult] = useState<PipelineVerificationResult | null>(null);
   const [isEnhanced, setIsEnhanced] = useState<boolean>(false);
   const [isManualSearchOpen, setIsManualSearchOpen] = useState<boolean>(false);
-
-  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleFileSelected = useCallback((selected: File) => {
     setFile(selected);
@@ -210,7 +207,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fafbfc] selection:bg-sky-100 selection:text-[#0284c7] overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-[#f8fafc] selection:bg-sky-100 selection:text-[#0284c7] overflow-x-hidden hero-gradient">
       <BrandHeader onOpenLookup={() => setIsManualSearchOpen(true)} />
 
       <ManualMedicineSearchModal
@@ -219,37 +216,37 @@ export default function Home() {
         onSelectMedicine={handleAddManualMedicine}
       />
 
-      <main className="flex-1 w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <main className="flex-1 w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
         
         {/* ============================================================ */}
-        {/* 1. HERO HEADER (Clean, Centered, Punchy on All Devices)       */}
+        {/* 1. HERO TITLE BLOCK                                          */}
         {/* ============================================================ */}
-        <section className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
-          {/* Top Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-200/80 text-[#0284c7] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider mb-4 shadow-2xs">
+        <section className="text-center max-w-2xl mx-auto mb-6 sm:mb-8">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-sky-50 border border-sky-200/80 text-[#0284c7] text-[11px] sm:text-[11.5px] font-bold uppercase tracking-wider mb-3 shadow-2xs">
             <Sparkles size={13} className="text-amber-500" />
-            <span>AI-Powered Handwritten Prescription Reader</span>
+            <span>AI Handwritten Prescription Reader</span>
           </div>
 
-          {/* Main Title */}
-          <h1 className="text-[32px] sm:text-[46px] lg:text-[54px] font-extrabold text-slate-950 tracking-tight leading-[1.1] mb-3.5 sm:mb-4">
+          {/* Heading */}
+          <h1 className="text-[28px] sm:text-[40px] lg:text-[48px] font-extrabold text-slate-950 tracking-tight leading-[1.12] mb-2 sm:mb-3">
             Understand your prescription.<br />
             <span className="text-[#0284c7]">Accurate &amp; Verified.</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-[14.5px] sm:text-[16.5px] text-slate-600 font-normal leading-relaxed max-w-2xl mx-auto">
-            Upload any handwritten prescription. We cross-verify medicine names, exact strengths, and dosage schedules against the Indian Pharmacopeia using multi-model AI.
+          <p className="text-[14px] sm:text-[15.5px] text-slate-600 font-normal leading-relaxed">
+            Upload any handwritten prescription to decipher medicine names, strengths, and dosage schedules cross-referenced with the Indian Pharmacopeia.
           </p>
         </section>
 
         {/* ============================================================ */}
-        {/* 2. CENTRAL PRESCRIPTION WORKSPACE                            */}
+        {/* 2. CORE INTERACTIVE UPLOAD WORKSPACE CARD                    */}
         {/* ============================================================ */}
-        <section className="max-w-3xl mx-auto mb-12">
-          <div className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-8 shadow-xs hover:border-slate-300 transition-all">
+        <section className="max-w-2xl mx-auto mb-10">
+          <div className="bg-white rounded-3xl border border-slate-200/90 p-4 sm:p-7 shadow-xs hover:border-slate-300 transition-all">
             
-            {/* Upload Zone Component */}
+            {/* Upload Zone */}
             <UploadZone
               onFileSelected={handleFileSelected}
               fileName={file?.name}
@@ -257,13 +254,13 @@ export default function Home() {
               disabled={loading}
             />
 
-            {/* Auto-Enhance Filter Option */}
+            {/* Auto-Enhance Filter Tool */}
             {file && (
               <div className="mt-4 flex flex-wrap items-center justify-between gap-2.5 p-3 sm:p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 text-[12px] sm:text-[12.5px]">
                 <div className="flex items-center gap-2">
                   <Wand2 size={15} className="text-[#0284c7]" />
                   <span className="font-semibold text-slate-800">
-                    {isEnhanced ? "✨ High-Contrast Document Filter Applied" : "Faint ink or dim lighting?"}
+                    {isEnhanced ? "✨ Contrast Filter Applied" : "Faint ink or dim lighting?"}
                   </span>
                 </div>
 
@@ -271,13 +268,13 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={handleToggleEnhance}
-                    className="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-[#0284c7] font-bold text-[11.5px] sm:text-[12px] transition-all cursor-pointer shadow-2xs flex items-center gap-1"
+                    className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-[#0284c7] font-bold text-[11.5px] sm:text-[12px] transition-all cursor-pointer shadow-2xs flex items-center gap-1"
                   >
                     <Sparkles size={12} className="text-amber-500" />
                     <span>Apply Auto-Enhance Filter</span>
                   </button>
                 ) : (
-                  <span className="text-emerald-700 font-bold text-[12px] flex items-center gap-1">
+                  <span className="text-emerald-700 font-bold text-[11.5px] sm:text-[12px] flex items-center gap-1">
                     <FileCheck2 size={13} />
                     <span>Enhanced for OCR</span>
                   </span>
@@ -353,35 +350,35 @@ export default function Home() {
 
           </div>
 
-          {/* Quick Feature Badges Row */}
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-3 shadow-2xs">
+          {/* Quick Feature Badges Grid */}
+          <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div className="p-3 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-2.5 shadow-2xs">
               <div className="w-8 h-8 rounded-xl bg-sky-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-sky-100">
                 <Lock size={15} />
               </div>
               <div className="min-w-0">
-                <p className="text-[12.5px] font-bold text-slate-900 leading-tight">100% Private</p>
-                <p className="text-[11px] text-slate-500 truncate">No images or data stored</p>
+                <p className="text-[12px] font-bold text-slate-900 leading-tight">100% Private</p>
+                <p className="text-[10.5px] text-slate-500 truncate">Zero data saved</p>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-3 shadow-2xs">
+            <div className="p-3 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-2.5 shadow-2xs">
               <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0 border border-emerald-100">
                 <Cpu size={15} />
               </div>
               <div className="min-w-0">
-                <p className="text-[12.5px] font-bold text-slate-900 leading-tight">Multi-Model AI</p>
-                <p className="text-[11px] text-slate-500 truncate">TrOCR + Qwen + Llama</p>
+                <p className="text-[12px] font-bold text-slate-900 leading-tight">Multi-Model AI</p>
+                <p className="text-[10.5px] text-slate-500 truncate">TrOCR + Qwen + Llama</p>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-3 shadow-2xs">
+            <div className="p-3 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-2.5 shadow-2xs">
               <div className="w-8 h-8 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 shrink-0 border border-amber-100">
                 <ShieldCheck size={15} />
               </div>
               <div className="min-w-0">
-                <p className="text-[12.5px] font-bold text-slate-900 leading-tight">Indian Database</p>
-                <p className="text-[11px] text-slate-500 truncate">Verified formulations</p>
+                <p className="text-[12px] font-bold text-slate-900 leading-tight">Indian Database</p>
+                <p className="text-[10.5px] text-slate-500 truncate">300+ Verified Medicines</p>
               </div>
             </div>
           </div>
@@ -390,19 +387,17 @@ export default function Home() {
         {/* ============================================================ */}
         {/* 3. MULTI-LAYER VERIFIED RESULTS SECTION                      */}
         {/* ============================================================ */}
-        <div ref={resultsRef}>
-          <ResultsSection
-            result={result}
-            onConfirmCandidate={handleConfirmCandidate}
-            onKeepOriginal={handleKeepOriginal}
-          />
-        </div>
+        <ResultsSection
+          result={result}
+          onConfirmCandidate={handleConfirmCandidate}
+          onKeepOriginal={handleKeepOriginal}
+        />
 
       </main>
 
       {/* Minimal Footer */}
-      <footer className="w-full py-6 sm:py-8 border-t border-slate-200 text-center text-[12px] sm:text-[12.5px] text-slate-400 font-medium bg-white">
-        Prescription Reader &bull; Multi-Model Clinical Verification &bull; Always consult your qualified physician
+      <footer className="w-full py-6 border-t border-slate-200 text-center text-[11.5px] sm:text-[12px] text-slate-400 font-medium bg-white">
+        Prescription Reader &bull; Multi-Model Clinical Verification System &bull; Always follow your doctor&apos;s advice
       </footer>
     </div>
   );

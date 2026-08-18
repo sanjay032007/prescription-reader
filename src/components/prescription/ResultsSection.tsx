@@ -46,20 +46,20 @@ export default function ResultsSection({
   };
 
   return (
-    <section id="results-breakdown" className="pt-8 pb-16">
+    <section id="results-breakdown" className="pt-6 sm:pt-8 pb-16">
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-sky-50 text-[#0284c7] text-[12px] font-extrabold uppercase tracking-wider mb-2 border border-sky-100">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-[11.5px] sm:text-[12px] font-extrabold uppercase tracking-wider mb-2 border border-emerald-200">
             <Cpu size={14} />
             <span>Multi-Model Verification Complete</span>
           </div>
 
-          <h2 className="text-[26px] sm:text-[32px] font-extrabold text-slate-950 tracking-tight">
+          <h2 className="text-[24px] sm:text-[30px] font-extrabold text-slate-950 tracking-tight">
             Detected Medications
           </h2>
 
-          <div className="flex items-center gap-3 text-[14px] text-slate-500 mt-1">
+          <div className="flex items-center gap-3 text-[13px] sm:text-[14px] text-slate-500 mt-1">
             <span>
               {result.medicines.length} {result.medicines.length === 1 ? "medication" : "medications"} identified
             </span>
@@ -85,12 +85,12 @@ export default function ResultsSection({
           <button
             type="button"
             onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0c1e3d] hover:bg-[#162a4d] text-[13px] font-semibold text-white transition-all cursor-pointer shadow-xs"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0f172a] hover:bg-[#1e293b] text-[13px] font-semibold text-white transition-all cursor-pointer shadow-xs"
           >
             {copied ? (
               <>
                 <Check size={14} className="text-emerald-400" />
-                <span>Copied Summary</span>
+                <span>Copied</span>
               </>
             ) : (
               <>
@@ -106,7 +106,7 @@ export default function ResultsSection({
       {result.general_warnings && result.general_warnings.length > 0 && (
         <div className="mb-6 p-4 bg-sky-50 border border-sky-200 rounded-2xl flex items-start gap-3">
           <ShieldAlert size={18} className="text-[#0284c7] shrink-0 mt-0.5" />
-          <div className="text-[13px] text-sky-950 font-medium space-y-1">
+          <div className="text-[12.5px] sm:text-[13px] text-sky-950 font-medium space-y-1">
             {result.general_warnings.map((w, idx) => (
               <p key={idx}>{w}</p>
             ))}
@@ -115,7 +115,7 @@ export default function ResultsSection({
       )}
 
       {/* Grid of Verified Medicine Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {result.medicines.map((med) => (
           <MedicineCard
             key={med.id}

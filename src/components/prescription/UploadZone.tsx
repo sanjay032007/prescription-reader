@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, type DragEvent, type ChangeEvent } from "react";
-import { FileText, Sparkles, Camera, Image as ImageIcon, UploadCloud, RefreshCw } from "lucide-react";
+import { FileText, Sparkles, Camera, Image as ImageIcon, UploadCloud, RefreshCw, Eye } from "lucide-react";
 import LiveCameraScanner from "./LiveCameraScanner";
 
 interface UploadZoneProps {
@@ -142,8 +142,8 @@ export default function UploadZone({
       />
 
       {previewUrl && fileName ? (
-        <div className="rounded-2xl border border-slate-200 overflow-hidden bg-slate-50/60 shadow-2xs">
-          <div className="relative p-2 sm:p-4 bg-slate-900/5 flex items-center justify-center min-h-[180px] sm:min-h-[260px]">
+        <div className="rounded-2xl border border-slate-200 overflow-hidden bg-slate-50 shadow-2xs">
+          <div className="relative p-2 sm:p-4 bg-slate-900/5 flex items-center justify-center min-h-[190px] sm:min-h-[260px]">
             <img
               src={previewUrl}
               alt="Prescription preview"
@@ -172,7 +172,7 @@ export default function UploadZone({
                 onClick={triggerBrowse}
                 className="text-[12px] sm:text-[12.5px] font-bold text-[#0284c7] hover:text-[#0369a1] px-2.5 py-1.5 rounded-lg hover:bg-sky-50 transition-colors cursor-pointer"
               >
-                Change
+                Change Photo
               </button>
             </div>
           </div>
@@ -192,29 +192,29 @@ export default function UploadZone({
               : "border-slate-300 bg-white hover:border-[#0284c7] hover:bg-sky-50/20"
           }`}
         >
-          {/* Cloud Upload Icon */}
-          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center mx-auto mb-3.5 text-[#0284c7] shadow-2xs">
-            <UploadCloud className="w-6 h-6 sm:w-7 sm:h-7" />
+          {/* Upload Cloud Icon */}
+          <div className="w-13 h-13 sm:w-16 sm:h-16 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center mx-auto mb-4 text-[#0284c7] shadow-2xs">
+            <UploadCloud className="w-7 h-7 sm:w-8 sm:h-8" />
           </div>
 
-          <h3 className="text-[16px] sm:text-[18px] font-extrabold text-slate-900 mb-1">
-            Upload or snap your prescription
+          <h3 className="text-[17px] sm:text-[20px] font-extrabold text-slate-900 mb-1.5">
+            Upload Prescription Image
           </h3>
-          <p className="text-[12.5px] sm:text-[13.5px] text-slate-500 font-medium mb-5">
-            Drag &amp; drop an image, or use the buttons below
+          <p className="text-[13px] sm:text-[14px] text-slate-500 font-normal mb-6 max-w-md mx-auto">
+            Drag &amp; drop a handwritten doctor prescription, or choose an option below
           </p>
 
-          {/* Action Buttons Row */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 w-full max-w-xs sm:max-w-md mx-auto">
+          {/* Action Buttons Grid (Camera / Choose File) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-md mx-auto mb-4">
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsScannerOpen(true);
               }}
-              className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#0c1e3d] hover:bg-[#162a4d] text-white text-[13.5px] font-bold transition-all shadow-xs cursor-pointer active:scale-[0.99]"
+              className="w-full h-12 inline-flex items-center justify-center gap-2 px-5 rounded-xl bg-[#0f172a] hover:bg-[#1e293b] text-white text-[14px] font-bold transition-all shadow-xs cursor-pointer active:scale-[0.99]"
             >
-              <Camera size={16} />
+              <Camera size={17} />
               <span>Camera Scan</span>
             </button>
 
@@ -224,15 +224,15 @@ export default function UploadZone({
                 e.stopPropagation();
                 triggerBrowse();
               }}
-              className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 text-[13.5px] font-bold transition-all shadow-2xs cursor-pointer active:scale-[0.99]"
+              className="w-full h-12 inline-flex items-center justify-center gap-2 px-5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 text-[14px] font-bold transition-all shadow-2xs cursor-pointer active:scale-[0.99]"
             >
-              <ImageIcon size={16} className="text-[#0284c7]" />
-              <span>Choose Photo</span>
+              <ImageIcon size={17} className="text-[#0284c7]" />
+              <span>Choose from Device</span>
             </button>
           </div>
 
-          {/* Sample Prescription Action */}
-          <div className="mt-4 sm:mt-5">
+          {/* Instant Sample Button */}
+          <div className="pt-2">
             <button
               type="button"
               disabled={isGeneratingSample}
@@ -240,14 +240,14 @@ export default function UploadZone({
                 e.stopPropagation();
                 handleLoadSample();
               }}
-              className="inline-flex items-center gap-1.5 text-[12px] sm:text-[12.5px] text-slate-500 hover:text-slate-900 font-semibold cursor-pointer transition-colors"
+              className="inline-flex items-center gap-1.5 text-[12.5px] sm:text-[13px] text-slate-500 hover:text-slate-900 font-semibold cursor-pointer transition-colors"
             >
-              <Sparkles size={13} className="text-amber-500" />
-              <span>{isGeneratingSample ? "Loading sample prescription..." : "✨ Try a sample prescription"}</span>
+              <Sparkles size={14} className="text-amber-500" />
+              <span>{isGeneratingSample ? "Generating sample prescription..." : "✨ Or click here to try a sample prescription"}</span>
             </button>
           </div>
 
-          <p className="mt-4 text-[11px] sm:text-[11.5px] text-slate-400 font-medium">
+          <p className="mt-4 text-[11.5px] sm:text-[12px] text-slate-400 font-medium">
             Supports JPG, PNG, WEBP &bull; Max 10 MB
           </p>
         </div>

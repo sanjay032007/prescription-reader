@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Loader2, ArrowRight, Sparkles } from "lucide-react";
+import { Loader2, ArrowRight, Sparkles, Cpu } from "lucide-react";
 
 interface AnalyseButtonProps {
   onClick: () => void;
@@ -9,12 +9,12 @@ interface AnalyseButtonProps {
   disabled?: boolean;
 }
 
-const LOADING_MESSAGES = [
-  "Running TrOCR handwritten recognition…",
-  "Inspecting via Qwen & Llama vision…",
-  "Cross-referencing Indian Pharmacopeia…",
-  "Validating dosages & active salts…",
-  "Compiling multi-model evidence…",
+const LOADING_STAGES = [
+  "Running TrOCR handwritten neural recognition…",
+  "Visual cross-inspection via Qwen & Llama…",
+  "Validating against Indian Pharmacopeia…",
+  "Verifying active salt formulations & dosages…",
+  "Compiling multi-model evidence consensus…",
 ];
 
 export default function AnalyseButton({
@@ -22,15 +22,15 @@ export default function AnalyseButton({
   isLoading = false,
   disabled = false,
 }: AnalyseButtonProps) {
-  const [msgIndex, setMsgIndex] = useState(0);
+  const [stageIndex, setStageIndex] = useState(0);
 
   useEffect(() => {
     if (!isLoading) {
-      setMsgIndex(0);
+      setStageIndex(0);
       return;
     }
     const timer = setInterval(() => {
-      setMsgIndex((prev) => (prev + 1) % LOADING_MESSAGES.length);
+      setStageIndex((prev) => (prev + 1) % LOADING_STAGES.length);
     }, 1600);
     return () => clearInterval(timer);
   }, [isLoading]);
@@ -40,22 +40,24 @@ export default function AnalyseButton({
       type="button"
       onClick={onClick}
       disabled={disabled || isLoading}
-      className={`w-full py-4 px-6 rounded-xl font-bold text-[15px] flex items-center justify-center gap-2.5 transition-all shadow-sm ${
+      className={`w-full h-13 sm:h-14 px-6 rounded-2xl font-extrabold text-[15px] sm:text-[16px] flex items-center justify-center gap-2.5 transition-all shadow-md active:scale-[0.99] ${
         disabled || isLoading
-          ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed"
-          : "bg-gradient-to-r from-[#0c1e3d] via-[#162a4d] to-[#0c1e3d] hover:opacity-95 text-white cursor-pointer shadow-md hover:shadow-lg active:scale-[0.99]"
+          ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed shadow-none"
+          : "bg-gradient-to-r from-[#0284c7] to-[#2563eb] hover:from-[#0369a1] hover:to-[#1d4ed8] text-white cursor-pointer hover:shadow-lg"
       }`}
     >
       {isLoading ? (
         <>
-          <Loader2 className="animate-spin h-5 w-5 text-[#38bdf8]" />
-          <span className="text-white font-medium">{LOADING_MESSAGES[msgIndex]}</span>
+          <Loader2 className="animate-spin h-5 w-5 text-white" />
+          <span className="text-white font-semibold text-[14px] sm:text-[15px]">
+            {LOADING_STAGES[stageIndex]}
+          </span>
         </>
       ) : (
         <>
-          <Sparkles size={16} className="text-amber-400" />
+          <Cpu size={18} className="text-white" />
           <span>Analyse &amp; Verify Prescription</span>
-          <ArrowRight size={16} className="ml-1" />
+          <ArrowRight size={18} className="ml-1" />
         </>
       )}
     </button>
