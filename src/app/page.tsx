@@ -22,6 +22,9 @@ import {
   CheckCircle2,
   RefreshCw,
   Zap,
+  Shield,
+  HealthAndSafety,
+  Camera,
 } from "lucide-react";
 
 export default function Home() {
@@ -207,7 +210,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8fafc] selection:bg-sky-100 selection:text-[#0284c7] overflow-x-hidden hero-gradient">
+    <div className="min-h-screen flex flex-col bg-[#F8FAFA] selection:bg-[#0D5C63]/15 selection:text-[#004B49] overflow-x-hidden">
       <BrandHeader onOpenLookup={() => setIsManualSearchOpen(true)} />
 
       <ManualMedicineSearchModal
@@ -216,35 +219,51 @@ export default function Home() {
         onSelectMedicine={handleAddManualMedicine}
       />
 
-      <main className="flex-1 w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      <main className="flex-1 w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14">
         
         {/* ============================================================ */}
-        {/* 1. HERO TITLE BLOCK                                          */}
+        {/* 1. STITCH HERO TITLE SECTION                                 */}
         {/* ============================================================ */}
-        <section className="text-center max-w-2xl mx-auto mb-6 sm:mb-8">
+        <section className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
           {/* Badge */}
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-sky-50 border border-sky-200/80 text-[#0284c7] text-[11px] sm:text-[11.5px] font-bold uppercase tracking-wider mb-3 shadow-2xs">
-            <Sparkles size={13} className="text-amber-500" />
-            <span>AI Handwritten Prescription Reader</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#2D6A4F]/10 text-[#2D6A4F] text-[11.5px] sm:text-[12px] font-extrabold uppercase tracking-widest mb-4 sm:mb-6 shadow-2xs border border-[#2D6A4F]/20">
+            <ShieldCheck size={14} className="text-[#2D6A4F]" />
+            <span>Pharmaceutical Grade Verification</span>
           </div>
 
           {/* Heading */}
-          <h1 className="text-[28px] sm:text-[40px] lg:text-[48px] font-extrabold text-slate-950 tracking-tight leading-[1.12] mb-2 sm:mb-3">
-            Understand your prescription.<br />
-            <span className="text-[#0284c7]">Accurate &amp; Verified.</span>
+          <h1 className="text-[36px] sm:text-[54px] lg:text-[64px] font-extrabold text-[#004B49] tracking-tight leading-[1.08] mb-4 sm:mb-5">
+            Medication safety,<br />
+            <span className="text-[#2D6A4F]">verified instantly.</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-[14px] sm:text-[15.5px] text-slate-600 font-normal leading-relaxed">
-            Upload any handwritten prescription to decipher medicine names, strengths, and dosage schedules cross-referenced with the Indian Pharmacopeia.
+          <p className="text-[15px] sm:text-[18px] text-slate-600 font-normal leading-relaxed max-w-2xl mx-auto">
+            Protect your health with our AI-powered prescription reader. We use clinical-grade multi-model vision to verify identity, dosage, and safety protocols in seconds.
           </p>
+
+          {/* Trust Badges Bar */}
+          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 pt-6 grayscale opacity-80">
+            <div className="flex items-center gap-2">
+              <Shield size={16} className="text-[#0D5C63]" />
+              <span className="text-[11.5px] sm:text-[12px] font-bold text-slate-700 tracking-wider">100% PRIVATE &amp; ENCRYPTED</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Cpu size={16} className="text-[#0D5C63]" />
+              <span className="text-[11.5px] sm:text-[12px] font-bold text-slate-700 tracking-wider">TrOCR + QWEN + LLAMA</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={16} className="text-[#0D5C63]" />
+              <span className="text-[11.5px] sm:text-[12px] font-bold text-slate-700 tracking-wider">INDIAN PHARMACOPEIA</span>
+            </div>
+          </div>
         </section>
 
         {/* ============================================================ */}
         {/* 2. CORE INTERACTIVE UPLOAD WORKSPACE CARD                    */}
         {/* ============================================================ */}
-        <section className="max-w-2xl mx-auto mb-10">
-          <div className="bg-white rounded-3xl border border-slate-200/90 p-4 sm:p-7 shadow-xs hover:border-slate-300 transition-all">
+        <section className="max-w-3xl mx-auto mb-12">
+          <div className="bg-white rounded-3xl sm:rounded-[2.5rem] border border-[#0D5C63]/10 p-5 sm:p-9 shadow-premium hover:border-[#0D5C63]/25 transition-all">
             
             {/* Upload Zone */}
             <UploadZone
@@ -256,11 +275,11 @@ export default function Home() {
 
             {/* Auto-Enhance Filter Tool */}
             {file && (
-              <div className="mt-4 flex flex-wrap items-center justify-between gap-2.5 p-3 sm:p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 text-[12px] sm:text-[12.5px]">
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-2.5 p-3.5 sm:p-4 rounded-2xl bg-[#F9F6F0] border border-[#0D5C63]/15 text-[12px] sm:text-[12.5px]">
                 <div className="flex items-center gap-2">
-                  <Wand2 size={15} className="text-[#0284c7]" />
-                  <span className="font-semibold text-slate-800">
-                    {isEnhanced ? "✨ Contrast Filter Applied" : "Faint ink or dim lighting?"}
+                  <Wand2 size={16} className="text-[#0D5C63]" />
+                  <span className="font-bold text-slate-800">
+                    {isEnhanced ? "✨ High-Contrast Filter Active" : "Faint ink or dim lighting?"}
                   </span>
                 </div>
 
@@ -268,14 +287,14 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={handleToggleEnhance}
-                    className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-[#0284c7] font-bold text-[11.5px] sm:text-[12px] transition-all cursor-pointer shadow-2xs flex items-center gap-1"
+                    className="px-3.5 py-1.5 rounded-xl bg-white border border-[#0D5C63]/20 hover:border-[#0D5C63] text-[#004B49] font-bold text-[12px] transition-all cursor-pointer shadow-2xs flex items-center gap-1.5"
                   >
-                    <Sparkles size={12} className="text-amber-500" />
-                    <span>Apply Auto-Enhance Filter</span>
+                    <Sparkles size={13} className="text-amber-500" />
+                    <span>Apply Contrast Filter</span>
                   </button>
                 ) : (
-                  <span className="text-emerald-700 font-bold text-[11.5px] sm:text-[12px] flex items-center gap-1">
-                    <FileCheck2 size={13} />
+                  <span className="text-[#2D6A4F] font-bold text-[12px] flex items-center gap-1">
+                    <FileCheck2 size={14} />
                     <span>Enhanced for OCR</span>
                   </span>
                 )}
@@ -350,35 +369,35 @@ export default function Home() {
 
           </div>
 
-          {/* Quick Feature Badges Grid */}
-          <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            <div className="p-3 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-2.5 shadow-2xs">
-              <div className="w-8 h-8 rounded-xl bg-sky-50 flex items-center justify-center text-[#0284c7] shrink-0 border border-sky-100">
-                <Lock size={15} />
+          {/* Stitch Protocol 3-Card Highlights */}
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div className="p-4 rounded-3xl bg-white border border-[#0D5C63]/10 flex items-center gap-3.5 shadow-premium">
+              <div className="w-10 h-10 rounded-2xl bg-[#0D5C63]/10 flex items-center justify-center text-[#0D5C63] shrink-0 border border-[#0D5C63]/20">
+                <Lock size={18} />
               </div>
               <div className="min-w-0">
-                <p className="text-[12px] font-bold text-slate-900 leading-tight">100% Private</p>
-                <p className="text-[10.5px] text-slate-500 truncate">Zero data saved</p>
+                <p className="text-[13px] font-extrabold text-[#004B49] leading-tight">100% Private</p>
+                <p className="text-[11.5px] text-slate-500 truncate">Zero images saved</p>
               </div>
             </div>
 
-            <div className="p-3 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-2.5 shadow-2xs">
-              <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0 border border-emerald-100">
-                <Cpu size={15} />
+            <div className="p-4 rounded-3xl bg-white border border-[#0D5C63]/10 flex items-center gap-3.5 shadow-premium">
+              <div className="w-10 h-10 rounded-2xl bg-[#2D6A4F]/10 flex items-center justify-center text-[#2D6A4F] shrink-0 border border-[#2D6A4F]/20">
+                <Cpu size={18} />
               </div>
               <div className="min-w-0">
-                <p className="text-[12px] font-bold text-slate-900 leading-tight">Multi-Model AI</p>
-                <p className="text-[10.5px] text-slate-500 truncate">TrOCR + Qwen + Llama</p>
+                <p className="text-[13px] font-extrabold text-[#004B49] leading-tight">Multi-Model AI</p>
+                <p className="text-[11.5px] text-slate-500 truncate">TrOCR + Qwen + Llama</p>
               </div>
             </div>
 
-            <div className="p-3 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-2.5 shadow-2xs">
-              <div className="w-8 h-8 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 shrink-0 border border-amber-100">
-                <ShieldCheck size={15} />
+            <div className="p-4 rounded-3xl bg-white border border-[#0D5C63]/10 flex items-center gap-3.5 shadow-premium">
+              <div className="w-10 h-10 rounded-2xl bg-[#F9F6F0] flex items-center justify-center text-[#004B49] shrink-0 border border-[#0D5C63]/20">
+                <ShieldCheck size={18} />
               </div>
               <div className="min-w-0">
-                <p className="text-[12px] font-bold text-slate-900 leading-tight">Indian Database</p>
-                <p className="text-[10.5px] text-slate-500 truncate">300+ Verified Medicines</p>
+                <p className="text-[13px] font-extrabold text-[#004B49] leading-tight">Indian Database</p>
+                <p className="text-[11.5px] text-slate-500 truncate">300+ Formulations</p>
               </div>
             </div>
           </div>
@@ -396,8 +415,8 @@ export default function Home() {
       </main>
 
       {/* Minimal Footer */}
-      <footer className="w-full py-6 border-t border-slate-200 text-center text-[11.5px] sm:text-[12px] text-slate-400 font-medium bg-white">
-        Prescription Reader &bull; Multi-Model Clinical Verification System &bull; Always follow your doctor&apos;s advice
+      <footer className="w-full py-8 border-t border-slate-200 text-center text-[12px] text-slate-400 font-medium bg-white">
+        Prescription Reader &bull; Pharmaceutical Grade Verification &bull; Always consult your qualified healthcare professional
       </footer>
     </div>
   );
