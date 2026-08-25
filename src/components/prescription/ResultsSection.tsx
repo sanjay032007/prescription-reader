@@ -46,19 +46,19 @@ export default function ResultsSection({
   };
 
   return (
-    <section id="results-breakdown" className="pt-6 sm:pt-10 pb-16">
+    <section id="results-breakdown" className="pt-8 sm:pt-12 pb-16">
       
       {/* Stitch Verification Successful Banner */}
-      <div className="bg-[#2D6A4F]/10 border border-[#2D6A4F]/20 rounded-3xl p-5 sm:p-6 mb-8 flex items-center gap-4 shadow-sm">
+      <div className="bg-[#2D6A4F]/10 border border-[#2D6A4F]/20 rounded-[2rem] p-6 mb-8 flex items-center gap-4 shadow-sm">
         <div className="bg-[#2D6A4F] rounded-full p-2.5 flex-shrink-0 text-white shadow-xs">
           <ShieldCheck size={24} />
         </div>
         <div>
-          <h2 className="text-[17px] sm:text-[19px] font-extrabold text-[#2D6A4F] m-0 leading-tight">
+          <h2 className="font-serif text-[18px] sm:text-[20px] font-bold text-[#2D6A4F] m-0 leading-tight">
             Verification Successful
           </h2>
-          <p className="text-[13px] sm:text-[14px] text-slate-600 m-0 mt-0.5">
-            Prescription matches recognized Indian Pharmacopeia entries. High-confidence multi-model consensus.
+          <p className="font-sans text-[13px] sm:text-[14px] text-slate-600 m-0 mt-0.5 font-light">
+            Prescription matches recognized Indian Pharmacopeia database entries. High-confidence multi-model consensus.
           </p>
         </div>
       </div>
@@ -66,19 +66,19 @@ export default function ResultsSection({
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
         <div>
-          <span className="text-[11.5px] font-bold uppercase tracking-widest text-[#0D5C63] block mb-1">
-            Analysis Results
+          <span className="text-[11.5px] font-sans font-bold uppercase tracking-widest text-[#094cb2] block mb-1">
+            Extraction Results
           </span>
-          <h2 className="text-[26px] sm:text-[32px] font-extrabold text-[#004B49] tracking-tight">
+          <h2 className="font-serif text-[26px] sm:text-[34px] font-bold text-[#1b1c1d] tracking-tight">
             Identified Medications
           </h2>
 
-          <div className="flex items-center gap-3 text-[13.5px] sm:text-[14px] text-slate-500 mt-1">
+          <div className="flex items-center gap-3 text-[13.5px] font-sans text-slate-500 mt-1">
             <span>
               {result.medicines.length} {result.medicines.length === 1 ? "medication" : "medications"} identified
             </span>
             <span className="text-slate-300">&bull;</span>
-            <span className="text-[#2D6A4F] font-bold flex items-center gap-1">
+            <span className="text-[#2D6A4F] font-semibold flex items-center gap-1">
               <CheckCircle2 size={15} />
               <span>{verifiedCount} verified</span>
             </span>
@@ -90,7 +90,7 @@ export default function ResultsSection({
           <button
             type="button"
             onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl border border-[#0D5C63]/20 bg-white text-[13px] font-bold text-[#004B49] hover:bg-[#F9F6F0] transition-all cursor-pointer shadow-xs"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-[#094cb2]/20 bg-white text-[13px] font-sans font-semibold text-[#094cb2] hover:bg-[#faf9fa] transition-all cursor-pointer shadow-xs"
           >
             <Printer size={15} />
             <span>Print</span>
@@ -99,7 +99,7 @@ export default function ResultsSection({
           <button
             type="button"
             onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-2xl bg-[#0D5C63] hover:bg-[#004B49] text-[13.5px] font-bold text-white transition-all cursor-pointer shadow-md shadow-[#0D5C63]/20"
+            className="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-full bg-[#094cb2] hover:bg-[#002e7a] text-[13.5px] font-sans font-semibold text-white transition-all cursor-pointer shadow-md shadow-[#094cb2]/20"
           >
             {copied ? (
               <>
@@ -119,8 +119,8 @@ export default function ResultsSection({
       {/* General Warnings Banner */}
       {result.general_warnings && result.general_warnings.length > 0 && (
         <div className="mb-6 p-4 bg-sky-50 border border-sky-200 rounded-2xl flex items-start gap-3">
-          <ShieldAlert size={18} className="text-[#0284c7] shrink-0 mt-0.5" />
-          <div className="text-[13px] text-sky-950 font-medium space-y-1">
+          <ShieldAlert size={18} className="text-[#094cb2] shrink-0 mt-0.5" />
+          <div className="text-[13px] font-sans text-sky-950 font-medium space-y-1">
             {result.general_warnings.map((w, idx) => (
               <p key={idx}>{w}</p>
             ))}

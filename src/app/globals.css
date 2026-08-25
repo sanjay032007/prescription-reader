@@ -1,16 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme inline {
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: "Noto Serif", Georgia, serif;
+  --font-heading: "Plus Jakarta Sans", sans-serif;
+  --font-label: "Public Sans", sans-serif;
   
-  --color-medical-teal: #004B49;
-  --color-primary: #0D5C63;
-  --color-primary-dark: #00363a;
+  --color-primary: #094cb2;
+  --color-primary-container: #3366cc;
+  --color-primary-dark: #002e7a;
   --color-accent-green: #2D6A4F;
-  --color-soft-cream: #F9F6F0;
-  --color-warm-bg: #F8FAFA;
+  --color-surface: #faf9fa;
+  --color-surface-container: #efedee;
+  --color-surface-low: #f5f3f4;
+  --color-surface-lowest: #ffffff;
 }
 
 @layer base {
@@ -19,8 +23,8 @@
   }
 
   body {
-    background-color: #F8FAFA;
-    color: #191c1d;
+    background-color: #faf9fa;
+    color: #1b1c1d;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -28,17 +32,34 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
+    letter-spacing: -0.02em;
   }
 }
 
 .premium-shadow {
-  box-shadow: 0 20px 50px -12px rgba(13, 92, 99, 0.08);
+  box-shadow: 0 10px 40px -10px rgba(9, 76, 178, 0.08), 0 1px 3px rgba(0,0,0,0.05);
 }
 
-.glass-nav {
-  background-color: rgba(253, 252, 247, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 10px 40px -10px rgba(9, 76, 178, 0.08), 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.glass-header {
+  background: rgba(250, 249, 250, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(9, 76, 178, 0.08);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #094cb2 0%, #3366cc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Custom Scrollbar */
@@ -50,11 +71,11 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #c3c6d5;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #737784;
 }
 
 /* Print Styles */
