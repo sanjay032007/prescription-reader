@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
 import UploadZone from "@/components/prescription/UploadZone";
 import SymptomsInput from "@/components/prescription/SymptomsInput";
 import AnalyseButton from "@/components/prescription/AnalyseButton";
 import ResultsSection from "@/components/prescription/ResultsSection";
 import ErrorCard from "@/components/prescription/ErrorCard";
 import ManualMedicineSearchModal from "@/components/prescription/ManualMedicineSearchModal";
+import ClinicalAssistantDrawer from "@/components/prescription/ClinicalAssistantDrawer";
+import SymptomTrendChart from "@/components/prescription/SymptomTrendChart";
 import { enhancePrescriptionImage } from "@/lib/imageEnhancer";
 import { toBase64 } from "@/lib/gemini";
 import type { PipelineVerificationResult, VerifiedMedicine, CandidateMatch } from "@/services/types";
@@ -50,8 +52,10 @@ export default function Home() {
   const [result, setResult] = useState<PipelineVerificationResult | null>(null);
   const [isEnhanced, setIsEnhanced] = useState<boolean>(false);
   const [isManualSearchOpen, setIsManualSearchOpen] = useState<boolean>(false);
+  const [isAssistantOpen, setIsAssistantOpen] = useState<boolean>(false);
   const [dailyLogText, setDailyLogText] = useState<string>("");
   const [dailyLogFeedback, setDailyLogFeedback] = useState<string | null>(null);
+  const [doseTaken, setDoseTaken] = useState<boolean>(false);
 
   const handleFileSelected = useCallback((selected: File) => {
     setFile(selected);
@@ -227,7 +231,7 @@ export default function Home() {
 
   const handleAnalyzeDailyLog = () => {
     if (!dailyLogText.trim()) return;
-    setDailyLogFeedback("Logged successfully. No adverse medication interactions detected based on your entry.");
+    setDailyLogFeedback("Logged successfully. Telemetry indicates positive therapeutic tolerance with no conflict.");
   };
 
   const scrollToScan = () => {
@@ -243,6 +247,12 @@ export default function Home() {
         isOpen={isManualSearchOpen}
         onClose={() => setIsManualSearchOpen(false)}
         onSelectMedicine={handleAddManualMedicine}
+      />
+
+      {/* AI Clinical Assistant Chat Drawer */}
+      <ClinicalAssistantDrawer
+        isOpen={isAssistantOpen}
+        onClose={() => setIsAssistantOpen(false)}
       />
 
       {/* ============================================================ */}
@@ -266,7 +276,7 @@ export default function Home() {
             <a className="hover:text-[#094cb2] transition-colors" href="#support">Clinical Support</a>
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             <button
               type="button"
               onClick={() => setIsManualSearchOpen(true)}
@@ -278,8 +288,17 @@ export default function Home() {
 
             <button
               type="button"
+              onClick={() => setIsAssistantOpen(true)}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-50 text-[#2D6A4F] border border-emerald-200 text-xs font-bold hover:bg-emerald-100 transition-all cursor-pointer"
+            >
+              <Bot size={14} />
+              <span>AI Assistant</span>
+            </button>
+
+            <button
+              type="button"
               onClick={scrollToScan}
-              className="bg-[#094cb2] text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-md shadow-[#094cb2]/20 hover:bg-[#3366cc] transition-all cursor-pointer"
+              className="bg-[#094cb2] text-white text-sm font-semibold px-6 py-2 rounded-full shadow-md shadow-[#094cb2]/20 hover:bg-[#3366cc] transition-all cursor-pointer"
             >
               Get Started
             </button>
@@ -308,8 +327,8 @@ export default function Home() {
                 <span className="italic text-[#094cb2]">verified instantly.</span>
               </h1>
 
-              <p className="text-[#434653] text-lg md:text-xl max-w-xl leading-relaxed font-sans">
-                Protect your health with our AI-powered prescription reader. We use clinical-grade imaging to verify identity, dosage, and safety protocols in seconds.
+              <p className="text-[#434653] text-lg md:text-xl max-w-xl leading-relaxed font-sans font-light">
+                Protect your health with our AI-powered prescription reader. We use clinical-grade multi-model vision to verify identity, dosage, and safety protocols in seconds.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
@@ -328,7 +347,7 @@ export default function Home() {
                     <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-300 flex items-center justify-center font-bold text-xs text-slate-700">Rx</div>
                     <div className="w-10 h-10 rounded-full border-2 border-white bg-[#094cb2] flex items-center justify-center font-bold text-xs text-white">99%</div>
                   </div>
-                  <span className="text-sm text-[#434653] font-medium">Trusted by 10k+</span>
+                  <span className="text-sm text-[#434653] font-medium">Trusted by 10k+ patients</span>
                 </div>
               </div>
             </div>
@@ -397,13 +416,13 @@ export default function Home() {
         {/* ============================================================ */}
         {/* INTERACTIVE SCANNING & ANALYSIS STUDIO (LIVE ENGINE)        */}
         {/* ============================================================ */}
-        <section id="scan-studio" className="px-6 md:px-12 lg:px-24 py-20 bg-[#f5f3f4] text-[#1b1c1d] relative overflow-hidden">
+        <section id="scan-studio" className="px-6 md:px-12 lg:px-24 py-20 bg-[#f5f3f4] text-[#1b1c1d] relative overflow-hidden scroll-mt-20">
           <div className="max-w-[1000px] mx-auto relative z-10">
             
             <div className="text-center mb-10">
               <span className="text-xs font-bold text-[#094cb2] uppercase tracking-widest block mb-2">Live AI Studio</span>
               <h2 className="text-3xl md:text-5xl font-serif font-medium mb-4">Upload &amp; Verify Your Prescription</h2>
-              <p className="text-[#434653] text-base md:text-lg max-w-xl mx-auto font-sans">
+              <p className="text-[#434653] text-base md:text-lg max-w-xl mx-auto font-sans font-light">
                 Our vision AI deciphers doctor handwriting, validates active strengths, and checks clinical dosage schedules.
               </p>
             </div>
@@ -576,55 +595,58 @@ export default function Home() {
         </section>
 
         {/* ============================================================ */}
-        {/* ONGOING CARE & SYMPTOM JOURNAL                               */}
+        {/* ONGOING CARE & SYMPTOM JOURNAL (WITH RECHARTS TELEMETRY)      */}
         {/* ============================================================ */}
         <section className="px-6 md:px-12 lg:px-24 py-28 bg-[#faf9fa]" id="care">
           <div className="max-w-[1400px] mx-auto">
-            <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
+            <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
               
-              <div className="lg:w-5/12">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#efedee] text-[#434653] text-xs font-semibold uppercase tracking-widest mb-6 border border-[#c3c6d5]/30">
+              <div className="lg:w-5/12 flex flex-col gap-6">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#efedee] text-[#434653] text-xs font-semibold uppercase tracking-widest mb-2 border border-[#c3c6d5]/30 w-fit">
                   Ongoing Care
                 </div>
-                <h2 className="text-4xl md:text-5xl font-serif font-medium text-[#1b1c1d] mb-6 leading-tight">
+                <h2 className="text-4xl md:text-5xl font-serif font-medium text-[#1b1c1d] leading-tight">
                   Monitor your journey with the Symptom Journal.
                 </h2>
-                <p className="text-[#434653] text-lg leading-relaxed mb-10 font-sans font-light">
+                <p className="text-[#434653] text-lg leading-relaxed font-sans font-light">
                   Safe medication management doesn&apos;t end after the scan. Log how you feel daily to identify patterns, potential side effects, and long-term efficacy.
                 </p>
 
-                <div className="flex flex-col gap-6">
+                {/* Live Recharts Telemetry Graph */}
+                <SymptomTrendChart />
+
+                <div className="flex flex-col gap-4 pt-2">
                   <div className="flex gap-4 items-start">
-                    <div className="w-12 h-12 rounded-full bg-[#3366cc]/20 flex items-center justify-center text-[#094cb2] shrink-0 mt-1">
+                    <div className="w-10 h-10 rounded-xl bg-[#3366cc]/20 flex items-center justify-center text-[#094cb2] shrink-0 mt-1">
                       <TrendingUp size={20} />
                     </div>
                     <div>
-                      <h4 className="font-serif font-medium text-xl text-[#1b1c1d] mb-1">Trend Analysis</h4>
-                      <p className="text-[#434653] font-sans text-sm">Visual charts showing how symptoms evolve over time, correlated with your medication schedule.</p>
+                      <h4 className="font-serif font-medium text-lg text-[#1b1c1d]">Trend Analysis</h4>
+                      <p className="text-[#434653] font-sans text-xs sm:text-sm">Visual charts showing how symptoms evolve over time, correlated with your medication schedule.</p>
                     </div>
                   </div>
 
                   <div className="flex gap-4 items-start">
-                    <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-700 shrink-0 mt-1">
+                    <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-700 shrink-0 mt-1">
                       <Bell size={20} />
                     </div>
                     <div>
-                      <h4 className="font-serif font-medium text-xl text-[#1b1c1d] mb-1">Smart Alerts</h4>
-                      <p className="text-[#434653] font-sans text-sm">Get proactively notified if reported symptoms match known side effects in the clinical database.</p>
+                      <h4 className="font-serif font-medium text-lg text-[#1b1c1d]">Smart Alerts</h4>
+                      <p className="text-[#434653] font-sans text-xs sm:text-sm">Get proactively notified if reported symptoms match known side effects in the clinical database.</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div className="lg:w-7/12 w-full relative">
-                <div className="glass-card p-8 sm:p-12 rounded-[2.5rem] relative">
+                <div className="glass-card p-8 sm:p-12 rounded-[2.5rem] relative shadow-premium">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-xs border border-slate-200 text-[#094cb2]">
                       <Calendar size={22} />
                     </div>
                     <div>
                       <h3 className="font-serif text-2xl font-medium text-[#1b1c1d]">Daily Log</h3>
-                      <p className="text-xs font-semibold text-[#434653] tracking-wide uppercase mt-0.5">Clinical Tracking</p>
+                      <p className="text-xs font-semibold text-[#434653] tracking-wide uppercase mt-0.5">Clinical Tracking Entry</p>
                     </div>
                   </div>
 
@@ -647,7 +669,7 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={handleAnalyzeDailyLog}
-                    className="w-full mt-6 bg-[#1b1c1d] text-white font-semibold py-4 rounded-2xl shadow-md hover:bg-[#094cb2] transition-colors flex items-center justify-center gap-2 text-base cursor-pointer"
+                    className="w-full mt-6 bg-[#1b1c1d] text-white font-semibold py-4 rounded-2xl shadow-md hover:bg-[#094cb2] transition-colors flex items-center justify-center gap-2 text-base cursor-pointer active:scale-[0.99]"
                   >
                     <Activity size={18} />
                     <span>Analyze Entry</span>
@@ -669,9 +691,13 @@ export default function Home() {
                 <h2 className="text-4xl md:text-5xl font-serif font-medium text-[#1b1c1d] mb-3">Your Health Dashboard</h2>
                 <p className="text-[#434653] text-lg font-sans font-light">Manage your verification history and upcoming schedule.</p>
               </div>
-              <a href="#scan-studio" className="text-sm font-semibold text-[#094cb2] hover:underline flex items-center gap-1">
-                <span>View Complete History</span> <ArrowRight size={15} />
-              </a>
+              <button
+                type="button"
+                onClick={scrollToScan}
+                className="text-sm font-semibold text-[#094cb2] hover:underline flex items-center gap-1 cursor-pointer"
+              >
+                <span>Scan New Prescription</span> <ArrowRight size={15} />
+              </button>
             </div>
 
             <div className="grid lg:grid-cols-12 gap-10">
@@ -746,9 +772,14 @@ export default function Home() {
                   <p className="text-xs text-slate-500 mt-0.5 mb-5">Take after meals with warm water &bull; 1 tablet</p>
                   <button
                     type="button"
-                    className="w-full py-3 border border-[#094cb2] text-[#094cb2] rounded-full text-xs font-bold hover:bg-[#094cb2] hover:text-white transition-all cursor-pointer"
+                    onClick={() => setDoseTaken(!doseTaken)}
+                    className={`w-full py-3 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                      doseTaken
+                        ? "bg-[#2D6A4F] text-white"
+                        : "border border-[#094cb2] text-[#094cb2] hover:bg-[#094cb2] hover:text-white"
+                    }`}
                   >
-                    Mark as Taken
+                    {doseTaken ? "✓ Dose Marked as Taken" : "Mark as Taken"}
                   </button>
                 </div>
               </div>
@@ -784,10 +815,10 @@ export default function Home() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => setIsManualSearchOpen(true)}
+                  onClick={() => setIsAssistantOpen(true)}
                   className="text-xs font-semibold text-[#094cb2] flex items-center gap-1.5 group-hover:gap-2.5 transition-all cursor-pointer"
                 >
-                  <span>Search Database</span> <ArrowRight size={14} />
+                  <span>Start Conversation</span> <ArrowRight size={14} />
                 </button>
               </div>
 
@@ -879,15 +910,16 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Floating Action Button */}
-      <div className="fixed bottom-6 right-6 z-50">
+      {/* Floating AI Assistant Action Button */}
+      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
         <button
           type="button"
-          onClick={() => setIsManualSearchOpen(true)}
-          className="w-14 h-14 bg-[#094cb2] text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-transform duration-300 ease-out cursor-pointer shadow-[#094cb2]/40"
-          title="Search Medicine"
+          onClick={() => setIsAssistantOpen(true)}
+          className="h-14 px-5 bg-[#094cb2] hover:bg-[#002e7a] text-white rounded-full shadow-2xl flex items-center gap-2.5 hover:scale-105 transition-all duration-300 ease-out cursor-pointer shadow-[#094cb2]/40"
+          title="Open AI Clinical Assistant"
         >
-          <Search size={22} />
+          <Bot size={20} />
+          <span className="font-sans font-bold text-xs">AI Assistant</span>
         </button>
       </div>
 
