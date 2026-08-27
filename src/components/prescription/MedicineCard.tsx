@@ -1,23 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { VerifiedMedicine, CandidateMatch } from "@/services/types";
 import {
-  CheckCircle2,
-  AlertCircle,
-  HelpCircle,
-  Check,
-  RotateCcw,
   Clock,
-  Calendar,
-  Pill,
   AlertTriangle,
   ShieldCheck,
-  ChevronDown,
-  ChevronUp,
-  Sunrise,
   Sun,
   Moon,
+  Sunrise,
+  Calendar,
+  ChevronDown,
+  ChevronUp,
+  CheckCircle2,
+  HelpCircle,
+  Copy,
+  Check,
+  Pill,
   Sparkles,
   Info,
 } from "lucide-react";
@@ -33,322 +32,324 @@ export default function MedicineCard({
   onConfirmCandidate,
   onKeepOriginal,
 }: MedicineCardProps) {
-  const [confirmed, setConfirmed] = useState<boolean>(medicine.user_confirmed);
-  const [selectedCandidate, setSelectedCandidate] = useState<CandidateMatch | null>(
-    medicine.selected_candidate
-  );
-  const [showEvidence, setShowEvidence] = useState<boolean>(false);
-  const [useOriginal, setUseOriginal] = useState<boolean>(false);
+  const [fdaInfo, setFdaInfo] = useState<any>(null);
+  const [showFda, setShowFda] = useState(false);
+  const [showCandidates, setShowCandidates] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const displayName = useOriginal
-    ? medicine.raw_text
-    : confirmed && selectedCandidate
-    ? selectedCandidate.name
-    : medicine.verified_name || medicine.raw_text;
+  const displayName = medicine.verified_name || medicine.raw_text;
+  const isCorrected = Boolean(medicine.verified_name && medicine.verified_name !== medicine.raw_text);
 
-  const handleConfirm = (cand: CandidateMatch) => {
-    setSelectedCandidate(cand);
-    setConfirmed(true);
-    setUseOriginal(false);
-    if (onConfirmCandidate) onConfirmCandidate(medicine.id, cand);
-  };
+  useEffect(() => {
+    const apiKey = process.env.NEXT_PUBLIC_FDA_API_KEY || "";
+    const cleanTerm = (str?: string | null) =>
+      (str || "")
+        .replace(/(Tab\.|Cap\.|Syp\.|Tablet|Capsule|Syrup|\d+\s*mg|\d+\s*ml|\d+)/gi, "")
+        .replace(/\(unclear\)/gi, "")
+        .trim();
 
-  const handleKeep = () => {
-    setUseOriginal(true);
-    setConfirmed(true);
-    if (onKeepOriginal) onKeepOriginal(medicine.id);
-  };
+    const brand = cleanTerm(displayName);
+    const generic = cleanTerm(medicine.composition || medicine.selected_candidate?.genericName);
+    const term = brand || generic;
+    if (!term) return;
 
-  const handleResetConfirmation = () => {
-    setConfirmed(false);
-    setUseOriginal(false);
-  };
+    const query =
+      brand && generic && brand !== generic
+        ? `(openfda.brand_name:"${encodeURIComponent(brand)}"+openfda.generic_name:"${encodeURIComponent(generic)}")`
+        : `openfda.brand_name:"${encodeURIComponent(term)}"+openfda.generic_name:"${encodeURIComponent(term)}"`;
 
-  // Compute Morning / Afternoon / Night dosage timeline highlights
-  const dosageText = (medicine.dosage.raw_text || "").toLowerCase();
+    const url = `https://api.fda.gov/drug/label.json?search=${query}&api_key=${apiKey}&limit=1`;
+    fetch(url)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.results?.length > 0) setFdaInfo(data.results[0]);
+      })
+      .catch(() => setFdaInfo(null));
+  }, [displayName, medicine.composition, medicine.selected_candidate]);
+
+  const freq = (medicine.dosage?.raw_text || "").toLowerCase();
+  const tim = (medicine.timing?.raw_text || "").toLowerCase();
+
   const isMorning =
-    dosageText.includes("1-1-1") ||
-    dosageText.includes("1-0-1") ||
-    dosageText.includes("1-0-0") ||
-    dosageText.includes("1-1-0") ||
-    dosageText.includes("morning") ||
-    dosageText.includes("od") ||
-    dosageText.includes("bd") ||
-    dosageText.includes("bbf");
+    freq.includes("1-1-1") ||
+    freq.includes("1-0-1") ||
+    freq.includes("1-0-0") ||
+    freq.includes("twice") ||
+    freq.includes("3 times") ||
+    freq.includes("morning") ||
+    tim.includes("morning") ||
+    tim.includes("breakfast");
 
   const isAfternoon =
-    dosageText.includes("1-1-1") ||
-    dosageText.includes("0-1-0") ||
-    dosageText.includes("1-1-0") ||
-    dosageText.includes("0-1-1") ||
-    dosageText.includes("afternoon") ||
-    dosageText.includes("lunch") ||
-    dosageText.includes("tds");
+    freq.includes("1-1-1") ||
+    freq.includes("0-1-0") ||
+    freq.includes("3 times") ||
+    tim.includes("afternoon") ||
+    tim.includes("lunch");
 
   const isNight =
-    dosageText.includes("1-1-1") ||
-    dosageText.includes("1-0-1") ||
-    dosageText.includes("0-0-1") ||
-    dosageText.includes("0-1-1") ||
-    dosageText.includes("night") ||
-    dosageText.includes("bedtime") ||
-    dosageText.includes("hs") ||
-    dosageText.includes("bd");
+    freq.includes("1-1-1") ||
+    freq.includes("1-0-1") ||
+    freq.includes("0-0-1") ||
+    freq.includes("twice") ||
+    freq.includes("3 times") ||
+    freq.includes("night") ||
+    tim.includes("night") ||
+    tim.includes("bed") ||
+    tim.includes("dinner");
 
-  const hasDosagePattern = Boolean(dosageText && (isMorning || isAfternoon || isNight));
+  const handleCopyMed = () => {
+    const text = `${displayName} (${medicine.composition || "Generic"})\nSchedule: ${medicine.dosage?.raw_text || "As prescribed"} | Timing: ${medicine.timing?.raw_text || "N/A"}\nDuration: ${medicine.duration?.raw_text || "N/A"}\nWhy: ${medicine.why_prescribed || medicine.description || "Prescribed medication"}`;
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
   return (
-    <article className="bg-white rounded-[2rem] p-6 sm:p-8 border border-[#094cb2]/10 shadow-premium flex flex-col justify-between transition-all hover:border-[#094cb2]/25">
+    <article className="glass-card rounded-3xl p-6 sm:p-7 border border-slate-200/90 flex flex-col justify-between hover:shadow-xl transition-all duration-300 relative group overflow-hidden bg-white/90">
       
-      <div>
-        {/* Top Header Row */}
-        <div className="flex items-start justify-between gap-3 mb-4">
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-serif text-[20px] sm:text-[23px] font-bold text-[#1b1c1d] leading-snug">
-                {displayName}
-              </h3>
-              {confirmed && (
-                <span className="inline-flex items-center gap-1 text-[11px] font-sans font-semibold px-2.5 py-0.5 rounded-full bg-[#2D6A4F]/10 text-[#2D6A4F] border border-[#2D6A4F]/20">
-                  <Check size={11} />
-                  <span>Confirmed</span>
-                </span>
-              )}
-            </div>
+      {/* Top Accent Pill Header */}
+      <div className="flex items-start justify-between gap-3 mb-4">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 flex-wrap mb-1">
+            <span className="px-2.5 py-0.5 rounded-full bg-[#094cb2]/10 text-[#094cb2] text-[10.5px] font-bold uppercase tracking-wider flex items-center gap-1">
+              <CheckCircle2 size={11} className="text-[#094cb2]" />
+              Verified Active
+            </span>
 
-            {/* Active Salt & Category */}
-            <div className="mt-1.5 flex flex-wrap items-center gap-2">
-              {(selectedCandidate?.short_composition || selectedCandidate?.genericName || medicine.composition) && (
-                <p className="text-[13px] sm:text-[13.5px] font-sans text-slate-600 font-medium flex items-center gap-1.5">
-                  <Pill size={14} className="text-[#094cb2] shrink-0" />
-                  <span>{selectedCandidate?.short_composition || selectedCandidate?.genericName || medicine.composition}</span>
-                </p>
-              )}
-              {medicine.category && (
-                <span className="text-[11px] font-sans font-semibold px-2.5 py-0.5 rounded-md bg-[#f5f3f4] text-[#094cb2] border border-[#094cb2]/15">
-                  {medicine.category}
-                </span>
-              )}
-            </div>
-          </div>
+            {medicine.category && (
+              <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[10.5px] font-semibold">
+                {medicine.category}
+              </span>
+            )}
 
-          {/* Verification Status Badge */}
-          <div className="shrink-0">
-            {medicine.confidence === "HIGH" ? (
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[12px] font-sans font-bold bg-[#2D6A4F]/10 text-[#2D6A4F] border border-[#2D6A4F]/20 shadow-2xs">
-                <CheckCircle2 size={13} />
-                <span>Verified</span>
-              </span>
-            ) : medicine.confidence === "MEDIUM" ? (
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[12px] font-sans font-bold bg-amber-50 text-amber-800 border border-amber-200 shadow-2xs">
-                <AlertCircle size={13} />
-                <span>Please verify</span>
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[12px] font-sans font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs">
-                <HelpCircle size={13} />
-                <span>Unclear</span>
+            {medicine.confidence_score && (
+              <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-[#2D6A4F] text-[10px] font-bold ml-auto sm:ml-0">
+                {Math.round(medicine.confidence_score * 100)}% Confidence
               </span>
             )}
           </div>
+
+          <h3 className="font-serif text-[20px] sm:text-[22px] font-bold text-[#1b1c1d] leading-snug break-words mt-1">
+            {displayName}
+          </h3>
+
+          {medicine.composition && (
+            <p className="text-[13px] font-medium text-slate-500 mt-0.5 flex items-center gap-1">
+              <Pill size={12} className="text-slate-400 shrink-0" />
+              <span>{medicine.composition}</span>
+            </p>
+          )}
+
+          {isCorrected && (
+            <p className="text-[11.5px] text-amber-700 mt-1 font-medium bg-amber-50/80 px-2.5 py-1 rounded-lg border border-amber-200/60 inline-block">
+              Deciphered from handwritten: <span className="font-bold">&ldquo;{medicine.raw_text}&rdquo;</span>
+            </p>
+          )}
         </div>
 
-        {/* Raw Text & Candidate Matching Section (Shown when verification is needed) */}
-        {medicine.raw_text && (!confirmed || medicine.confidence !== "HIGH") && (
-          <div className="mb-4 p-3.5 rounded-2xl bg-[#f5f3f4] border border-[#094cb2]/15 text-[12.5px] font-sans text-slate-700">
-            <div className="flex items-center justify-between">
-              <div>
-                <span className="font-semibold text-slate-900">Read from prescription: </span>
-                <span className="font-mono font-bold text-[#094cb2] bg-white px-2.5 py-1 rounded-lg border border-slate-200 shadow-2xs">
-                  &quot;{medicine.raw_text}&quot;
-                </span>
-              </div>
-            </div>
-
-            {/* Candidate Match Options */}
-            {medicine.candidate_matches && medicine.candidate_matches.length > 0 && !confirmed && (
-              <div className="mt-3 pt-3 border-t border-[#094cb2]/15 space-y-2">
-                <p className="text-[11.5px] font-sans font-bold text-[#094cb2] uppercase tracking-wider flex items-center gap-1">
-                  <Sparkles size={12} className="text-amber-500" />
-                  <span>Indian Pharmacopeia Matches:</span>
-                </p>
-                {medicine.candidate_matches.map((cand, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-white border border-slate-200 hover:border-[#094cb2] hover:shadow-2xs transition-all"
-                  >
-                    <div className="min-w-0 pr-2">
-                      <p className="text-[13.5px] font-sans font-bold text-slate-950 truncate">
-                        {cand.name}
-                      </p>
-                      <p className="text-[11.5px] font-sans text-slate-500 truncate mt-0.5">
-                        {cand.genericName || cand.short_composition} &bull; <span className="font-bold text-[#2D6A4F]">{Math.round(cand.similarity * 100)}% match</span>
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleConfirm(cand)}
-                      className="shrink-0 px-3.5 py-1.5 rounded-full bg-[#094cb2] hover:bg-[#002e7a] text-white text-[12px] font-sans font-semibold transition-all shadow-2xs cursor-pointer"
-                    >
-                      Use this
-                    </button>
-                  </div>
-                ))}
-
-                <div className="pt-1 flex items-center justify-end">
-                  <button
-                    type="button"
-                    onClick={handleKeep}
-                    className="text-[11.5px] font-sans font-medium text-slate-500 hover:text-slate-900 underline cursor-pointer"
-                  >
-                    Keep original &quot;{medicine.raw_text}&quot;
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {confirmed && (
-              <div className="mt-2.5 flex items-center justify-between text-[11.5px] font-sans text-slate-500">
-                <span>{useOriginal ? "Using exact raw reading" : `Confirmed as ${selectedCandidate?.name}`}</span>
-                <button
-                  type="button"
-                  onClick={handleResetConfirmation}
-                  className="inline-flex items-center gap-1 font-semibold text-[#094cb2] hover:underline cursor-pointer"
-                >
-                  <RotateCcw size={11} />
-                  <span>Change selection</span>
-                </button>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* 3-Part Daily Schedule Visual (Morning, Afternoon, Night) */}
-        {hasDosagePattern && (
-          <div className="mb-4 p-3.5 rounded-2xl bg-[#f5f3f4] border border-[#094cb2]/10">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-sans font-bold text-slate-500 uppercase tracking-wider">
-                Daily Dosage Schedule
-              </span>
-              {medicine.dosage.raw_text && (
-                <span className="text-[12px] font-mono font-bold text-[#094cb2] bg-white px-2.5 py-0.5 rounded-md border border-[#094cb2]/20">
-                  {medicine.dosage.raw_text}
-                </span>
-              )}
-            </div>
-            
-            <div className="grid grid-cols-3 gap-2">
-              <div
-                className={`py-2.5 px-1 rounded-xl text-center flex flex-col items-center gap-1 transition-all ${
-                  isMorning
-                    ? "bg-[#094cb2] text-white font-sans font-bold shadow-xs"
-                    : "bg-white border border-slate-200/80 text-slate-300 font-sans font-medium"
-                }`}
-              >
-                <Sunrise size={14} className={isMorning ? "text-white" : "text-slate-300"} />
-                <span className="text-[11.5px]">Morning</span>
-              </div>
-
-              <div
-                className={`py-2.5 px-1 rounded-xl text-center flex flex-col items-center gap-1 transition-all ${
-                  isAfternoon
-                    ? "bg-[#3366cc] text-white font-sans font-bold shadow-xs"
-                    : "bg-white border border-slate-200/80 text-slate-300 font-sans font-medium"
-                }`}
-              >
-                <Sun size={14} className={isAfternoon ? "text-white" : "text-slate-300"} />
-                <span className="text-[11.5px]">Afternoon</span>
-              </div>
-
-              <div
-                className={`py-2.5 px-1 rounded-xl text-center flex flex-col items-center gap-1 transition-all ${
-                  isNight
-                    ? "bg-[#002e7a] text-white font-sans font-bold shadow-xs"
-                    : "bg-white border border-slate-200/80 text-slate-300 font-sans font-medium"
-                }`}
-              >
-                <Moon size={14} className={isNight ? "text-white" : "text-slate-300"} />
-                <span className="text-[11.5px]">Night</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Structured Info: Meal Timing & Duration */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
-          <div className="p-3 rounded-2xl bg-[#f5f3f4] border border-[#094cb2]/10 flex items-center gap-2.5">
-            <Clock size={16} className="text-[#094cb2] shrink-0" />
-            <div className="min-w-0">
-              <span className="text-[10px] font-sans font-bold text-slate-400 uppercase tracking-wider block">Meal Timing</span>
-              <span className="text-[13px] font-sans font-semibold text-slate-800 truncate block">
-                {medicine.timing.raw_text || <span className="text-slate-400 font-normal italic">As advised by doctor</span>}
-              </span>
-            </div>
-          </div>
-
-          <div className="p-3 rounded-2xl bg-[#f5f3f4] border border-[#094cb2]/10 flex items-center gap-2.5">
-            <Calendar size={16} className="text-[#094cb2] shrink-0" />
-            <div className="min-w-0">
-              <span className="text-[10px] font-sans font-bold text-slate-400 uppercase tracking-wider block">Duration</span>
-              <span className="text-[13px] font-sans font-semibold text-slate-800 truncate block">
-                {medicine.duration.raw_text || <span className="text-slate-400 font-normal italic">As prescribed</span>}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Clinical Description */}
-        {medicine.description && (
-          <p className="text-[13px] font-sans text-slate-600 leading-relaxed mb-3.5 font-light">
-            {medicine.description}
-          </p>
-        )}
-
-        {/* Safety Warnings */}
-        {medicine.allergy_warning && (
-          <div className="mb-2.5 p-3 rounded-2xl bg-amber-50 border border-amber-200 flex items-start gap-2.5 text-[12.5px] font-sans text-amber-950 font-medium">
-            <AlertTriangle size={16} className="text-amber-700 shrink-0 mt-0.5" />
-            <span>{medicine.allergy_warning}</span>
-          </div>
-        )}
-
-        {medicine.completion_warning && (
-          <div className="mb-2.5 p-3 rounded-2xl bg-[#2D6A4F]/10 border border-[#2D6A4F]/20 flex items-start gap-2.5 text-[12.5px] font-sans text-[#2D6A4F] font-bold">
-            <ShieldCheck size={16} className="text-[#2D6A4F] shrink-0 mt-0.5" />
-            <span>{medicine.completion_warning}</span>
-          </div>
-        )}
-      </div>
-
-      {/* Expandable Verification Evidence Drawer */}
-      <div className="pt-3.5 border-t border-slate-100 mt-2">
         <button
           type="button"
-          onClick={() => setShowEvidence(!showEvidence)}
-          className="inline-flex items-center gap-1.5 text-[12px] font-sans font-semibold text-[#094cb2] hover:text-[#002e7a] transition-colors cursor-pointer"
+          onClick={handleCopyMed}
+          className="w-8 h-8 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors shrink-0 cursor-pointer"
+          title="Copy medicine schedule"
         >
-          <Info size={13} className="text-[#094cb2]" />
-          <span>{showEvidence ? "Hide verification audit" : "View verification audit"}</span>
-          {showEvidence ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+          {copied ? <Check size={15} className="text-emerald-600" /> : <Copy size={15} />}
         </button>
+      </div>
 
-        {showEvidence && (
-          <div className="mt-2.5 p-3.5 rounded-2xl bg-[#f5f3f4] border border-[#094cb2]/15 text-[12px] font-sans text-slate-700 space-y-1.5">
-            <p className="font-bold text-[#1b1c1d]">Verification Consensus Log:</p>
-            {medicine.confidence_reasons.map((r, i) => (
-              <p key={i} className="flex items-start gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#094cb2] shrink-0 mt-1.5" />
-                <span>{r}</span>
-              </p>
-            ))}
-            {medicine.manufacturer && (
-              <p className="text-slate-500 pt-2 border-t border-slate-200 text-[11px]">
-                Manufacturer: <span className="font-semibold text-slate-700">{medicine.manufacturer}</span>
-              </p>
-            )}
+      {/* 3-Part Dosage Timeline */}
+      <div className="mb-4 p-3.5 bg-[#f5f3f4]/80 rounded-2xl border border-slate-200/60">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+            Daily Dosage Protocol
+          </span>
+          {medicine.dosage?.raw_text && (
+            <span className="text-[12px] font-mono font-bold text-[#094cb2] bg-white px-2 py-0.5 rounded-md border border-slate-200/60">
+              {medicine.dosage.raw_text}
+            </span>
+          )}
+        </div>
+
+        <div className="grid grid-cols-3 gap-2 text-center">
+          <div
+            className={`py-2 px-1 rounded-xl text-[12px] font-bold flex flex-col items-center gap-1 transition-all ${
+              isMorning
+                ? "bg-[#094cb2] text-white shadow-xs"
+                : "bg-white text-slate-300 border border-slate-100"
+            }`}
+          >
+            <Sunrise size={15} />
+            <span>Morning</span>
+          </div>
+
+          <div
+            className={`py-2 px-1 rounded-xl text-[12px] font-bold flex flex-col items-center gap-1 transition-all ${
+              isAfternoon
+                ? "bg-amber-500 text-white shadow-xs"
+                : "bg-white text-slate-300 border border-slate-100"
+            }`}
+          >
+            <Sun size={15} />
+            <span>Afternoon</span>
+          </div>
+
+          <div
+            className={`py-2 px-1 rounded-xl text-[12px] font-bold flex flex-col items-center gap-1 transition-all ${
+              isNight
+                ? "bg-indigo-900 text-white shadow-xs"
+                : "bg-white text-slate-300 border border-slate-100"
+            }`}
+          >
+            <Moon size={15} />
+            <span>Night</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Timing & Duration Badges */}
+      <div className="flex flex-wrap gap-2 mb-3.5">
+        {medicine.timing?.raw_text && (
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-[12px] font-medium text-slate-700 shadow-2xs">
+            <Clock size={13} className="text-[#094cb2]" />
+            <span>{medicine.timing.raw_text}</span>
+          </div>
+        )}
+        {medicine.duration?.raw_text && (
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-[12px] font-medium text-slate-700 shadow-2xs">
+            <Calendar size={13} className="text-[#2D6A4F]" />
+            <span>{medicine.duration.raw_text}</span>
           </div>
         )}
       </div>
+
+      {/* Why Prescribed Box */}
+      {medicine.why_prescribed && (
+        <div className="mb-3.5 p-3.5 rounded-2xl bg-sky-50/70 border border-sky-100">
+          <p className="text-[10.5px] font-bold text-[#094cb2] uppercase tracking-wider mb-1 flex items-center gap-1">
+            <Info size={12} />
+            <span>Clinical Indication</span>
+          </p>
+          <p className="text-[13px] text-slate-800 leading-relaxed font-sans">
+            {medicine.why_prescribed}
+          </p>
+        </div>
+      )}
+
+      {/* Description */}
+      {medicine.description && !medicine.why_prescribed && (
+        <p className="text-[13px] text-slate-600 leading-relaxed mb-3.5 font-sans">
+          {medicine.description}
+        </p>
+      )}
+
+      {/* Side Effects Chips */}
+      {medicine.side_effects && medicine.side_effects.length > 0 && (
+        <div className="pt-3 border-t border-slate-100 mb-3">
+          <p className="text-[10.5px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+            Possible Mild Effects
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {medicine.side_effects.map((effect, idx) => (
+              <span
+                key={idx}
+                className="bg-rose-50 text-rose-700 text-[11px] font-semibold px-2.5 py-0.5 rounded-md border border-rose-100"
+              >
+                {effect}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Clinical Warnings */}
+      {medicine.allergy_warning && (
+        <div className="mt-2 p-3 bg-amber-50 border border-amber-200/80 rounded-2xl flex gap-2.5 items-start">
+          <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <span className="text-[12px] text-amber-900 font-semibold leading-snug">
+            {medicine.allergy_warning}
+          </span>
+        </div>
+      )}
+
+      {medicine.completion_warning && (
+        <div className="mt-2 p-3 bg-emerald-50 border border-emerald-200/80 rounded-2xl flex gap-2.5 items-start">
+          <ShieldCheck className="w-4 h-4 text-[#2D6A4F] shrink-0 mt-0.5" />
+          <span className="text-[12px] text-emerald-900 font-semibold leading-snug">
+            {medicine.completion_warning}
+          </span>
+        </div>
+      )}
+
+      {/* Candidates Expander */}
+      {medicine.candidate_matches && medicine.candidate_matches.length > 1 && !medicine.user_confirmed && (
+        <div className="mt-3 pt-3 border-t border-slate-100">
+          <button
+            type="button"
+            onClick={() => setShowCandidates(!showCandidates)}
+            className="text-[12px] font-bold text-[#094cb2] hover:underline flex items-center gap-1 cursor-pointer"
+          >
+            <span>Alternate matches from Pharmacopeia ({medicine.candidate_matches.length})</span>
+            {showCandidates ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+          </button>
+
+          {showCandidates && (
+            <div className="mt-2 space-y-1.5 bg-[#f5f3f4] p-3 rounded-2xl">
+              {medicine.candidate_matches.map((cand, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center justify-between p-2 rounded-xl bg-white text-xs border border-slate-200/60"
+                >
+                  <div>
+                    <p className="font-bold text-slate-800">{cand.name}</p>
+                    <p className="text-[11px] text-slate-500">{cand.short_composition || cand.genericName}</p>
+                  </div>
+                  {onConfirmCandidate && (
+                    <button
+                      type="button"
+                      onClick={() => onConfirmCandidate(medicine.id, cand)}
+                      className="px-2.5 py-1 rounded-md bg-[#094cb2] text-white font-bold text-[11px] hover:bg-[#002e7a] cursor-pointer"
+                    >
+                      Select
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* OpenFDA Expander */}
+      {fdaInfo && (
+        <div className="mt-3 pt-2 border-t border-slate-100">
+          <button
+            type="button"
+            className="text-[11.5px] font-semibold text-slate-500 hover:text-[#094cb2] cursor-pointer inline-flex items-center gap-1"
+            onClick={() => setShowFda(!showFda)}
+          >
+            <span>{showFda ? "Hide Official Label Monograph" : "View Official Label Monograph"}</span>
+            {showFda ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+          </button>
+          {showFda && (
+            <div className="mt-2 p-3 bg-slate-50 rounded-2xl text-[11.5px] text-slate-600 space-y-1.5 border border-slate-200/60">
+              {fdaInfo.warnings && fdaInfo.warnings.length > 0 && (
+                <div>
+                  <strong className="text-slate-900 font-semibold">Warnings:</strong>{" "}
+                  {fdaInfo.warnings[0]}
+                </div>
+              )}
+              {fdaInfo.contraindications && fdaInfo.contraindications.length > 0 && (
+                <div>
+                  <strong className="text-slate-900 font-semibold">Contraindications:</strong>{" "}
+                  {fdaInfo.contraindications[0]}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
     </article>
   );
